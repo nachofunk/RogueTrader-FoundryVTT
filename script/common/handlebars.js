@@ -10,7 +10,7 @@ export const initializeHandlebars = () => {
  */
 function preloadHandlebarsTemplates() {
   const templatePaths = [
-    "systems/rogue-trader/template/sheet/actor/acolyte.html",
+    "systems/rogue-trader/template/sheet/actor/explorer.html",
     "systems/rogue-trader/template/sheet/actor/npc.html",
     "systems/rogue-trader/template/sheet/actor/limited-sheet.html",
 

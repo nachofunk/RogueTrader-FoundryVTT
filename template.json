@@ -1,7 +1,7 @@
 {
   "Actor": {
     "types": [
-      "acolyte",
+      "explorer",
       "npc"
     ],
     "templates": {
@@ -865,7 +865,7 @@
         }
       }
     },
-    "acolyte": {
+    "explorer": {
       "templates": [
         "characteristics",
         "skills",

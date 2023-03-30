@@ -10,7 +10,7 @@ export class RogueTraderActor extends Actor {
       "prototypeToken.displayBars" : CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
             
     };
-    if (data.type === "acolyte") {
+    if (data.type === "explorer") {
       initData["prototypeToken.actorLink"] = true;      
       initData["prototypeToken.disposition"] = CONST.TOKEN_DISPOSITIONS.FRIENDLY
     }

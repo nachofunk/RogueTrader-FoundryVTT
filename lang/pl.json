@@ -1,6 +1,6 @@
 {
 
-  "ACTOR.TypeAcolyte" : "Akolita",
+  "ACTOR.TypeExplorer" : "Akolita",
   "ACTOR.TypeNpc" : "Postać Niezależna",
 
   "ITEM.TypeAmmunition" : "Amunicja",

@@ -1,6 +1,6 @@
 import { RogueTraderActor } from "./actor.js";
 import { RogueTraderItem } from "./item.js";
-import { AcolyteSheet } from "../sheet/actor/acolyte.js";
+import { ExplorerSheet } from "../sheet/actor/explorer.js";
 import { NpcSheet } from "../sheet/actor/npc.js";
 import { WeaponSheet } from "../sheet/weapon.js";
 import { AmmunitionSheet } from "../sheet/ammunition.js";
@@ -47,7 +47,7 @@ Hooks.once("init", () => {
   };
   game.macro = RtMacroUtil; 
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("rogue-trader", AcolyteSheet, { types: ["acolyte"], makeDefault: true });
+  Actors.registerSheet("rogue-trader", ExplorerSheet, { types: ["explorer"], makeDefault: true });
   Actors.registerSheet("rogue-trader", NpcSheet, { types: ["npc"], makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("rogue-trader", WeaponSheet, { types: ["weapon"], makeDefault: true });

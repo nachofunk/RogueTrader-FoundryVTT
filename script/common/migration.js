@@ -25,13 +25,13 @@ export const migrateWorld = async () => {
 const migrateActorData = (actor, worldSchemaVersion) => {
   const update = {};
   if (worldSchemaVersion < 1) {
-    if (actor.data.type === "acolyte" || actor.data.type === "npc") {
+    if (actor.data.type === "explorer" || actor.data.type === "npc") {
       actor.data.skills.psyniscience.characteristics = ["Per", "WP"];
       update["system.skills.psyniscience"] = actor.data.data.skills.psyniscience;
     }
   }
   if (worldSchemaVersion < 2) {
-    if (actor.data.type === "acolyte" || actor.data.type === "npc") {
+    if (actor.data.type === "explorer" || actor.data.type === "npc") {
 
       let characteristic = actor.data.characteristics.intelligence.base;
       let advance = -20;
@@ -79,7 +79,7 @@ const migrateActorData = (actor, worldSchemaVersion) => {
 
   // // migrate aptitudes
   if (worldSchemaVersion < 4) {
-    if (actor.data.type === "acolyte" || actor.data.type === "npc") {
+    if (actor.data.type === "explorer" || actor.data.type === "npc") {
 
       let textAptitudes = actor.data.data?.aptitudes;
 
