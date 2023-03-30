@@ -1,6 +1,6 @@
 export const migrateWorld = async () => {
   const schemaVersion = 5;
-  const worldSchemaVersion = Number(game.settings.get("dark-heresy", "worldSchemaVersion"));
+  const worldSchemaVersion = Number(game.settings.get("rogue-trader", "worldSchemaVersion"));
   if (worldSchemaVersion !== schemaVersion && game.user.isGM) {
     ui.notifications.info("Upgrading the world, please wait...");
     for (let actor of game.actors.contents) {
@@ -17,7 +17,7 @@ export const migrateWorld = async () => {
       game.packs.filter(p => p.metadata.package === "world" && ["Actor"].includes(p.metadata.entity))) {
       await migrateCompendium(pack, worldSchemaVersion);
     }
-    game.settings.set("dark-heresy", "worldSchemaVersion", schemaVersion);
+    game.settings.set("rogue-trader", "worldSchemaVersion", schemaVersion);
     ui.notifications.info("Upgrade complete!");
   }
 };
@@ -98,7 +98,7 @@ const migrateActorData = (actor, worldSchemaVersion) => {
                           name: textAptitude.name,
                           type: "aptitude",
                           isAptitude: true,
-                          img: "systems/dark-heresy/asset/icons/aptitudes/aptitude400.png"
+                          img: "systems/rogue-trader/asset/icons/aptitudes/aptitude400.png"
                         };
                       });
         if (aptitudeItemsData !== null && aptitudeItemsData !== undefined) {

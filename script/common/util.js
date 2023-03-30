@@ -1,4 +1,4 @@
-export default class DarkHeresyUtil {
+export default class RogueTraderUtil {
   
   static createCommonAttackRollData(actor, item) {
       return {

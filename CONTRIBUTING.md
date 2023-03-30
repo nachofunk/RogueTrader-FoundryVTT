@@ -14,7 +14,7 @@ Runs all relevant build scripts (listed below).
 
 ### `npm run build:css` / `gulp buildCSS`
 
-Converts the LESS in `./less` to the final `dark-heresy.css`.
+Converts the LESS in `./less` to the final `rogue-trader.css`.
 
 ### `npm run build:watch` / `gulp`
 

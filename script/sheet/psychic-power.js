@@ -1,10 +1,10 @@
-import { DarkHeresyItemSheet } from "./item.js";
+import { RogueTraderItemSheet } from "./item.js";
 
-export class PsychicPowerSheet extends DarkHeresyItemSheet {
+export class PsychicPowerSheet extends RogueTraderItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["dark-heresy", "sheet", "psychic-power"],
-      template: "systems/dark-heresy/template/sheet/psychic-power.html",
+      classes: ["rogue-trader", "sheet", "psychic-power"],
+      template: "systems/rogue-trader/template/sheet/psychic-power.html",
       width: 500,
       height: 397,
       resizable: false,

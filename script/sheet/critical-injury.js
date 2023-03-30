@@ -1,10 +1,10 @@
-import { DarkHeresyItemSheet } from "./item.js";
+import { RogueTraderItemSheet } from "./item.js";
 
-export class CriticalInjurySheet extends DarkHeresyItemSheet {
+export class CriticalInjurySheet extends RogueTraderItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["dark-heresy", "sheet", "critical-injury"],
-      template: "systems/dark-heresy/template/sheet/critical-injury.html",
+      classes: ["rogue-trader", "sheet", "critical-injury"],
+      template: "systems/rogue-trader/template/sheet/critical-injury.html",
       width: 500,
       height: 369,
       resizable: false,

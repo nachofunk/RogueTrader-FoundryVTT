@@ -5,7 +5,7 @@ import less from "gulp-less";
 
 
 const LESS_DEST = "./css";
-const LESS_SRC = "less/dark-heresy.less";
+const LESS_SRC = "less/rogue-trader.less";
 const LESS_WATCH = ["less/*.less"];
 
 

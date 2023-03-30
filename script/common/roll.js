@@ -465,7 +465,7 @@ async function _sendToChat(rollData) {
     rollMode: game.settings.get("core", "rollMode"),
     speaker: speaker,
     flags: {
-      "dark-heresy.rollData": rollData
+      "rogue-trader.rollData": rollData
     }
   };
   
@@ -478,7 +478,7 @@ async function _sendToChat(rollData) {
     chatData.roll = rollData.rollObject;
   }
 
-  const html = await renderTemplate("systems/dark-heresy/template/chat/roll.html", rollData);
+  const html = await renderTemplate("systems/rogue-trader/template/chat/roll.html", rollData);
   chatData.content = html;
 
   if (["gmroll", "blindroll"].includes(chatData.rollMode)) {
@@ -498,7 +498,7 @@ async function _emptyClipToChat(rollData) {
   let chatData = {
     user: game.user.id,
     content: `
-          <div class="dark-heresy chat roll">
+          <div class="rogue-trader chat roll">
               <div class="background border">
                   <p><strong>Reload! Out of Ammo!</strong></p>
               </div>

@@ -1,7 +1,7 @@
-import DarkHeresyUtil from "./util.js";
+import RogueTraderUtil from "./util.js";
 import { prepareCombatRoll, preparePsychicPowerRoll } from "./dialog.js";
 
-export default class DhMacroUtil {
+export default class RtMacroUtil {
   
   static async createMacro(data, slot)
   {
@@ -52,12 +52,12 @@ export default class DhMacroUtil {
   }
   
   static rollPsychicPower(actor, item) {
-    let rollData = DarkHeresyUtil.createPsychicRollData(actor, item);
+    let rollData = RogueTraderUtil.createPsychicRollData(actor, item);
     preparePsychicPowerRoll(rollData);
   }
   
   static rollWeapon(actor, item) {
-    let rollData = DarkHeresyUtil.createWeaponRollData(actor, item);
+    let rollData = RogueTraderUtil.createWeaponRollData(actor, item);
     prepareCombatRoll(rollData);
   }
 }

@@ -1,30 +1,86 @@
 {
-  "id": "dark-heresy",
-  "title": "Dark Heresy 2E",
-  "description": "Innocence proves nothing",
-  "version": "4.1.2",
+  "id": "rogue-trader",
+  "title": "Rogue Trader",
+  "description": "Roleplaying in the grim darkness of the 41st Millennium",
+  "version": "0.1.0",
   "minimumCoreVersion" : 10,
   "compatibility" : {
     "minimum" : 10,
-    "verified" : 10,
+    "verified" : 10.291,
     "maximum" : 10
   },
   "templateVersion": 2,
-  "author": "JeansenVaars, Moo Man, fredthedeadhead, Perfectro, Vendare, Silver292, Giddy",
+  "authors": [
+    {
+      "name": "Nachofunk",
+      "url": "https://github.com/nachofunk",
+	  "email": "",
+	  "discord": ""
+    },
+    {
+      "name": "JeansenVaars",
+      "url": "",
+	  "email": "",
+	  "discord": ""
+    },
+    {
+      "name": "Moo Man",
+      "url": "",
+	  "email": "",
+	  "discord": ""
+    },
+    {
+      "name": "fredthedeadhead",
+      "url": "",
+	  "email": "",
+	  "discord": ""
+    },
+    {
+      "name": "Perfectro",
+      "url": "",
+	  "email": "",
+	  "discord": ""
+    },
+    {
+      "name": "Vendare",
+      "url": "https://github.com/vendare",
+	  "email": "",
+	  "discord": ""
+    },
+    {
+      "name": "Silver292",
+      "url": "",
+	  "email": "",
+	  "discord": ""
+    },
+    {
+      "name": "Giddy",
+      "url": "",
+	  "email": "",
+	  "discord": ""
+    }
+  ],
   "scripts": [],
   "esmodules": [
     "script/common/hooks.js"
   ],
   "styles": [
-    "css/dark-heresy.css"
+    "css/rogue-trader.css"
   ],
   "packs": [
     {
       "name": "character-aptitudes",
       "label": "Character Aptitudes",
-      "system": "dark-heresy",
+      "system": "rogue-trader",
       "path": "./packs/character/aptitudes.db",
-      "entity": "Item"
+      "type": "Item"
+    },
+    {
+      "name": "weapons",
+      "label": "Weapons",
+      "system": "rogue-trader",
+      "path": "./packs/weapons.db",
+      "type": "Item"
     }
   ],
   "languages": [
@@ -53,9 +109,9 @@
   "gridUnits": "m",
   "primaryTokenAttribute": null,
   "secondaryTokenAttribute": null,
-  "url": "https://github.com/moo-man/DarkHeresy2E-FoundryVTT",
+  "url": "https://github.com/nachofunk/RogueTrader-FoundryVTT",
   "socket": true,
-  "manifest": "https://github.com/moo-man/DarkHeresy2E-FoundryVTT/releases/download/4.1.2/system.json",
-  "download": "https://github.com/moo-man/DarkHeresy2E-FoundryVTT/releases/download/4.1.2/dark-heresy.zip",
+  "manifest": "",
+  "download": "",
   "license": "LICENSE.txt"
 }

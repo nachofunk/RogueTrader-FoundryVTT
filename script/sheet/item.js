@@ -1,4 +1,4 @@
-export class DarkHeresyItemSheet extends ItemSheet {
+export class RogueTraderItemSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
     html.find("input").focusin(ev => this._onFocusIn(ev));

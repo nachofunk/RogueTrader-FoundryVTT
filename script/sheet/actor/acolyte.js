@@ -1,11 +1,11 @@
-import { DarkHeresySheet } from "./actor.js";
+import { RogueTraderSheet } from "./actor.js";
 
-export class AcolyteSheet extends DarkHeresySheet {
+export class AcolyteSheet extends RogueTraderSheet {
 
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["dark-heresy", "sheet", "actor"],
-      template: "systems/dark-heresy/template/sheet/actor/acolyte.html",
+      classes: ["rogue-trader", "sheet", "actor"],
+      template: "systems/rogue-trader/template/sheet/actor/acolyte.html",
       width: 700,
       height: 881,
       resizable: false,

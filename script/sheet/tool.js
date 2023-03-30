@@ -1,10 +1,10 @@
-import { DarkHeresyItemSheet } from "./item.js";
+import { RogueTraderItemSheet } from "./item.js";
 
-export class ToolSheet extends DarkHeresyItemSheet {
+export class ToolSheet extends RogueTraderItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["dark-heresy", "sheet", "tool"],
-      template: "systems/dark-heresy/template/sheet/tool.html",
+      classes: ["rogue-trader", "sheet", "tool"],
+      template: "systems/rogue-trader/template/sheet/tool.html",
       width: 500,
       height: 369,
       resizable: false,

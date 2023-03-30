@@ -1,10 +1,10 @@
-import { DarkHeresyItemSheet } from "./item.js";
+import { RogueTraderItemSheet } from "./item.js";
 
-export class MentalDisorderSheet extends DarkHeresyItemSheet {
+export class MentalDisorderSheet extends RogueTraderItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["dark-heresy", "sheet", "mental-disorder"],
-      template: "systems/dark-heresy/template/sheet/mental-disorder.html",
+      classes: ["rogue-trader", "sheet", "mental-disorder"],
+      template: "systems/rogue-trader/template/sheet/mental-disorder.html",
       width: 500,
       height: 369,
       resizable: false,

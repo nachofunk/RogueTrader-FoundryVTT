@@ -1,4 +1,4 @@
-export class DarkHeresyActor extends Actor {
+export class RogueTraderActor extends Actor {
 
   async _preCreate(data, options, user) {
     
@@ -444,7 +444,7 @@ export class DarkHeresyActor extends Actor {
    */
   async _showCritMessage(rolls, target, totalWounds, totalCritWounds) {
     if (rolls.length === 0) return;
-    const html = await renderTemplate("systems/dark-heresy/template/chat/critical.html", {
+    const html = await renderTemplate("systems/rogue-trader/template/chat/critical.html", {
       rolls,
       target,
       totalWounds,

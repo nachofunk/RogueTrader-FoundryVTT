@@ -1,7 +1,7 @@
 import {prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll} from "../../common/dialog.js";
-import DarkHeresyUtil from "../../common/util.js";
+import RogueTraderUtil from "../../common/util.js";
 
-export class DarkHeresySheet extends ActorSheet {
+export class RogueTraderSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
     html.find(".item-create").click(ev => this._onItemCreate(ev));
@@ -28,7 +28,7 @@ export class DarkHeresySheet extends ActorSheet {
   /** @override */
   get template() {
     if (!game.user.isGM && this.actor.limited) {
-      return "systems/dark-heresy/template/sheet/actor/limited-sheet.html";
+      return "systems/rogue-trader/template/sheet/actor/limited-sheet.html";
     } else {
       return this.options.template;
     }
@@ -179,7 +179,7 @@ export class DarkHeresySheet extends ActorSheet {
     const div = $(event.currentTarget).parents(".item");
     const weapon = this.actor.items.get(div.data("itemId"));
     await prepareCombatRoll(
-      DarkHeresyUtil.createWeaponRollData(this.actor, weapon), 
+      RogueTraderUtil.createWeaponRollData(this.actor, weapon), 
       this.actor
     );
   }
@@ -189,7 +189,7 @@ export class DarkHeresySheet extends ActorSheet {
     const div = $(event.currentTarget).parents(".item");
     const psychicPower = this.actor.items.get(div.data("itemId"));    
     await preparePsychicPowerRoll(
-      DarkHeresyUtil.createPsychicRollData(this.actor, psychicPower)
+      RogueTraderUtil.createPsychicRollData(this.actor, psychicPower)
     );
   }
 

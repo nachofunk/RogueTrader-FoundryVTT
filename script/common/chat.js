@@ -95,7 +95,7 @@ function rerollTest(rollData) {
 
 export const showRolls =html => {
   // Show dice rolls on click
-  html.on("click", ".dark-heresy.chat.roll>.background.border", onChatRollClick);
+  html.on("click", ".rogue-trader.chat.roll>.background.border", onChatRollClick);
 };
 
 /**

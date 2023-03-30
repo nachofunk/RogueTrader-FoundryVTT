@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/dark-heresy-foundry-vtt.iml" filepath="$PROJECT_DIR$/.idea/dark-heresy-foundry-vtt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/rogue-trader-foundry-vtt.iml" filepath="$PROJECT_DIR$/.idea/rogue-trader-foundry-vtt.iml" />
     </modules>
   </component>
 </project>
