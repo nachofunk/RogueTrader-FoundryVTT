@@ -1,20 +1,20 @@
 @font-face {
   font-family: "Caslon Antique";
-  src: url("../../asset/font/caslon-antique.ttf");
+  src: url("../asset/font/caslon-antique.ttf");
 }
 @font-face {
   font-family: "Caslon Antique";
-  src: url("../../asset/font/caslon-antique-Italic.ttf");
+  src: url("../asset/font/caslon-antique-Italic.ttf");
   font-style: italic;
 }
 @font-face {
   font-family: "Caslon Antique";
-  src: url("../../asset/font/caslon-antique-bold.ttf");
+  src: url("../asset/font/caslon-antique-bold.ttf");
   font-weight: bold;
 }
 @font-face {
   font-family: "Caslon Antique";
-  src: url("../../asset/font/caslon-antique-boldItalic.ttf");
+  src: url("../asset/font/caslon-antique-boldItalic.ttf");
   font-style: italic;
   font-weight: bold;
 }
@@ -117,7 +117,7 @@ li.folder > .folder-header h3 > i {
 /* SIDEBAR BACKGROUND & TEXT COLOR */
 #sidebar,
 .sidebar-popout {
-  background: url('../../asset/image/heresy2.jpg') repeat;
+  background: url('../asset/image/heresy2.jpg') repeat;
   background-position: center;
 }
 #sidebar,
@@ -289,7 +289,7 @@ li.folder.collapsed > .folder-header {
   background: rgba(86, 78, 74, 0.4);
 }
 .window-app .window-content {
-  background: url("../../asset/image/background.jpg") center;
+  background: url("../asset/image/background.jpg") center;
 }
 ::-webkit-scrollbar-thumb {
   background: #1b0f08b8;

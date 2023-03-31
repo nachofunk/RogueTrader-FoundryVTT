@@ -64,11 +64,19 @@ export class RogueTraderActor extends Actor {
     for (let skill of Object.values(this.skills)) {
       let short = skill.characteristics[0];
       let characteristic = this._findCharacteristic(short);
-      skill.total = characteristic.total + skill.advance;
+      if (skill.advance === -20) {
+        skill.total = Math.floor(characteristic.total / 2);
+      } else {
+        skill.total = characteristic.total + skill.advance;
+      }
       skill.advanceSkill = this._getAdvanceSkill(skill.advance);
       if (skill.isSpecialist) {
         for (let speciality of Object.values(skill.specialities)) {
-          speciality.total = characteristic.total + speciality.advance;
+          if (speciality.advance === -20) {
+            speciality.total = Math.floor(characteristic.total / 2);
+          } else {
+            speciality.total = characteristic.total + speciality.advance;
+          }
           speciality.isKnown = speciality.advance >= 0;
           speciality.advanceSpec = this._getAdvanceSkill(speciality.advance);
         }
@@ -299,12 +307,10 @@ export class RogueTraderActor extends Actor {
       case -20:
         return "U";
       case 0:
-        return "K";
-      case 10:
         return "T";
-      case 20:
+      case 10:
         return "E";
-      case 30:
+      case 20:
         return "V";
       default:
         return "U";

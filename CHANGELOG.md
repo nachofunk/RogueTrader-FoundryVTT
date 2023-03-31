@@ -8,8 +8,9 @@
 - Update packs in JSON to refere to 'type' instead of 'entity'
 - Update System JSON 'author' to 'authors'
 
-<!--
 ## 0.1.1
 
-- Fix special skill calcs to use Rogue Trader formulas instead of DarK Heresy
--->
+- Change acolyte to explorer
+- Remove Influence characteristic
+- Update skill calculations to reflect Rogue Trader with half of base stat for untrained
+- Update skills to only have untrained (half stats), trained (+0), expert (+10), and veteran (+20)
