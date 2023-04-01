@@ -18,10 +18,20 @@ export class RogueTraderSheet extends ActorSheet {
   }
 
   /** @override */
-  getData() {
-    const data = super.getData();
+  async getData(options) {
+    const data = super.getData(options);
     data.system = data.data.system;
     data.items = this.constructItemLists(data)
+    // Biography HTML enrichment
+    data.system.bio.biographyHTML = await TextEditor.enrichHTML(
+      data.system.bio.notes,
+      {
+        secrets: data.actor.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.actor,
+      }
+    );
     return data;
   }
 

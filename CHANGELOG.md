@@ -14,3 +14,4 @@
 - Remove Influence characteristic
 - Update skill calculations to reflect Rogue Trader with half of base stat for untrained
 - Update skills to only have untrained (half stats), trained (+0), expert (+10), and veteran (+20)
+- Fixed notes in items not updating and setup textEnrich for all note sections

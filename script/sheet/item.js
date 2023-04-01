@@ -4,8 +4,18 @@ export class RogueTraderItemSheet extends ItemSheet {
     html.find("input").focusin(ev => this._onFocusIn(ev));
   }
 
-  getData() {
-    let data = super.getData();
+  async getData(options) {
+    let data = super.getData(options);
+        // Item HTML enrichment
+    data.item.descriptionHTML = await TextEditor.enrichHTML(
+      data.item.description,
+      {
+        secrets: data.item.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.item,
+      }
+    );
     return {
       item: data.item,
       system: data.data.system
