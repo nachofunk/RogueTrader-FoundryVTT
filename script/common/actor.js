@@ -23,6 +23,7 @@ export class RogueTraderActor extends Actor {
     this._computeSkills();
     this._computeItems();
     this._computeExperience();
+    this._computeRank();
     this._computeArmour();
     this._computeMovement();
   }
@@ -124,6 +125,31 @@ export class RogueTraderActor extends Actor {
       + this.experience.spentTalents
       + this.experience.spentPsychicPowers;
     this.experience.remaining = this.experience.value - this.experience.totalSpent;
+  }
+
+  _computeRank() {
+    const expSpent = this.experience.totalSpent;
+    let rank = "";
+    if (expSpent < 7000) {
+      rank = "1";
+    } else if (expSpent < 10000) {
+      rank = "2";
+    } else if (expSpent < 13000) {
+      rank = "3";
+    } else if (expSpent < 17000) {
+      rank = "4";
+    } else if (expSpent < 21000) {
+      rank = "5";
+    } else if (expSpent < 25000) {
+      rank = "6";
+    } else if (expSpent < 30000) {
+      rank = "7";
+    } else if (expSpent < 35000) {
+      rank = "8";
+    } else {
+      rank = "Retired";
+    }
+    this.system.bio.rank = rank;
   }
 
   _computeArmour() {

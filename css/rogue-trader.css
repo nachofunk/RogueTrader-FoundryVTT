@@ -978,18 +978,18 @@ li.folder.collapsed > .folder-header {
   height: 100%;
   width: 100%;
 }
-.rogue-trader .explorer .header .home-world,
-.rogue-trader .explorer .header .background {
+.rogue-trader .explorer .header .career,
+.rogue-trader .explorer .header .home-world {
   flex-basis: 40%;
 }
-.rogue-trader .explorer .header .role,
-.rogue-trader .explorer .header .elite {
-  flex-basis: 32%;
+.rogue-trader .explorer .header .rank,
+.rogue-trader .explorer .header .motivation {
+  flex-basis: 37%;
 }
 .rogue-trader .explorer .header .home-world input,
-.rogue-trader .explorer .header .background input,
-.rogue-trader .explorer .header .role input,
-.rogue-trader .explorer .header .elite input {
+.rogue-trader .explorer .header .rank input,
+.rogue-trader .explorer .header .career input,
+.rogue-trader .explorer .header .motivation input {
   width: 11em;
 }
 .rogue-trader .explorer .header .fate input,
@@ -2047,9 +2047,8 @@ li.folder.collapsed > .folder-header {
 .rogue-trader .notes-tab .information .information-row .hair input {
   width: 8em;
 }
-.rogue-trader .notes-tab .information .information-row .divination label,
-.rogue-trader .notes-tab .information .information-row .quirks label,
-.rogue-trader .notes-tab .information .information-row .superstition label,
-.rogue-trader .notes-tab .information .information-row .momentos label {
-  flex-basis: 10%;
+.rogue-trader .notes-tab .information .information-row .lure label,
+.rogue-trader .notes-tab .information .information-row .trials label,
+.rogue-trader .notes-tab .information .information-row .nature label {
+  flex-basis: 15%;
 }
