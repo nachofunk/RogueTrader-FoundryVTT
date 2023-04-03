@@ -2,7 +2,7 @@
   "id": "rogue-trader",
   "title": "Rogue Trader",
   "description": "Roleplaying in the grim darkness of the 41st Millennium",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "minimumCoreVersion" : 10,
   "compatibility" : {
     "minimum" : 10,

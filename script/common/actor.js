@@ -120,10 +120,14 @@ export class RogueTraderActor extends Actor {
         this.experience.spentPsychicPowers += parseInt(item.cost, 10);
       }
     }
-    this.experience.totalSpent = this.experience.spentCharacteristics
+    this.experience.totalSpent = 4500
+      + this.experience.spentCharacteristics
       + this.experience.spentSkills
       + this.experience.spentTalents
       + this.experience.spentPsychicPowers;
+    if (this.experience.value < 5000) {
+      this.experience.value = 5000;
+    }
     this.experience.remaining = this.experience.value - this.experience.totalSpent;
   }
 

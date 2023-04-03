@@ -20,3 +20,4 @@
 
 - Update biography section to reflect rogue trader
 - Added Rank as a calculated field based on experience spent
+- Set starting xp to 5000 current and 4500 spent 
