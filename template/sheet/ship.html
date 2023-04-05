@@ -1,0 +1,189 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="header border">
+        <div class="flex row">
+            <div class="avatar">
+                <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+            </div>
+            <div class="flex column grow justify-center">
+                <div class="name header-row">
+                    <label>Ship Name</label>
+                    <input name="name" type="text" value="{{item.name}}" />
+                </div>
+            </div>
+        </div>
+        <div class="flex row">
+            <div class="flex column grow justify-center">
+                <div class="hullClass">
+                    <label>Hull Class</label>
+                    <select class="hullClass" name="system.hullClass" type="text">
+                        {{#select system.hullClass}}
+                            <option value=""></option>
+                            <option value="Transport">Transport</option>
+                            <option value="Raider">Raider</option>
+                            <option value="Frigate">Frigate</option>
+                            <option value="Light Cruiser">Light Cruiser</option>
+                            <option value="Cruiser">Cruiser</option>
+                        {{/select}}
+                    </select>
+                </div>
+            </div>
+            <div class="flex column grow justify-center">
+                <div class="hullName">
+                    <label>Hull</label>
+                    <input name="hullName" value="{{system.hullName}}" type="text" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sheet-tabs tabs flex row" data-group="primary">
+        <b class="item" data-tab="data">{{localize "TAB.DATA"}}</b>
+        <b class="item" data-tab="components">COMPONENTS</b>
+        <b class="item" data-tab="weapons">WEAPONS</b>
+        <b class="item" data-tab="complications">COMPLICATIONS</b>
+        <b class="item" data-tab="notes">{{localize "TAB.NOTES"}}</b>
+    </div>
+
+    <div class="sheet-body">
+        <div class="tab" data-group="primary" data-tab="data">
+            <div class="stats border">
+                <h1>{{localize "TITLE.STATS"}}</h1>
+                <div class="stats flex">
+                    <div class="stats flex column">
+                        <div class="stat speed">
+                            <label>Speed</label>
+                            <input name="system.speed" type="number" value="{{system.speed}}" data-dtype="Number"/>
+                        </div>
+                        <div class="stat manoeuvrability">
+                            <label>Manoeuvrability</label>
+                            <input name="system.manoeuvrability" type="number" value="{{system.manoeuvrability}}" data-dtype="Number" />
+                        </div>
+                        <div class="stat detection">
+                            <label>Detection</label>
+                            <input name="system.detection" type="number" value="{{system.detection}}" data-dtype="Number" />
+                        </div>
+                        <div class="stat turretRating">
+                            <label>Turret Rating</label>
+                            <input name="system.turretRating" type="number" value="{{system.turretRating}}" data-dtype="Number" />
+                        </div>
+                        <div class="stat shields">
+                            <label>Shields</label>
+                            <input name="system.shields" type="number" value="{{system.shields}}" data-dtype="Number" />
+                        </div>
+                        <div class="stat armour">
+                            <label>Armour</label>
+                            <input name="system.armour" type="number" value="{{system.armour}}" data-dtype="Number" />
+                        </div>
+                    </div>
+                    <div class="stats flex column">
+                        <div class="stat hullIntegrity">
+                            <label>Hull Integrity: Current</label>
+                            <input name="system.hullIntegrity.value" type="number" value="{{system.hullIntegrity.value}}" data-dtype="Number" />
+                        </div>
+                        <div class="stat hullIntegrity">
+                            <label>Hull Integrity: Max</label>
+                            <input name="system.hullIntegrity.max" type="number" value="{{system.hullIntegrity.max}}" data-dtype="Number" /> 
+                        </div>
+                    </div>
+                    <div class="stats flex column">
+                        <div class="stat space">
+                            <label>Space: Used</label>
+                            <input name="system.space.value" type="number" value="{{system.space.value}}" data-dtype="Number" />
+                        </div>
+                        <div class="stat space">
+                            <label>Space: Available</label>
+                            <input name="system.space.avail" type="number" value="{{system.space.avail}}" data-dtype="Number" disabled /> 
+                        </div>
+                        <div class="stat space">
+                            <label>Space: Total</label>
+                            <input name="system.space.max" type="number" value="{{system.space.max}}" data-dtype="Number" /> 
+                        </div>
+                    </div>
+                    <div class="stats flex column">
+                        <div class="stat power">
+                            <label>Power: Used</label>
+                            <input name="system.power.value" type="number" value="{{system.power.value}}" data-dtype="Number" />
+                        </div>
+                        <div class="stat power">
+                            <label>Power: Available</label>
+                            <input name="system.power.avail" type="number" value="{{system.power.avail}}" data-dtype="Number" disabled /> 
+                        </div>
+                        <div class="stat power">
+                            <label>Power: Total</label>
+                            <input name="system.power.max" type="number" value="{{system.power.max}}" data-dtype="Number" /> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab" data-group="primary" data-tab="components">
+            <div class="notes-editor border">
+                 <h1>Essential Components</h1>
+                <div style="height: 200px; width: 100%">
+                    {{editor system.essentialComponentsHTML target="system.essentialComponents" engine="prosemirror" button=true}}
+                </div>
+            </div>
+            <div class="notes-editor border">
+                <h1>Supplemental Components</h1>
+               <div style="height: 200px; width: 100%">
+                   {{editor system.supplementalComponentsHTML target="system.supplementalComponents" engine="prosemirror" button=true}}
+               </div>
+           </div>
+        </div>
+        <div class="tab" data-group="primary" data-tab="complications">
+            <div class="notes-editor border">
+                 <h1>Complications</h1>
+                <div style="height: 200px; width: 100%">
+                    {{editor system.complicationsHTML target="system.complications" engine="prosemirror" button=true}}
+                </div>
+            </div>
+            <div class="notes-editor border">
+                <h1>Past History</h1>
+               <div style="height: 200px; width: 100%">
+                   {{editor system.pastHistoryHTML target="system.pastHistory" engine="prosemirror" button=true}}
+               </div>
+           </div>
+        </div>
+        <div class="tab" data-group="primary" data-tab="weapons">
+            <div class="stats border">
+                <h1>Weapon Capacity</h1>
+                <div class="stats flex row">
+                    <div class="stat dorsal">
+                        <label>Dorsal</label>
+                        <input name="system.weaponCapacity.dorsal" type="number" value="{{system.weaponCapacity.dorsal}}" data-dtype="Number"/>
+                    </div>
+                    <div class="stat prow">
+                        <label>Prow</label>
+                        <input name="system.weaponCapacity.prow" type="number" value="{{system.weaponCapacity.prow}}" data-dtype="Number" />
+                    </div>
+                    <div class="stat keel">
+                        <label>Keel</label>
+                        <input name="system.weaponCapacity.keel" type="number" value="{{system.weaponCapacity.keel}}" data-dtype="Number" />
+                    </div>
+                    <div class="stat port">
+                        <label>Port</label>
+                        <input name="system.weaponCapacity.port" type="number" value="{{system.weaponCapacity.port}}" data-dtype="Number" />
+                    </div>
+                    <div class="stat starboard">
+                        <label>Starboard</label>
+                        <input name="system.weaponCapacity.starboard" type="number" value="{{system.weaponCapacity.starboard}}" data-dtype="Number" />
+                    </div>
+                </div>
+            </div>
+            <div class="notes-editor border">
+                 <h1>Weapons</h1>
+                <div style="height: 374px; width: 100%">
+                    {{editor system.weaponsHTML target="system.weapons" engine="prosemirror" button=true}}
+                </div>
+            </div>
+        </div>
+        <div class="tab" data-group="primary" data-tab="notes">
+            <div class="notes-editor border">
+                <h1>{{localize "TITLE.NOTES"}}</h1>
+                <div style="height: 438px; width: 100%">
+                    {{editor item.descriptionHTML target="system.description" engine="prosemirror" button=true editable=true}}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
