@@ -16,6 +16,60 @@ export class RogueTraderItemSheet extends ItemSheet {
         relativeTo: this.item,
       }
     );
+    if (data.item.type === 'ship') {
+      let spaceAvail = 0;
+      let powerAvail = 0;
+      spaceAvail = data.data.system.space.max - data.data.system.space.value;
+      data.data.system.space.avail = spaceAvail;
+      powerAvail = data.data.system.power.max - data.data.system.power.value;
+      data.data.system.power.avail = powerAvail;
+    };
+    // Component HTML enrichment
+    data.data.system.essentialComponentsHTML = await TextEditor.enrichHTML(
+      data.data.system.essentialComponents,
+      {
+        secrets: data.item.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.item,
+      }
+    );
+    data.data.system.supplementalComponentsHTML = await TextEditor.enrichHTML(
+      data.data.system.supplementalComponents,
+      {
+        secrets: data.item.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.item,
+      }
+    );
+    data.data.system.complicationsHTML = await TextEditor.enrichHTML(
+      data.data.system.complications,
+      {
+        secrets: data.item.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.item,
+      }
+    );
+    data.data.system.pastHistoryHTML = await TextEditor.enrichHTML(
+      data.data.system.pastHistory,
+      {
+        secrets: data.item.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.item,
+      }
+    );
+    data.data.system.weaponsHTML = await TextEditor.enrichHTML(
+      data.data.system.weapons,
+      {
+        secrets: data.item.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.item,
+      }
+    );
     return {
       item: data.item,
       system: data.data.system

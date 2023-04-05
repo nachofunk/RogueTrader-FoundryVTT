@@ -2,7 +2,7 @@
   "id": "rogue-trader",
   "title": "Rogue Trader",
   "description": "Roleplaying in the grim darkness of the 41st Millennium",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "minimumCoreVersion" : 10,
   "compatibility" : {
     "minimum" : 10,
@@ -73,13 +73,6 @@
       "label": "Character Aptitudes",
       "system": "rogue-trader",
       "path": "./packs/character/aptitudes.db",
-      "type": "Item"
-    },
-    {
-      "name": "weapons",
-      "label": "Weapons",
-      "system": "rogue-trader",
-      "path": "./packs/weapons.db",
       "type": "Item"
     }
   ],

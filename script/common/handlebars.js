@@ -42,6 +42,7 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/sheet/weapon-modification.html",
     "systems/rogue-trader/template/sheet/ammunition.html",
     "systems/rogue-trader/template/sheet/force-field.html",
+    "systems/rogue-trader/template/sheet/ship.html",
     "systems/rogue-trader/template/sheet/characteristics/information.html",
     "systems/rogue-trader/template/sheet/characteristics/left.html",
     "systems/rogue-trader/template/sheet/characteristics/name.html",

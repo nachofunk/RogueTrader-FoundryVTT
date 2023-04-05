@@ -246,6 +246,7 @@
   "ITEM.TypeTrait" : "Trait",
   "ITEM.TypeWeapon" : "Weapon",
   "ITEM.TypeWeaponmodification" : "Weapon Modification",
+  "ITEM.TypeShip" : "Ship",
 
   "MALIGNANCY.NAME": "Name",
 
