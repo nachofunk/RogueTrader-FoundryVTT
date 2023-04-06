@@ -90,6 +90,6 @@
   "url": "https://github.com/nachofunk/RogueTrader-FoundryVTT",
   "socket": true,
   "manifest": "https://github.com/nachofunk/RogueTrader-FoundryVTT/releases/download/1.0.0/system.json",
-  "download": "",
+  "download": "https://github.com/nachofunk/RogueTrader-FoundryVTT/releases/download/1.0.0/rogue-trader.zip",
   "license": "LICENSE.txt"
 }
