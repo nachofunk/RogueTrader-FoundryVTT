@@ -44,6 +44,7 @@
   "ARMOUR_TYPE.MESH": "Malla",
   "ARMOUR_TYPE.CARAPACE": "Caparazón",
   "ARMOUR_TYPE.POWER": "Servoarmadura",
+  "ARMOUR_TYPE.OTHER": "Otro",
 
   "AVAILABILITY.UBIQUITOUS": "Omnipresente",
   "AVAILABILITY.ABUNDANT": "Abundante",

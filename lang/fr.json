@@ -44,6 +44,7 @@
     "ARMOUR_TYPE.MESH": "Composite",
     "ARMOUR_TYPE.CARAPACE": "Carapace",
     "ARMOUR_TYPE.POWER": "Énergétique",
+    "ARMOUR_TYPE.OTHER": "Autre",
   
     "ATTACK_TYPE.NONE": "Aucune",
     "ATTACK_TYPE.STANDARD": "Attaque standard",

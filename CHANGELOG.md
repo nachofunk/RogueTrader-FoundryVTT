@@ -25,3 +25,6 @@
 ## 1.0.0
 
 - Add ships as an item
+- Update armour to inlcude other as a type
+- Update skills to reflect RT
+- Remove localization jsons for non english

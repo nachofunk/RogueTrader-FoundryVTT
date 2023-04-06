@@ -67,6 +67,7 @@
   "ARMOUR_TYPE.MESH": "Siatka",
   "ARMOUR_TYPE.CARAPACE": "Karapak",
   "ARMOUR_TYPE.POWER": "Energetyczny",
+  "ARMOUR_TYPE.OTHER": "Inny",
 
   "ATTACK_TYPE.NONE": "Żaden",
   "ATTACK_TYPE.STANDARD": "Standardowy",
