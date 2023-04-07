@@ -1032,6 +1032,9 @@
         "fate",
         "psy"
       ],
+      "bio": {
+        "notes": ""
+      },
       "experience": {
         "value": 0
       },
