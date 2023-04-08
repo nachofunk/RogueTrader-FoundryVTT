@@ -28,3 +28,7 @@
 - Update armour to inlcude other as a type
 - Update skills to reflect RT
 - Remove localization jsons for non english
+
+## 1.0.1
+
+- Fix NPC not launching ()
