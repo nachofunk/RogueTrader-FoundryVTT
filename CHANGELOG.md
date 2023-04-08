@@ -31,4 +31,6 @@
 
 ## 1.0.1
 
-- Fix NPC not launching ()
+- Fix NPC not launching (Issue #2)
+- Added missing skills (Issue #3)
+- Localized specialized skills
