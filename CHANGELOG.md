@@ -34,3 +34,7 @@
 - Fix NPC not launching (Issue #2)
 - Added missing skills (Issue #3)
 - Localized specialized skills
+
+## 1.0.2
+
+- Adjust attack action bonuses for rate of fire to reflect Rogue Trader
