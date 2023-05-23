@@ -86,10 +86,10 @@ async function _rollTarget(rollData) {
   rollData.isSuccess = rollData.result <= rollData.target;
   if (rollData.isSuccess) {
     rollData.dof = 0;
-    rollData.dos = 1 + _getDegree(rollData.target, rollData.result);
+    rollData.dos = _getDegree(rollData.target, rollData.result);
   } else {
     rollData.dos = 0;
-    rollData.dof = 1 + _getDegree(rollData.result, rollData.target);
+    rollData.dof = _getDegree(rollData.result, rollData.target);
   }
   if (typeof rollData.psy !== "undefined") _computePsychicPhenomena(rollData);
 }
@@ -403,7 +403,7 @@ function _getLocationByIt(part, numberOfHit) {
  * @returns {number}
  */
 function _getDegree(a, b) {
-  return Math.floor(a / 10) - Math.floor(b / 10);
+  return Math.floor((a - b) / 10);
 }
 /**
  * Replaces all Symbols in the given Formula with their Respective Values
