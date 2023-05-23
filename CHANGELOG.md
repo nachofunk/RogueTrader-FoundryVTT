@@ -38,3 +38,8 @@
 ## 1.0.2
 
 - Adjust attack action bonuses for rate of fire to reflect Rogue Trader
+
+## 1.0.3
+
+- Adjust Degrees of Success/Failure to reflect Rogue Trader calculations instead of Dark Heresy
+- Fixed issue with hull name not saving for ship items
