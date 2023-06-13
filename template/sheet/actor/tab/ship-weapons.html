@@ -1,0 +1,33 @@
+<div class="tab">
+    <div class="stats border">
+        <h1>Weapon Capacity</h1>
+        <div class="stats flex row">
+            <div class="stat dorsal">
+                <label>Dorsal</label>
+                <input name="system.weaponCapacity.dorsal" type="number" value="{{system.weaponCapacity.dorsal}}" data-dtype="Number"/>
+            </div>
+            <div class="stat prow">
+                <label>Prow</label>
+                <input name="system.weaponCapacity.prow" type="number" value="{{system.weaponCapacity.prow}}" data-dtype="Number" />
+            </div>
+            <div class="stat keel">
+                <label>Keel</label>
+                <input name="system.weaponCapacity.keel" type="number" value="{{system.weaponCapacity.keel}}" data-dtype="Number" />
+            </div>
+            <div class="stat port">
+                <label>Port</label>
+                <input name="system.weaponCapacity.port" type="number" value="{{system.weaponCapacity.port}}" data-dtype="Number" />
+            </div>
+            <div class="stat starboard">
+                <label>Starboard</label>
+                <input name="system.weaponCapacity.starboard" type="number" value="{{system.weaponCapacity.starboard}}" data-dtype="Number" />
+            </div>
+        </div>
+    </div>
+    <div class="notes-editor border">
+         <h1>Weapons</h1>
+        <div style="height: 374px; width: 100%">
+            {{editor system.weaponsHTML target="system.weapons" engine="prosemirror" button=true}}
+        </div>
+    </div>
+</div>

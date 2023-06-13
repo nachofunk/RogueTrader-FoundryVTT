@@ -20,7 +20,7 @@ import { TalentSheet } from "../sheet/talent.js";
 import { SpecialAbilitySheet } from "../sheet/special-ability.js";
 import { TraitSheet } from "../sheet/trait.js";
 import { AptitudeSheet } from "../sheet/aptitude.js";
-import { ShipSheet} from "../sheet/ship.js";
+import { ShipSheet} from "../sheet/actor/ship.js";
 import { initializeHandlebars } from "./handlebars.js";
 import { migrateWorld } from "./migration.js";
 import { prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll } from "./dialog.js";
@@ -50,6 +50,7 @@ Hooks.once("init", () => {
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("rogue-trader", ExplorerSheet, { types: ["explorer"], makeDefault: true });
   Actors.registerSheet("rogue-trader", NpcSheet, { types: ["npc"], makeDefault: true });
+  Actors.registerSheet("rogue-trader", ShipSheet, {types: ["ship"], makeDefault: true});
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("rogue-trader", WeaponSheet, { types: ["weapon"], makeDefault: true });
   Items.registerSheet("rogue-trader", AmmunitionSheet, { types: ["ammunition"], makeDefault: true });
@@ -69,7 +70,6 @@ Hooks.once("init", () => {
   Items.registerSheet("rogue-trader", SpecialAbilitySheet, { types: ["specialAbility"], makeDefault: true });
   Items.registerSheet("rogue-trader", TraitSheet, { types: ["trait"], makeDefault: true });
   Items.registerSheet("rogue-trader", AptitudeSheet, { types: ["aptitude"], makeDefault: true });
-  Items.registerSheet("rogue-trader", ShipSheet, {types: ["ship"], makeDefault: true});
   initializeHandlebars();
   game.settings.register("rogue-trader", "worldSchemaVersion", {
     name: "World Version",

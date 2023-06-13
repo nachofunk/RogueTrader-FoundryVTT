@@ -2,7 +2,8 @@
   "Actor": {
     "types": [
       "explorer",
-      "npc"
+      "npc",
+      "ship"
     ],
     "templates": {
       "characteristics": {
@@ -1058,6 +1059,49 @@
       "type": "troop",
       "threatLevel": 0,
       "size": 4
+    },
+    "ship": {
+      "hullClass": "",
+      "hullName": "",
+      "speed": 0,
+      "manoeuvrability": 0,
+      "detection": 0,
+      "turretRating": 0,
+      "shields": 0,
+      "armour": 0,
+      "hullIntegrity": {
+        "max": 0,
+        "value": 0
+      },
+      "space": {
+        "max": 0,
+        "value": 0
+      },
+      "power": {
+        "max": 0,
+        "value": 0
+      },
+      "weaponCapacity": {
+        "dorsal": 0,
+        "prow": 0,
+        "keel": 0,
+        "port": 0,
+        "starboard": 0
+      },
+      "crewCount": {
+        "max": 0,
+        "value": 0
+      },
+      "crewMorale": {
+        "max": 0,
+        "value": 0
+      },
+      "essentialComponents": "",
+      "supplementalComponents": "",
+      "complications": "",
+      "pastHistory": "",
+      "weapons": "",
+      "notes": ""
     }
   },
   "Item": {
@@ -1079,8 +1123,7 @@
       "tool",
       "trait",
       "weapon",
-      "weaponModification",
-      "ship"
+      "weaponModification"
     ],
     "templates": {
       "equipment": {
@@ -1225,48 +1268,6 @@
     },
     "aptitude" : {
       "templates": ["itemDescription"]
-    },
-    "ship": {
-      "hullClass": "",
-      "hullName": "",
-      "speed": 0,
-      "manoeuvrability": 0,
-      "detection": 0,
-      "turretRating": 0,
-      "shields": 0,
-      "armour": 0,
-      "hullIntegrity": {
-        "max": 0,
-        "value": 0
-      },
-      "space": {
-        "max": 0,
-        "value": 0
-      },
-      "power": {
-        "max": 0,
-        "value": 0
-      },
-      "weaponCapacity": {
-        "dorsal": 0,
-        "prow": 0,
-        "keel": 0,
-        "port": 0,
-        "starboard": 0
-      },
-      "crewCount": {
-        "max": 0,
-        "value": 0
-      },
-      "crewMorale": {
-        "max": 0,
-        "value": 0
-      },
-      "essentialComponents": "",
-      "supplementalComponents": "",
-      "complications": "",
-      "pastHistory": "",
-      "weapons": ""
     }
   }
 }
