@@ -1,10 +1,11 @@
 import {prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll} from "../../common/dialog.js";
 import RogueTraderUtil from "../../common/util.js";
+import { RogueTraderSheet } from "./actor.js";
 
-export class ShipSheet extends ActorSheet {
+export class ShipSheet extends RogueTraderSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["rogue-trader", "sheet", "ship"],
+      classes: ["rogue-trader", "sheet", "actor"],
       template: "systems/rogue-trader/template/sheet/actor/ship.html",
       width: 700,
       height: 725,

@@ -19,15 +19,22 @@ export class RogueTraderActor extends Actor {
 
   prepareData() {
     super.prepareData();
-    this._computeCharacteristics();
-    this._computeSkills();
-    this._computeItems();
-    this._computeExperience();
-    if (this.type === 'explorer') {
-      this._computeRank();
+    if (this.type === 'ship') 
+    {
+
+    } 
+    else 
+    {
+      this._computeCharacteristics();
+      this._computeSkills();
+      this._computeItems();
+      this._computeExperience();
+      if (this.type === 'explorer') {
+        this._computeRank();
+      }
+      this._computeArmour();
+      this._computeMovement();
     }
-    this._computeArmour();
-    this._computeMovement();
   }
 
   _computeCharacteristics() {

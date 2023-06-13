@@ -23,15 +23,27 @@ export class RogueTraderSheet extends ActorSheet {
     data.system = data.data.system;
     data.items = this.constructItemLists(data)
     // Biography HTML enrichment
-    data.system.bio.biographyHTML = await TextEditor.enrichHTML(
-      data.system.bio.notes,
-      {
-        secrets: data.actor.isOwner,
-        rollData: data.rollData,
-        async: true,
-        relativeTo: this.actor,
-      }
-    );
+    if (data.actor.type === 'ship')
+    {
+      let spaceAvail = 0;
+      let powerAvail = 0;
+      spaceAvail = data.data.system.space.max - data.data.system.space.value;
+      data.data.system.space.avail = spaceAvail;
+      powerAvail = data.data.system.power.max - data.data.system.power.value;
+      data.data.system.power.avail = powerAvail;
+    }
+    else
+    {
+      data.system.bio.biographyHTML = await TextEditor.enrichHTML(
+        data.system.bio.notes,
+        {
+          secrets: data.actor.isOwner,
+          rollData: data.rollData,
+          async: true,
+          relativeTo: this.actor,
+        }
+      );
+    }
     return data;
   }
 
