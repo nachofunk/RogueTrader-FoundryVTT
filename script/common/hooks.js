@@ -22,7 +22,7 @@ import { TraitSheet } from "../sheet/trait.js";
 import { AptitudeSheet } from "../sheet/aptitude.js";
 import { ShipSheet} from "../sheet/actor/ship.js";
 import { ShipWeaponSheet } from "../sheet/shipWeapon.js";
-import { shipComponentSheet } from "../sheet/shipComponent.js";
+import { ShipComponentSheet } from "../sheet/shipComponent.js";
 import { initializeHandlebars } from "./handlebars.js";
 import { migrateWorld } from "./migration.js";
 import { prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll } from "./dialog.js";
@@ -73,7 +73,7 @@ Hooks.once("init", () => {
   Items.registerSheet("rogue-trader", TraitSheet, { types: ["trait"], makeDefault: true });
   Items.registerSheet("rogue-trader", AptitudeSheet, { types: ["aptitude"], makeDefault: true });
   Items.registerSheet("rogue-trader", ShipWeaponSheet, { types: ["shipWeapon"], makeDefault: true });
-  Items.registerSheet("rogue-trader", shipComponentSheet, { types: ["shipComponent"], makeDefault: true });
+  Items.registerSheet("rogue-trader", ShipComponentSheet, { types: ["shipComponent"], makeDefault: true });
   initializeHandlebars();
   game.settings.register("rogue-trader", "worldSchemaVersion", {
     name: "World Version",

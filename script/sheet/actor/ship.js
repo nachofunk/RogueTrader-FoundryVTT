@@ -3,6 +3,8 @@ import RogueTraderUtil from "../../common/util.js";
 import { RogueTraderSheet } from "./actor.js";
 
 export class ShipSheet extends RogueTraderSheet {
+  side = "";
+
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["rogue-trader", "sheet", "actor"],
@@ -24,22 +26,24 @@ export class ShipSheet extends RogueTraderSheet {
     super.activateListeners(html);
   }
 
-  /** @override */
-  async _onDropItem(event, data)
+  async _onDrop(event)
   {
-    const items = await super._onDropItem(event, data);
+    console.log("BAR");
     console.log(event);
-    console.log(data);
-    items.forEach(item => {
-      if (item.type === "shipWeapon")
-      {
-        item.side = event.target.dataset.shipside;
-        if (item.side === "")
-        {
-          item.side = "port";
-        }
-      }
-    })
+    this.side = event.target.dataset.shipside || "port";
+    return await super._onDrop(event);
+  }
+
+  async _onDropItemCreate(itemData) 
+  {
+    console.log(itemData);
+    if (itemData.type === "shipWeapon")
+    {
+      itemData.system.side = this.side;
+    }
+    let items = await super._onDropItemCreate(itemData);
+    this._updateObject(null, this.getData());
+    return items;
   }
 
   _getHeaderButtons() {

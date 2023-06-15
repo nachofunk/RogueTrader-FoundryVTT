@@ -1,6 +1,6 @@
 import { RogueTraderItemSheet } from "./item.js";
 
-export class shipComponentSheet extends RogueTraderItemSheet {
+export class ShipComponentSheet extends RogueTraderItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["rogue-trader", "sheet", "shipComponent"],
