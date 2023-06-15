@@ -58,7 +58,9 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/chat/critical.html",
     "systems/rogue-trader/template/dialog/common-roll.html",
     "systems/rogue-trader/template/dialog/combat-roll.html",
-    "systems/rogue-trader/template/dialog/psychic-power-roll.html"
+    "systems/rogue-trader/template/dialog/psychic-power-roll.html",
+    "systems/rogue-trader/template/sheet/shipWeapon.html",
+    "systems/rogue-trader/template/sheet/shipComponent.html"
   ];
   return loadTemplates(templatePaths);
 }

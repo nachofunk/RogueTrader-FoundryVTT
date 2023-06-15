@@ -17,7 +17,7 @@ export class RogueTraderItem extends Item {
 
 
   // TODO convert to config file
-  get Clip() { return `${this.clip.value}/${this.clip.max}`; }
+  get Clip() { return `${this.clip?.value}/${this.clip?.max}`; }
 
   get RateOfFire() {
     let rof = this.rateOfFire;
@@ -78,6 +78,20 @@ export class RogueTraderItem extends Item {
         return game.i18n.localize("WEAPON.VEHICLE");
       default:
         return game.i18n.localize("WEAPON.MELEE");
+    }
+  }
+
+  get ShipWeaponClass() {
+
+    switch (this.class) {
+      case "lance":
+        return game.i18n.localize("SHIP_WEAPON.LANCE");
+      case "macro":
+        return game.i18n.localize("SHIP_WEAPON.MACRO");
+      case "hangar":
+        return game.i18n.localize("SHIP_WEAPON.HANGAR");
+      case "torpedo":
+        return game.i18n.localize("SHIP_WEAPON.TORPEDO");
     }
   }
 
@@ -262,6 +276,10 @@ export class RogueTraderItem extends Item {
   get isAmmunition() { return this.type === "ammunition"; }
 
   get isForceField() { return this.type === "forceField"; }
+
+  get isShipWeapon() { return this.type === "shipWeapon"; }
+
+  get isShipComponent() { return this.type === "shipComponent"; }
 
   get isAbilities() { return this.isTalent || this.isTrait || this.isSpecialAbility; }
 

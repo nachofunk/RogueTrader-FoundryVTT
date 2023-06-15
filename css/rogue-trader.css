@@ -1727,7 +1727,7 @@ li.folder.collapsed > .folder-header {
   text-align: center;
 }
 .rogue-trader .gear .all-gear .item-list .button {
-  flex-basis: 7%;
+  flex-basis: auto;
   text-align: center;
 }
 .rogue-trader .gear .all-gear .item-list .item {

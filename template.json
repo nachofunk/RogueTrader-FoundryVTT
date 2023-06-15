@@ -1123,7 +1123,9 @@
       "tool",
       "trait",
       "weapon",
-      "weaponModification"
+      "weaponModification",
+      "shipWeapon",
+      "shipComponent"
     ],
     "templates": {
       "equipment": {
@@ -1135,6 +1137,12 @@
       "itemDescription": {
         "description": "",
         "source": ""
+      },
+      "shipEquipment": {
+        "hullTypes": "all",
+        "power": 0,
+        "space": 0,
+        "shipPoints": 0
       }
     },
     "ammunition": {
@@ -1268,6 +1276,20 @@
     },
     "aptitude" : {
       "templates": ["itemDescription"]
+    },
+    "shipWeapon" : {
+      "templates": ["itemDescription", "equipment", "shipEquipment"],
+      "class": "",
+      "strength": 0,
+      "damage": "",
+      "critRating": 0,
+      "range": 0,
+      "side": "port",
+      "ignoreArmor": false,
+      "ignoreShields": false
+    },
+    "shipComponent" : {
+      "templates": ["itemDescription", "equipment", "shipEquipment"]
     }
   }
 }

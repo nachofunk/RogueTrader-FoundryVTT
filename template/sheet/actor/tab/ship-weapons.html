@@ -1,4 +1,4 @@
-<div class="tab">
+<div class="flex wrap gear">
     <div class="stats border">
         <h1>Weapon Capacity</h1>
         <div class="stats flex row">
@@ -24,10 +24,64 @@
             </div>
         </div>
     </div>
-    <div class="notes-editor border">
-         <h1>Weapons</h1>
-        <div style="height: 374px; width: 100%">
-            {{editor system.weaponsHTML target="system.weapons" engine="prosemirror" button=true}}
+    <div class="all-gear border">
+        <h1>{{localize "TITLE.EQUIPMENT"}}</h1>
+        <div class="item-list">
+            <div class="flex header">
+                <b class="name">{{localize "WEAPON.HEADER"}}</b>
+                <b class="class">{{localize "WEAPON.CLASS"}}</b>
+                <b class="class">{{localize "WEAPON.TYPE"}}</b>
+                <b class="damage">{{localize "WEAPON.DAMAGE"}}</b>
+                <b class="type">{{localize "WEAPON.DAMAGE_TYPE"}}</b>
+                <b class="clip">{{localize "WEAPON.CLIP"}}</b>
+                <b class="weight">{{localize "WEAPON.WEIGHT"}}</b>
+            </div>
+            <h2>{{localize "TITLE.PORT_WEAPONS"}}</h1>
+            <div class="items">
+                <div class="item-list weapons border" data-shipSide="port">
+                    {{#each items.portWeapons as |item|}}
+                        <div class="weapon item flex row" data-item-id="{{item.id}}">
+                            <div class="flex name item-edit">
+                                <div class="image-container">
+                                    <div class="image" style="background-image: url('{{item.img}}')"></div>
+                                </div>
+                                <div>{{item.name}}</div>
+                            </div>
+                            <div class="class">{{item.ShipWeaponClass}}</div>
+                            <div class="strength">{{item.strength}}</div>
+                            <div class="damage">{{item.damage}}</div>
+                            <div class="critRating">{{item.critRating}}</div>
+                            <div class="range">{{item.range}}</div>
+                            <div class="button">
+                                <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            <h2>{{localize "TITLE.STAR_WEAPONS"}}</h1>
+            <div class="items">
+                <div class="item-list weapons border" data-shipSide="star">
+                    {{#each items.starWeapons as |item|}}
+                        <div class="weapon item flex row" data-item-id="{{item.id}}">
+                            <div class="flex name item-edit">
+                                <div class="image-container">
+                                    <div class="image" style="background-image: url('{{item.img}}')"></div>
+                                </div>
+                                <div>{{item.name}}</div>
+                            </div>
+                            <div class="class">{{item.ShipWeaponClass}}</div>
+                            <div class="strength">{{item.strength}}</div>
+                            <div class="damage">{{item.damage}}</div>
+                            <div class="critRating">{{item.critRating}}</div>
+                            <div class="range">{{item.range}}</div>
+                            <div class="button">
+                                <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
         </div>
     </div>
 </div>

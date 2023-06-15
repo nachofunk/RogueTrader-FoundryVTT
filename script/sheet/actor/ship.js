@@ -20,13 +20,31 @@ export class ShipSheet extends RogueTraderSheet {
     });
   }
 
+  activateListeners(html) {
+    super.activateListeners(html);
+  }
+
+  /** @override */
+  async _onDropItem(event, data)
+  {
+    const items = await super._onDropItem(event, data);
+    console.log(event);
+    console.log(data);
+    items.forEach(item => {
+      if (item.type === "shipWeapon")
+      {
+        item.side = event.target.dataset.shipside;
+        if (item.side === "")
+        {
+          item.side = "port";
+        }
+      }
+    })
+  }
+
   _getHeaderButtons() {
     let buttons = super._getHeaderButtons();
     buttons = [].concat(buttons);
     return buttons;
-  }
-
-  activateListeners(html) {
-    super.activateListeners(html);
   }
 }

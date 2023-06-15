@@ -1,0 +1,19 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="header border">
+        <div class="flex row">
+            <div class="avatar">
+                <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+            </div>
+            <div class="flex column grow justify-center">
+                <div class="name header-row">
+                    <label>{{localize "WEAPON.NAME"}}</label>
+                    <input name="name" type="text" value="{{item.name}}" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sheet-tabs tabs flex row" data-group="primary">
+        <b class="item" data-tab="data">{{localize "TAB.DATA"}}</b>
+        <b class="item" data-tab="notes">{{localize "TAB.NOTES"}}</b>
+    </div>
+</form>
