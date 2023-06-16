@@ -504,6 +504,8 @@
   "TITLE.STATS": "STATS",
   "TITLE.EFFECT": "EFFECT",
   "TITLE.OTHER": "OTHER",
+  "TITLE.PORT_WEAPONS": "PORTSIDE WEAPONRY",
+  "TITLE.STAR_WEAPONS": "STARBOARD WEAPONRY",
 
   "WEAPON.HEADER": "Weapon",
   "WEAPON.NAME": "Name",
@@ -560,5 +562,20 @@
   "WOUND.CRITICAL_INJURIES": "Critical Injuries",
   "WOUND.TOTAL": "Total",
   "WOUND.CURRENT": "Current",
-  "WOUND.CRITICAL_DAMAGE": "Critical Damage"
+  "WOUND.CRITICAL_DAMAGE": "Critical Damage",
+
+  "SHIP_WEAPON.HEADER": "Weapon",
+  "SHIP_WEAPON.CLASS": "Type",
+  "SHIP_WEAPON.STRENGTH": "Strength",
+  "SHIP_WEAPON.DAMAGE": "Damage",
+  "SHIP_WEAPON.CRIT_RATING": "Crit Rating",
+  "SHIP_WEAPON.RANGE": "Range",
+  "SHIP_WEAPON.MACRO": "Macrobattery",
+  "SHIP_WEAPON.LANCE": "Lance",
+  "SHIP_WEAPON.TORPEDO": "Torpedo",
+  "SHIP_WEAPON.HANGAR": "Hangar",
+
+  "SHIP_ITEM.POWER": "Power",
+  "SHIP_ITEM.SPACE": "Space",
+  "SHIP_ITEM.POINTS": "Ship Points"
 }

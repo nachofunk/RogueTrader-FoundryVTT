@@ -7,7 +7,7 @@ export class WeaponSheet extends RogueTraderItemSheet {
       template: "systems/rogue-trader/template/sheet/weapon.html",
       width: 500,
       height: 369,
-      resizable: false,
+      resizable: true,
       tabs: [
         {
           navSelector: ".sheet-tabs",

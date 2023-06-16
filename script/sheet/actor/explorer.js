@@ -8,7 +8,7 @@ export class ExplorerSheet extends RogueTraderSheet {
       template: "systems/rogue-trader/template/sheet/actor/explorer.html",
       width: 700,
       height: 881,
-      resizable: false,
+      resizable: true,
       tabs: [
         {
           navSelector: ".sheet-tabs",

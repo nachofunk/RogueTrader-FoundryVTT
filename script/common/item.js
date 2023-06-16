@@ -362,4 +362,13 @@ export class RogueTraderItem extends Item {
 
   get upgrades() { return this.system.upgrades;}
 
+  get strength() { return this.system.strength; }
+
+  get critRating() { return this.system.critRating; }
+
+  get power() { return this.system.power; }
+
+  get space() { return this.system.space; }
+
+  get shipPoints() { return this.system.shipPoints; }
 }

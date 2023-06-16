@@ -7,7 +7,7 @@ export class ShipComponentSheet extends RogueTraderItemSheet {
       template: "systems/rogue-trader/template/sheet/shipComponent.html",
       width: 500,
       height: 369,
-      resizable: false,
+      resizable: true,
       tabs: [
         {
           navSelector: ".sheet-tabs",

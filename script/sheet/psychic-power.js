@@ -7,7 +7,7 @@ export class PsychicPowerSheet extends RogueTraderItemSheet {
       template: "systems/rogue-trader/template/sheet/psychic-power.html",
       width: 500,
       height: 397,
-      resizable: false,
+      resizable: true,
       tabs: [
         {
           navSelector: ".sheet-tabs",

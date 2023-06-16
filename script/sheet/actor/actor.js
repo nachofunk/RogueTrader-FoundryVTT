@@ -321,8 +321,15 @@ export class RogueTraderSheet extends ActorSheet {
       items.weapons = itemTypes["weapon"];
       items.weaponMods = itemTypes["weaponModification"];
       items.ammunitions = itemTypes["ammunition"];
-      items.portWeapons = itemTypes["shipWeapon"].filter(item => item.side === "port");
-      items.starWeapons = itemTypes["shipWeapon"].filter(item => item.side === "star");
+      items.shipWeapons = itemTypes["shipWeapon"];
+      items.portWeapons = [];
+      items.starWeapons = [];
+      items.dorsalWeapons = [];
+      items.keelWeapons = [];
+      items.prowWeapons = [];
+      items.shipWeapons.forEach(wp => {
+        items[`${wp.system.side}Weapons`].push(wp)
+      });
       items.shipComponents = itemTypes["shipComponent"];
       this._sortItemLists(items)
 

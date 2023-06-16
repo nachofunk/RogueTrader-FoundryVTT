@@ -28,13 +28,15 @@
         <h1>{{localize "TITLE.EQUIPMENT"}}</h1>
         <div class="item-list">
             <div class="flex header">
-                <b class="name">{{localize "WEAPON.HEADER"}}</b>
-                <b class="class">{{localize "WEAPON.CLASS"}}</b>
-                <b class="class">{{localize "WEAPON.TYPE"}}</b>
-                <b class="damage">{{localize "WEAPON.DAMAGE"}}</b>
-                <b class="type">{{localize "WEAPON.DAMAGE_TYPE"}}</b>
-                <b class="clip">{{localize "WEAPON.CLIP"}}</b>
-                <b class="weight">{{localize "WEAPON.WEIGHT"}}</b>
+                <b class="name">{{localize "SHIP_WEAPON.HEADER"}}</b>
+                <b class="class">{{localize "SHIP_WEAPON.CLASS"}}</b>
+                <b class="strength">{{localize "SHIP_WEAPON.STRENGTH"}}</b>
+                <b class="damage">{{localize "SHIP_WEAPON.DAMAGE"}}</b>
+                <b class="crit">{{localize "SHIP_WEAPON.CRIT_RATING"}}</b>
+                <b class="range">{{localize "SHIP_WEAPON.RANGE"}}</b>
+                <b class="power">{{localize "SHIP_ITEM.POWER"}}</b>
+                <b class="space">{{localize "SHIP_ITEM.SPACE"}}</b>
+                <b class="points">{{localize "SHIP_ITEM.POINTS"}}</b>
             </div>
             <h2>{{localize "TITLE.PORT_WEAPONS"}}</h1>
             <div class="items">
@@ -52,6 +54,9 @@
                             <div class="damage">{{item.damage}}</div>
                             <div class="critRating">{{item.critRating}}</div>
                             <div class="range">{{item.range}}</div>
+                            <div class="power">{{item.power}}</div>
+                            <div class="space">{{item.space}}</div>
+                            <div class="points">{{item.shipPoints}}</div>
                             <div class="button">
                                 <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
                             </div>

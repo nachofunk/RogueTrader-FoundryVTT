@@ -41,8 +41,15 @@ export class ShipSheet extends RogueTraderSheet {
     {
       itemData.system.side = this.side;
     }
-    let items = await super._onDropItemCreate(itemData);
-    this._updateObject(null, this.getData());
+    return await super._onDropItemCreate(itemData);
+  }
+
+  async _onDropItem(event, data)
+  {
+    const items = await super._onDropItem(event, data);
+    let objectData = await this.getData();
+    console.log(objectData);
+    await this._updateObject(event, objectData);
     return items;
   }
 
