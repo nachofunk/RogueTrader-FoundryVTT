@@ -32,12 +32,44 @@ export class ShipSheet extends RogueTraderSheet {
     return await super._onDrop(event);
   }
 
-  async _onDropItemCreate(itemData) 
-  {
+  async _onDropItemCreate(itemData) {
     console.log(itemData);
-    if (itemData.type === "shipWeapon")
-    {
+    if (itemData.type === "shipWeapon") {
+      const actorData = await this.getData();
       itemData.system.side = this.side;
+      console.log(actorData);
+      switch (this.side) {
+        case "port": {
+          if (actorData.items.portWeapons.length >= actorData.system.weaponCapacity.port) {
+            return;
+          }
+          break;
+        }
+        case "star": {
+          if (actorData.items.starWeapons.length >= actorData.system.weaponCapacity.starboard) {
+            return;
+          }
+          break;
+        }
+        case "dorsal": {
+          if (actorData.items.dorsalWeapons.length >= actorData.system.weaponCapacity.dorsal) {
+            return;
+          }
+          break;
+        }
+        case "keel": {
+          if (actorData.items.keelWeapons.length >= actorData.system.weaponCapacity.keel) {
+            return;
+          }
+          break;
+        }
+        case "prow": {
+          if (actorData.items.prowWeapons.length >= actorData.system.weaponCapacity.prow) {
+            return;
+          }
+          break;
+        }
+      }
     }
     return await super._onDropItemCreate(itemData);
   }

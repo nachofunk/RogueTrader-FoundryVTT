@@ -42,8 +42,8 @@
                 </div>
             </div>
             <div class="space"></div>
-            <div class="border">
-                <h2>{{localize "TITLE.PORT_WEAPONS"}}</h1>
+            <div class="border" data-shipSide="port">
+                <h2 data-shipSide="port">{{localize "TITLE.PORT_WEAPONS"}}</h1>
                 <div class="flex items item-list weapons" data-shipSide="port">
                     {{#each items.portWeapons as |item|}}
                         <div class="weapon item flex row" data-item-id="{{item.id}}" data-shipSide="port">
@@ -71,35 +71,35 @@
                 </div>
             </div>
             <div class="space"></div>
-            <div class="border">
-                <h2>{{localize "TITLE.STAR_WEAPONS"}}</h1>
-                    <div class="items">
-                        <div class="item-list weapons" data-shipSide="star">
-                            {{#each items.starWeapons as |item|}}
-                                <div class="weapon item flex row" data-item-id="{{item.id}}" data-shipSide="star">
-                                    <div class="flex name item-edit">
-                                        <div class="image-container">
-                                            <div class="image" style="background-image: url('{{item.img}}')"></div>
-                                        </div>
-                                        <div>{{item.name}}</div>
+            <div class="border" data-shipSide="star">
+                <h2 data-shipSide="star">{{localize "TITLE.STAR_WEAPONS"}}</h1>
+                <div class="items">
+                    <div class="flex items item-list weapons" data-shipSide="star">
+                        {{#each items.starWeapons as |item|}}
+                            <div class="weapon item flex row" data-item-id="{{item.id}}" data-shipSide="star">
+                                <div class="flex name item-edit">
+                                    <div class="image-container">
+                                        <div class="image" style="background-image: url('{{item.img}}')"></div>
                                     </div>
-                                    <div class="class">{{item.ShipWeaponClass}}</div>
-                                    <div class="strength">{{item.strength}}</div>
-                                    <div class="damage">{{item.damage}}</div>
-                                    <div class="crit">{{item.critRating}}</div>
-                                    <div class="range">{{item.range}}</div>
-                                    <div class="power">{{item.power}}</div>
-                                    <div class="space">{{item.space}}</div>
-                                    <div class="points">
-                                        {{item.shipPoints}}
-                                    </div>
-                                    <div class="button button-column">
-                                        <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
-                                    </div>
+                                    <div>{{item.name}}</div>
                                 </div>
-                            {{/each}}
-                        </div>
+                                <div class="class">{{item.ShipWeaponClass}}</div>
+                                <div class="strength">{{item.strength}}</div>
+                                <div class="damage">{{item.damage}}</div>
+                                <div class="crit">{{item.critRating}}</div>
+                                <div class="range">{{item.range}}</div>
+                                <div class="power">{{item.power}}</div>
+                                <div class="space">{{item.space}}</div>
+                                <div class="points">
+                                    {{item.shipPoints}}
+                                </div>
+                                <div class="button button-column">
+                                    <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </div>
+                        {{/each}}
                     </div>
+                </div>
             </div>
         </div>
     </div>
