@@ -376,12 +376,16 @@ li.folder.collapsed > .folder-header {
   flex-direction: row;
   flex-wrap: wrap;
   flex-basis: 100%;
+  justify-content: center;
 }
 .rogue-trader .stats .stats-row {
   display: flex;
   flex-basis: 100%;
   margin-top: 8px;
   justify-content: space-between;
+}
+.rogue-trader .stat {
+  padding: 2px;
 }
 .rogue-trader .stats .stats-row:last-child {
   margin-bottom: 4px;
@@ -911,8 +915,9 @@ li.folder.collapsed > .folder-header {
   color: var(--color-title);
 }
 .rogue-trader .item-list .items {
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   width: 100%;
+  padding: 4px;
 }
 .rogue-trader .item-list .items .item {
   align-items: center;
@@ -1652,7 +1657,7 @@ li.folder.collapsed > .folder-header {
   margin-top: 5px;
 }
 .rogue-trader .gear .all-gear .item-list .name {
-  flex-basis: 30%;
+  flex-basis: 20%;
   text-align: center;
   align-items: center;
   font-weight: bold;
@@ -1668,7 +1673,40 @@ li.folder.collapsed > .folder-header {
   align-items: center;
 }
 .rogue-trader .gear .all-gear .item-list .class {
-  flex-basis: 30%;
+  flex-basis: 15%;
+  text-align: center;
+  align-items: center;
+}
+.button-column {
+  flex-basis:  5%;
+}
+.rogue-trader .gear .all-gear .item-list .strength {
+  flex-basis: 10%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .gear .all-gear .item-list .crit {
+  flex-basis: 10%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .gear .all-gear .item-list .range {
+  flex-basis: 10%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .gear .all-gear .item-list .power {
+  flex-basis: 10%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .gear .all-gear .item-list .space {
+  flex-basis: 10%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .gear .all-gear .item-list .points {
+  flex-basis: 10%;
   text-align: center;
   align-items: center;
 }
@@ -1727,7 +1765,7 @@ li.folder.collapsed > .folder-header {
   text-align: center;
 }
 .rogue-trader .gear .all-gear .item-list .button {
-  flex-basis: auto;
+  flex-basis: 5%;
   text-align: center;
 }
 .rogue-trader .gear .all-gear .item-list .item {

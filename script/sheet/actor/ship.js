@@ -9,8 +9,8 @@ export class ShipSheet extends RogueTraderSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["rogue-trader", "sheet", "actor"],
       template: "systems/rogue-trader/template/sheet/actor/ship.html",
-      width: 700,
-      height: 725,
+      width: 775,
+      height: 835,
       resizable: true,
       tabs: [
         {
@@ -28,8 +28,6 @@ export class ShipSheet extends RogueTraderSheet {
 
   async _onDrop(event)
   {
-    console.log("BAR");
-    console.log(event);
     this.side = event.target.dataset.shipside || "port";
     return await super._onDrop(event);
   }
