@@ -281,6 +281,8 @@ export class RogueTraderItem extends Item {
 
   get isShipComponent() { return this.type === "shipComponent"; }
 
+  get isVoidEngine() { return this.class === "voidEngine"; }
+
   get isAbilities() { return this.isTalent || this.isTrait || this.isSpecialAbility; }
 
   get isAdditive() { return this.system.isAdditive; }
@@ -366,7 +368,12 @@ export class RogueTraderItem extends Item {
 
   get critRating() { return this.system.critRating; }
 
-  get power() { return this.system.power; }
+  get power() {
+    if (this.class === "voidEngine") 
+      return this.system.power;
+    else
+      return -this.system.power; 
+  }
 
   get space() { return this.system.space; }
 

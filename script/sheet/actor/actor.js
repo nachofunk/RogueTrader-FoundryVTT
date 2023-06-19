@@ -331,8 +331,22 @@ export class RogueTraderSheet extends ActorSheet {
         items[`${wp.system.side}Weapons`].push(wp)
       });
       items.shipComponents = itemTypes["shipComponent"];
+      const componentClasses = ["voidEngine", "warpEngine", "gellarField", "voidShield", "bridge", "lifeSupport", "crewQuarters", "augurArrays"];
+      const itemsByClass = {};
+      for (const componentClass of componentClasses) {
+        itemsByClass[componentClass] = items.shipComponents.find(cp => cp.system.class === componentClass);
+      }
+      items.supplemental = items.shipComponents.filter(cp => cp.system.class === "supplemental");    
+      // Access the items using the respective keys
+      items.voidEngine = itemsByClass["voidEngine"];
+      items.warpEngine = itemsByClass["warpEngine"];
+      items.gellarField = itemsByClass["gellarField"];
+      items.voidShield = itemsByClass["voidShield"];
+      items.bridge = itemsByClass["bridge"];
+      items.lifeSupport = itemsByClass["lifeSupport"];
+      items.crewQuarters = itemsByClass["crewQuarters"];
+      items.augurArrays = itemsByClass["augurArrays"];
       this._sortItemLists(items)
-
       return items;
   }
 
@@ -341,7 +355,7 @@ export class RogueTraderSheet extends ActorSheet {
             if (Array.isArray(items[list]))
                 items[list] = items[list].sort((a, b) => a.sort - b.sort)
             else if (typeof items[list] == "object")
-                _sortItemLists(items[list])
+                this._sortItemLists(items[list])
         }
     }
 }

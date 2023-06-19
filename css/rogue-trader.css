@@ -2155,3 +2155,9 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.ammunition .stats .stats-row .stat.special input {
     width: 427px;
 } */
+
+/* Compatibility fix for Monk's Enhanced Journal*/
+.placename .header-name .flexrow {
+  height: auto;
+  background: none;
+}

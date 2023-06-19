@@ -5,8 +5,8 @@ export class ShipComponentSheet extends RogueTraderItemSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["rogue-trader", "sheet", "shipComponent"],
       template: "systems/rogue-trader/template/sheet/shipComponent.html",
-      width: 500,
-      height: 369,
+      width: 485,
+      height: 610,
       resizable: true,
       tabs: [
         {

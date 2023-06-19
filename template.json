@@ -1096,11 +1096,8 @@
         "max": 0,
         "value": 0
       },
-      "essentialComponents": "",
-      "supplementalComponents": "",
       "complications": "",
       "pastHistory": "",
-      "weapons": "",
       "notes": ""
     }
   },
@@ -1289,7 +1286,8 @@
       "ignoreShields": false
     },
     "shipComponent" : {
-      "templates": ["itemDescription", "equipment", "shipEquipment"]
+      "templates": ["itemDescription", "equipment", "shipEquipment"],
+      "class": ""
     }
   }
 }

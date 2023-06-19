@@ -33,45 +33,63 @@ export class ShipSheet extends RogueTraderSheet {
   }
 
   async _onDropItemCreate(itemData) {
-    console.log(itemData);
+    const actorData = await this.getData();
     if (itemData.type === "shipWeapon") {
-      const actorData = await this.getData();
       itemData.system.side = this.side;
-      console.log(actorData);
-      switch (this.side) {
-        case "port": {
-          if (actorData.items.portWeapons.length >= actorData.system.weaponCapacity.port) {
-            return;
-          }
-          break;
-        }
-        case "star": {
-          if (actorData.items.starWeapons.length >= actorData.system.weaponCapacity.starboard) {
-            return;
-          }
-          break;
-        }
-        case "dorsal": {
-          if (actorData.items.dorsalWeapons.length >= actorData.system.weaponCapacity.dorsal) {
-            return;
-          }
-          break;
-        }
-        case "keel": {
-          if (actorData.items.keelWeapons.length >= actorData.system.weaponCapacity.keel) {
-            return;
-          }
-          break;
-        }
-        case "prow": {
-          if (actorData.items.prowWeapons.length >= actorData.system.weaponCapacity.prow) {
-            return;
-          }
-          break;
-        }
+      return await this.validateShipWeapon(actorData, itemData);
+    }
+    else if (itemData.type === "shipComponent") {
+      return await this.validateShipComponent(actorData, itemData);
+    } 
+    else {
+      return await super._onDropItemCreate(itemData);
+    }
+  }
+
+  async validateShipComponent(actorData, itemData)
+  {
+    console.log("validating ship component");
+    console.log(itemData);
+    console.log(actorData);
+    const componentClasses = ["voidEngine", "warpEngine", "gellarField", "voidShield", "bridge", "lifeSupport", "crewQuarters", "augurArrays"];
+    for (const componentClass of componentClasses) {
+      if (itemData.system.class === componentClass && actorData.items[componentClass] !== undefined) {
+        this.sendEssentialComponentLimitReachedPopup();
+        return;
       }
     }
+
     return await super._onDropItemCreate(itemData);
+  }
+
+  async validateShipWeapon(actorData, itemData) {
+    const weaponArrays = {
+      port: actorData.items.portWeapons,
+      star: actorData.items.starWeapons,
+      dorsal: actorData.items.dorsalWeapons,
+      keel: actorData.items.keelWeapons,
+      prow: actorData.items.prowWeapons
+    };
+  
+    const weaponCapacity = actorData.system.weaponCapacity[this.side];
+    const weapons = weaponArrays[this.side];
+  
+    if (weapons.length >= weaponCapacity) {
+      this.sendWeaponLimitReachedPopup();
+      return;
+    }
+  
+    return await super._onDropItemCreate(itemData);
+  }
+
+  sendWeaponLimitReachedPopup()
+  {
+    ui.notifications.warn("FOO");
+  }
+
+  sendEssentialComponentLimitReachedPopup()
+  {
+    ui.notifications.warn("BAR");
   }
 
   async _onDropItem(event, data)
