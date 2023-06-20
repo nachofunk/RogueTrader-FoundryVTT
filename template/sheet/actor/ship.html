@@ -41,9 +41,10 @@
 
     <div class="sheet-tabs tabs flex row" data-group="primary">
         <b class="item" data-tab="data">{{localize "TAB.DATA"}}</b>
-        <b class="item" data-tab="components">COMPONENTS</b>
-        <b class="item" data-tab="weapons">WEAPONS</b>
-        <b class="item" data-tab="complications">COMPLICATIONS</b>
+        <b class="item" data-tab="components">{{localize "TAB.ESSENTIAL_COMPONENTS"}}</b>
+        <b class="item" data-tab="components">{{localize "TAB.SUPPLEMENTAL_COMPONENTS"}}</b>
+        <b class="item" data-tab="weapons">{{localize "TAB.WEAPONS"}}</b>
+        <b class="item" data-tab="complications">{{localize "TAB.COMPLICATIONS"}}</b>
         <b class="item" data-tab="notes">{{localize "TAB.NOTES"}}</b>
     </div>
 
@@ -52,7 +53,10 @@
             {{> systems/rogue-trader/template/sheet/actor/tab/ship-data.html}}
         </div>
         <div class="tab" data-group="primary" data-tab="components">
-            {{> systems/rogue-trader/template/sheet/actor/tab/ship-components.html}}
+            {{> systems/rogue-trader/template/sheet/actor/tab/ship-essential.html}}
+        </div>
+        <div class="tab" data-group="primary" data-tab="components">
+            {{> systems/rogue-trader/template/sheet/actor/tab/ship-supplemental.html}}
         </div>
         <div class="tab" data-group="primary" data-tab="complications">
             {{> systems/rogue-trader/template/sheet/actor/tab/ship-complications.html}}

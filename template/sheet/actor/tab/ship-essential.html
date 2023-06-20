@@ -14,12 +14,11 @@
             </div>
             <div class="space"></div>
             <div class="border">
-                <h2>{{localize "TITLE.ESSENTIAL_COMPONENTS"}}</h1>
                 <div class="flex items item-list weapons">
                     <h2>{{localize "SHIP_ITEM.VOID_ENGINE"}}</h2>
                     <div class="border">
                         {{#if items.voidEngine}}
-                            <div class="weapon item flex row" data-item-id="{{item.id}}">
+                            <div class="weapon item flex row" data-item-id="{{items.voidEngine.id}}">
                                 <div class="flex name item-edit">
                                     <div class="image-container">
                                         <div class="image" style="background-image: url('{{item.img}}')"></div>
@@ -41,10 +40,10 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.WARP_ENGINE"}}</h2>
                     <div class="border">
                         {{#if items.warpEngine}}
-                            <div class="weapon item flex row" data-item-id="{{item.id}}">
+                            <div class="weapon item flex row" data-item-id="{{items.warpEngine.id}}">
                                 <div class="flex name item-edit">
                                     <div class="image-container">
-                                        <div class="image" style="background-image: url('{{item.img}}')"></div>
+                                        <div class="image" style="background-image: url('{{items.warpEngine.img}}')"></div>
                                     </div>
                                     <div>{{items.warpEngine.name}}</div>
                                 </div>
@@ -63,32 +62,10 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.GELLAR_FIELD"}}</h2>
                     <div class="border">
                         {{#if items.gellarField}}
-                            <div class="weapon item flex row" data-item-id="{{item.id}}">
+                            <div class="weapon item flex row" data-item-id="{{items.gellarField.id}}">
                                 <div class="flex name item-edit">
                                     <div class="image-container">
-                                        <div class="image" style="background-image: url('{{item.img}}')"></div>
-                                    </div>
-                                    <div>{{items.gellarField.name}}</div>
-                                </div>
-                                <div class="class">{{items.gellarField.class}}</div>
-                                <div class="power">{{items.gellarField.power}}</div>
-                                <div class="space">{{items.gellarField.space}}</div>
-                                <div class="points">
-                                    {{items.gellarField.shipPoints}}
-                                </div>
-                                <div class="button button-column">
-                                    <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </div>
-                        {{/if}}
-                    </div>
-                    <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.GELLAR_FIELD"}}</h2>
-                    <div class="border">
-                        {{#if items.gellarField}}
-                            <div class="weapon item flex row" data-item-id="{{item.id}}">
-                                <div class="flex name item-edit">
-                                    <div class="image-container">
-                                        <div class="image" style="background-image: url('{{item.img}}')"></div>
+                                        <div class="image" style="background-image: url('{{items.gellarField.img}}')"></div>
                                     </div>
                                     <div>{{items.gellarField.name}}</div>
                                 </div>
@@ -107,10 +84,10 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.VOID_SHIELD"}}</h2>
                     <div class="border">
                         {{#if items.voidShield}}
-                            <div class="weapon item flex row" data-item-id="{{item.id}}">
+                            <div class="weapon item flex row" data-item-id="{{items.voidShield.id}}">
                                 <div class="flex name item-edit">
                                     <div class="image-container">
-                                        <div class="image" style="background-image: url('{{item.img}}')"></div>
+                                        <div class="image" style="background-image: url('{{items.voidShield.img}}')"></div>
                                     </div>
                                     <div>{{items.voidShield.name}}</div>
                                 </div>
@@ -129,10 +106,10 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.BRIDGE"}}</h2>
                     <div class="border">
                         {{#if items.bridge}}
-                            <div class="weapon item flex row" data-item-id="{{item.id}}">
+                            <div class="weapon item flex row" data-item-id="{{items.bridge.id}}">
                                 <div class="flex name item-edit">
                                     <div class="image-container">
-                                        <div class="image" style="background-image: url('{{item.img}}')"></div>
+                                        <div class="image" style="background-image: url('{{items.bridge.img}}')"></div>
                                     </div>
                                     <div>{{items.bridge.name}}</div>
                                 </div>
@@ -151,10 +128,10 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.LIFE_SUPPORT"}}</h2>
                     <div class="border">
                         {{#if items.lifeSupport}}
-                            <div class="weapon item flex row" data-item-id="{{item.id}}">
+                            <div class="weapon item flex row" data-item-id="{{items.lifeSupport.id}}">
                                 <div class="flex name item-edit">
                                     <div class="image-container">
-                                        <div class="image" style="background-image: url('{{item.img}}')"></div>
+                                        <div class="image" style="background-image: url('{{items.lifeSupport.img}}')"></div>
                                     </div>
                                     <div>{{items.lifeSupport.name}}</div>
                                 </div>
@@ -173,10 +150,10 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.CREW_QUARTERS"}}</h2>
                     <div class="border">
                         {{#if items.crewQuarters}}
-                            <div class="weapon item flex row" data-item-id="{{item.id}}">
+                            <div class="weapon item flex row" data-item-id="{{items.crewQuarters.id}}">
                                 <div class="flex name item-edit">
                                     <div class="image-container">
-                                        <div class="image" style="background-image: url('{{item.img}}')"></div>
+                                        <div class="image" style="background-image: url('{{items.crewQuarters.img}}')"></div>
                                     </div>
                                     <div>{{items.crewQuarters.name}}</div>
                                 </div>
@@ -195,10 +172,10 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.AUGUR_ARRAY"}}</h2>
                     <div class="border">
                         {{#if items.augurArrays}}
-                            <div class="weapon item flex row" data-item-id="{{item.id}}">
+                            <div class="weapon item flex row" data-item-id="{{items.augurArrays.id}}">
                                 <div class="flex name item-edit">
                                     <div class="image-container">
-                                        <div class="image" style="background-image: url('{{item.img}}')"></div>
+                                        <div class="image" style="background-image: url('{{items.augurArrays.img}}')"></div>
                                     </div>
                                     <div>{{items.augurArrays.name}}</div>
                                 </div>

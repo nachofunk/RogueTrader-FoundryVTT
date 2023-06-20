@@ -40,30 +40,30 @@
             </div>
             <div class="stats flex column">
                 <div class="stat space">
+                    <label>Space: Total</label>
+                    <input name="system.space.max" type="number" value="{{system.space.max}}" data-dtype="Number" /> 
+                </div>
+                <div class="stat space">
                     <label>Space: Used</label>
-                    <input name="system.space.value" type="number" value="{{system.space.value}}" data-dtype="Number" />
+                    <input name="system.space.value" type="number" value="{{system.space.value}}" data-dtype="Number" disabled />
                 </div>
                 <div class="stat space">
                     <label>Space: Available</label>
                     <input name="system.space.avail" type="number" value="{{system.space.avail}}" data-dtype="Number" disabled /> 
                 </div>
-                <div class="stat space">
-                    <label>Space: Total</label>
-                    <input name="system.space.max" type="number" value="{{system.space.max}}" data-dtype="Number" /> 
-                </div>
             </div>
             <div class="stats flex column">
                 <div class="stat power">
+                    <label>Power: Total</label>
+                    <input name="system.power.max" type="number" value="{{system.power.max}}" data-dtype="Number" disabled /> 
+                </div>
+                <div class="stat power">
                     <label>Power: Used</label>
-                    <input name="system.power.value" type="number" value="{{system.power.value}}" data-dtype="Number" />
+                    <input name="system.power.value" type="number" value="{{system.power.value}}" data-dtype="Number" disabled />
                 </div>
                 <div class="stat power">
                     <label>Power: Available</label>
                     <input name="system.power.avail" type="number" value="{{system.power.avail}}" data-dtype="Number" disabled /> 
-                </div>
-                <div class="stat power">
-                    <label>Power: Total</label>
-                    <input name="system.power.max" type="number" value="{{system.power.max}}" data-dtype="Number" /> 
                 </div>
             </div>
         </div>

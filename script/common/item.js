@@ -369,10 +369,7 @@ export class RogueTraderItem extends Item {
   get critRating() { return this.system.critRating; }
 
   get power() {
-    if (this.class === "voidEngine") 
-      return this.system.power;
-    else
-      return -this.system.power; 
+    this.system.power;
   }
 
   get space() { return this.system.space; }
