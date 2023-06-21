@@ -1655,6 +1655,7 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .gear .all-gear .item-list .header {
   margin-top: 5px;
+  justify-content: space-between;
 }
 .rogue-trader .gear .all-gear .item-list .name {
   flex-basis: 20%;
@@ -1770,6 +1771,7 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .gear .all-gear .item-list .item {
   overflow-y: visible;
+  justify-content: space-between;
 }
 .rogue-trader .gear .all-gear .item-list .items .gear {
   width: 100%;
