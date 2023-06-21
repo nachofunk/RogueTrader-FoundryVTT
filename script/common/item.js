@@ -95,6 +95,27 @@ export class RogueTraderItem extends Item {
     }
   }
 
+  get ShipComponentClass() {
+    switch (this.class) {
+      case "voidEngine":
+        return game.i18n.localize("SHIP_ITEM.VOID_ENGINE");
+      case "warpEngine":
+        return game.i18n.localize("SHIP_ITEM.WARP_ENGINE");
+      case "gellarField":
+        return game.i18n.localize("SHIP_ITEM.GELLAR_FIELD");
+      case "voidShield":
+        return game.i18n.localize("SHIP_ITEM.VOID_SHIELD");
+      case "bridge":
+        return game.i18n.localize("SHIP_ITEM.BRIDGE");
+      case "crewQuarters":
+        return game.i18n.localize("SHIP_ITEM.CREW_QUARTERS");
+      case "augurArray":
+        return game.i18n.localize("SHIP_ITEM.AUGUR_ARRAY");
+      case "supplemental":
+        return game.i18n.localize("SHIP_ITEM.SUPPLEMENTAL");
+    }
+  }
+
   get WeaponType() {
 
     switch (this.subtype) {
@@ -368,9 +389,7 @@ export class RogueTraderItem extends Item {
 
   get critRating() { return this.system.critRating; }
 
-  get power() {
-    this.system.power;
-  }
+  get power() { return this.system.power; }
 
   get space() { return this.system.space; }
 
