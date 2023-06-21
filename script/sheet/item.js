@@ -16,14 +16,6 @@ export class RogueTraderItemSheet extends ItemSheet {
         relativeTo: this.item,
       }
     );
-    if (data.item.type === 'ship') {
-      let spaceAvail = 0;
-      let powerAvail = 0;
-      spaceAvail = data.data.system.space.max - data.data.system.space.value;
-      data.data.system.space.avail = spaceAvail;
-      powerAvail = data.data.system.power.max - data.data.system.power.value;
-      data.data.system.power.avail = powerAvail;
-    };
     // Component HTML enrichment
     data.data.system.essentialComponentsHTML = await TextEditor.enrichHTML(
       data.data.system.essentialComponents,

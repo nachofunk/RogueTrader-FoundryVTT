@@ -8,7 +8,7 @@ export class NpcSheet extends RogueTraderSheet {
       template: "systems/rogue-trader/template/sheet/actor/npc.html",
       width: 700,
       height: 881,
-      resizable: false,
+      resizable: true,
       tabs: [
         {
           navSelector: ".sheet-tabs",
