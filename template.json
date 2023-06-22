@@ -1081,6 +1081,11 @@
         "max": 0,
         "value": 0
       },
+      "points": {
+        "base": 0,
+        "components": 0,
+        "total": 0
+      },
       "weaponCapacity": {
         "dorsal": 0,
         "prow": 0,
