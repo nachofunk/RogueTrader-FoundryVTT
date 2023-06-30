@@ -2,7 +2,7 @@
   "id": "rogue-trader",
   "title": "Rogue Trader",
   "description": "Roleplaying in the grim darkness of the 41st Millennium",
-  "version": "1.0.3",
+  "version": "1.0.4a",
   "minimumCoreVersion" : 10,
   "compatibility" : {
     "minimum" : 10,
@@ -95,7 +95,7 @@
   "secondaryTokenAttribute": null,
   "url": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT",
   "socket": true,
-  "manifest": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT/releases/download/1.0.4/system.json",
-  "download": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT/releases/download/1.0.4/rogue-trader.zip",
+  "manifest": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT/releases/download/1.0.4a/system.json",
+  "download": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT/releases/download/1.0.4a/rogue-trader.zip",
   "license": "LICENSE.txt"
 }

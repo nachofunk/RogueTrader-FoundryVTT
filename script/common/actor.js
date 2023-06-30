@@ -36,6 +36,7 @@ export class RogueTraderActor extends Actor {
       this._computeArmour();
       this._computeMovement();
     }
+    console.log(this);
   }
 
   _computePower() {
@@ -58,10 +59,10 @@ export class RogueTraderActor extends Actor {
     let i = 0;
     for (let characteristic of Object.values(this.characteristics)) {
       characteristic.total = characteristic.base + characteristic.advance;
-      characteristic.bonus = Math.floor(characteristic.total / 10) * characteristic.unnatural;
+      characteristic.bonus = Math.floor(characteristic.total / 10) * (characteristic.unnatural > 0 ? characteristic.unnatural : 1);
       if (this.fatigue.value > characteristic.bonus) {
         characteristic.total = Math.ceil(characteristic.total / 2);
-        characteristic.bonus = Math.floor(characteristic.total / 10) * characteristic.unnatural;
+        characteristic.bonus = Math.floor(characteristic.total / 10) * (characteristic.unnatural > 0 ? characteristic.unnatural : 1);
       }
       characteristic.isLeft = i < middle;
       characteristic.isRight = i >= middle;
