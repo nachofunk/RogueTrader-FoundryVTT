@@ -23,6 +23,7 @@ export class RogueTraderActor extends Actor {
     {
       this._computePower();
       this._computeSpace();
+      this._computePoints();
     } 
     else 
     {
@@ -52,6 +53,13 @@ export class RogueTraderActor extends Actor {
     const spaceTaken = shipItems.reduce((total, item) => total + item.system.space, 0) | 0;
     this.system.space.value = spaceTaken;
     this.system.space.avail = this.system.space.max - spaceTaken;
+  }
+
+  _computePoints() {
+    const shipItems = this.items.filter(item => item.isShipWeapon || item.isShipComponent);
+    const componentsValue = shipItems.reduce((total, item) => total + item.system.shipPoints, 0) | 0;
+    this.system.points.components = componentsValue;
+    this.system.points.total = componentsValue + this.system.points.base;
   }
 
   _computeCharacteristics() {

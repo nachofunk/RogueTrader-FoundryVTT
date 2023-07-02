@@ -25,12 +25,7 @@ export class RogueTraderSheet extends ActorSheet {
     // Biography HTML enrichment
     if (data.actor.type === 'ship')
     {
-      let spaceAvail = 0;
-      let powerAvail = 0;
-      spaceAvail = data.data.system.space.max - data.data.system.space.value;
-      data.data.system.space.avail = spaceAvail;
-      powerAvail = data.data.system.power.max - data.data.system.power.value;
-      data.data.system.power.avail = powerAvail;
+      
     }
     else
     {
