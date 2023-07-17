@@ -25,6 +25,7 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/sheet/actor/tab/psychic-powers.html",
     "systems/rogue-trader/template/sheet/actor/tab/stats.html",
     "systems/rogue-trader/template/sheet/actor/tab/ship-complications.html",
+    "systems/rogue-trader/template/sheet/actor/tab/ship-crew.html",
     "systems/rogue-trader/template/sheet/actor/tab/ship-essential.html",
     "systems/rogue-trader/template/sheet/actor/tab/ship-supplemental.html",
     "systems/rogue-trader/template/sheet/actor/tab/ship-data.html",

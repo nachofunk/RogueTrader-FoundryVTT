@@ -43,8 +43,8 @@ export class RogueTraderActor extends Actor {
   _computePower() {
     const voidEngine = this.items.find(item => item.system.class === "voidEngine");
     const otherItems = this.items.filter(item => (item.isShipWeapon || item.isShipComponent) && item.system.class !== "voidEngine");
-    this.system.power.max = voidEngine.system.power | 0;
-    this.system.power.value = otherItems.reduce((total, item) => total + item.system.power, 0) | 0;
+    this.system.power.max = voidEngine?.system.power | 0;
+    this.system.power.value = otherItems?.reduce((total, item) => total + item.system.power, 0) | 0;
     this.system.power.avail = this.system.power.max - this.system.power.value;
   }
 
@@ -571,4 +571,7 @@ export class RogueTraderActor extends Actor {
 
   get movement() {return this.system.movement;}
 
+  get lordCaptain() {
+    return game.actors.get(this.system.namedCrew.lordCaptain);
+  }
 }

@@ -32,6 +32,28 @@ export class ShipSheet extends RogueTraderSheet {
     return await super._onDrop(event);
   }
 
+  async _onDropActor(event, data)
+  {
+    console.log(event);
+    console.log(data);
+    console.log(this);
+    const actorData = await this.getData();
+    console.log(actorData);
+    const droppedActor = game.actors.get(data.uuid.split(".")[1]);
+    switch (event.target.dataset.crewrole) {
+      case "captain":
+        {
+          actorData.system.namedCrew.lordCaptain = data.uuid.split(".")[1];
+          break;
+        }
+      default:
+        console.log(event.target.dataset.crewRole);
+        break;
+    }
+    this._updateObject(event, actorData);
+    console.log(droppedActor);
+  }
+
   async _onDropItemCreate(itemData) {
     const actorData = await this.getData();
     if (itemData.type === "shipWeapon") {
@@ -48,9 +70,6 @@ export class ShipSheet extends RogueTraderSheet {
 
   async validateShipComponent(actorData, itemData)
   {
-    console.log("validating ship component");
-    console.log(itemData);
-    console.log(actorData);
     const componentClasses = ["voidEngine", "warpEngine", "gellarField", "voidShield", "bridge", "lifeSupport", "crewQuarters", "augurArrays"];
     for (const componentClass of componentClasses) {
       if (itemData.system.class === componentClass && actorData.items[componentClass] !== undefined) {
@@ -84,19 +103,18 @@ export class ShipSheet extends RogueTraderSheet {
 
   sendWeaponLimitReachedPopup()
   {
-    ui.notifications.warn("FOO");
+    ui.notifications.warn("Not enough weapon slots!");
   }
 
   sendEssentialComponentLimitReachedPopup()
   {
-    ui.notifications.warn("BAR");
+    ui.notifications.warn("That component is already installed!");
   }
 
   async _onDropItem(event, data)
   {
     const items = await super._onDropItem(event, data);
     let objectData = await this.getData();
-    console.log(objectData);
     await this._updateObject(event, objectData);
     return items;
   }

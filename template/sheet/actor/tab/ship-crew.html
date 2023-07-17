@@ -1,0 +1,19 @@
+<div class="tab">
+    <div class="stats border">
+        <h1>{{localize "TITLE.STATS"}}</h1>
+        <div class="stats flex">
+            <div class="stats flex column">
+                <div class="stat border lordCaptain" data-crewRole="captain">
+                    <div class="avatar" data-crewRole="captain">
+                        {{#if system.namedCrew.lordCaptain}}
+                            <img class="crew-img" src="{{actor.lordCaptain.img}}" title="{{actor.lordCaptain.name}}" data-crewRole="captain">
+                        {{else}}
+                            <img class="crew-img" src="icons/svg/mystery-man.svg" title="Lord Captain" data-crewRole="captain">
+                        {{/if}}
+                    </div>
+                    <label>Lord-Captain</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

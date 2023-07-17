@@ -1101,6 +1101,11 @@
         "max": 0,
         "value": 0
       },
+      "crewSkill": 30,
+      "namedCrew": {
+        "lordCaptain": "",
+        "firstOfficer": ""
+      },
       "complications": "",
       "pastHistory": "",
       "notes": ""

@@ -2163,3 +2163,7 @@ li.folder.collapsed > .folder-header {
   height: auto;
   background: none;
 }
+
+.crew-img {
+  max-width: 100px;
+}
