@@ -1101,10 +1101,30 @@
         "max": 0,
         "value": 0
       },
-      "crewSkill": 30,
+      "crewSkill": "",
       "namedCrew": {
         "lordCaptain": "",
-        "firstOfficer": ""
+        "firstOfficer": "",
+        "enginseerPrime": "",
+        "highFactotum": "",
+        "masterArms": "",
+        "masterHelmsman": "",
+        "masterOrdnance": "",
+        "masterEtherics": "",
+        "masterChirurgeon": "",
+        "masterWhispers": "",
+        "masterTelepathica": "",
+        "masterWarp": "",
+        "confessor": "",
+        "drivesmaster": "",
+        "congregator": "",
+        "bosun": "",
+        "infernus": "",
+        "twistcatcher": "",
+        "voxmaster": "",
+        "purser": "",
+        "cartographer": "",
+        "steward": ""
       },
       "complications": "",
       "pastHistory": "",
@@ -1291,9 +1311,7 @@
       "damage": "",
       "critRating": 0,
       "range": 0,
-      "side": "port",
-      "ignoreArmor": false,
-      "ignoreShields": false
+      "side": "port"
     },
     "shipComponent" : {
       "templates": ["itemDescription", "equipment", "shipEquipment"],

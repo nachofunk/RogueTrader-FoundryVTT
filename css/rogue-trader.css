@@ -2164,6 +2164,50 @@ li.folder.collapsed > .folder-header {
   background: none;
 }
 
-.crew-img {
+.crew-img-captain {
+  width: 120px;
+  max-width: 120px;
+}
+
+.crew-img-big {
+  width: 100px;
   max-width: 100px;
+}
+
+.crew-img-medium {
+  width: 80px;
+  max-width: 80px;
+}
+
+.crew-img-small {
+  width: 60px;
+  max-width: 60px;
+}
+
+.rogue-trader .crew { 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-basis: 100%;
+  justify-content: space-evenly;
+}
+
+.rogue-trader .crew-rank3 {
+  margin: 10px;
+  padding: 2px;
+  height: initial;
+  width: 110px;
+  max-width: 110px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.rogue-trader .crew-rank4 {
+  margin: 10px;
+  padding: 2px;
+  height: initial;
+  width: 90px;
+  max-width: 90px;
+  margin-right: 20px;
+  margin-left: 20px;
 }

@@ -1,6 +1,8 @@
-import {prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll} from "../../common/dialog.js";
+import {prepareCommonRoll, prepareShipCombatRoll, preparePsychicPowerRoll} from "../../common/dialog.js";
 import RogueTraderUtil from "../../common/util.js";
 import { RogueTraderSheet } from "./actor.js";
+
+let selectedToken = null;
 
 export class ShipSheet extends RogueTraderSheet {
   side = "";
@@ -24,6 +26,53 @@ export class ShipSheet extends RogueTraderSheet {
 
   activateListeners(html) {
     super.activateListeners(html);
+    html.find(".roll-shipweapon").click(async ev => await this._prepareRollShipWeapon(ev));
+  }
+
+  async _prepareRollShipWeapon(event) {
+    event.preventDefault();
+    await this.selectTargetToken();
+    if (this.selectedToken) {
+      const div = $(event.currentTarget).parents(".item");
+      const weapon = this.actor.items.get(div.data("itemId"));
+      await prepareShipCombatRoll(
+        RogueTraderUtil.createShipWeaponRollData(this.actor, weapon), 
+        this.actor,
+        this.selectedToken
+      );
+    }
+  }
+
+  async selectTargetToken() {
+    // Minimalizuj aktualnie otwartą kartę postaci
+    this.minimize();
+    this.selectedToken = null;
+    ui.notifications.info("Wybierz cel na planszy.");
+    // Nasłuchuj zdarzenia "mousedown" na warstwie planszy
+    canvas.stage.on("mousedown", this.onCanvasClick.bind(this));
+    // Oczekuj na wybór celu
+    while (!this.selectedToken) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    // Usuń nasłuchiwanie zdarzenia "mousedown" po wybraniu celu
+    canvas.stage.off("mousedown", this.onCanvasClick);
+    // Przywróć karty postaci i wykonaj rzut
+    this.maximize();
+    if (!selectedToken) {
+      ui.notifications.error("Nie wybrano celu na planszy.");
+    }
+  }
+
+  // Metoda do obsługi kliknięcia na planszy
+  onCanvasClick(event) {
+    // Pobierz kliknięty token (jeśli istnieje)
+    const clickedToken = event.target;
+    // Sprawdź, czy kliknięty token nie należy do gracza (ignoruj wtedy)
+    if (clickedToken && clickedToken.actor && clickedToken.actor.hasPlayerOwner) {
+      return;
+    }
+    // Zatrzymaj wybieranie celu, jeśli kliknięto token
+    this.selectedToken = clickedToken;
   }
 
   async _onDrop(event)

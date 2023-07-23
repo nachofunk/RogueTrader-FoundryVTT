@@ -394,4 +394,10 @@ export class RogueTraderItem extends Item {
   get space() { return this.system.space; }
 
   get shipPoints() { return this.system.shipPoints; }
+
+  get side() { return this.system.side; }
+
+  get ignoreArmor() { return this.system.class === "lance"; }
+
+  get ignoreShields() { return false; }
 }

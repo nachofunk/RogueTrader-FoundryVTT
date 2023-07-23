@@ -571,7 +571,112 @@ export class RogueTraderActor extends Actor {
 
   get movement() {return this.system.movement;}
 
+  get crewSkillValue() {
+    switch(this.system.crewSkill) {
+      case "incompetent":
+        return 20;
+      case "competent":
+        return 30;
+      case "crack":
+        return 40;
+      case "veteran":
+        return 50;
+      case "elite":
+        return 60;
+      default:
+        return 0;
+    }
+  }
+
+  // Rank 1
   get lordCaptain() {
     return game.actors.get(this.system.namedCrew.lordCaptain);
+  }
+
+  // Rank 2
+  get firstOfficer() {
+    return game.actors.get(this.system.namedCrew.firstOfficer);
+  }
+
+  get enginseerPrime() {
+    return game.actors.get(this.system.namedCrew.enginseerPrime);
+  }
+
+  get highFactotum() {
+    return game.actors.get(this.system.namedCrew.highFactotum);
+  }
+
+  // Rank 3
+  get masterArms() {
+    return game.actors.get(this.system.namedCrew.masterArms);
+  }
+
+  get masterHelmsman() {
+    return game.actors.get(this.system.namedCrew.masterHelmsman);
+  }
+
+  get masterOrdnance() {
+    return game.actors.get(this.system.namedCrew.masterOrdnance);
+  }
+
+  get masterEtherics() {
+    return game.actors.get(this.system.namedCrew.masterEtherics);
+  }
+
+  get masterChirurgeon() {
+    return game.actors.get(this.system.namedCrew.masterChirurgeon);
+  }
+
+  get masterWhispers() {
+    return game.actors.get(this.system.namedCrew.masterWhispers);
+  }
+
+  get masterTelepathica() {
+    return game.actors.get(this.system.namedCrew.masterTelepathica);
+  }
+
+  get masterWarp() {
+    return game.actors.get(this.system.namedCrew.masterWarp);
+  }
+
+  // Rank 4
+  get confessor() {
+    return game.actors.get(this.system.namedCrew.confessor);
+  }
+
+  get drivesmaster() {
+    return game.actors.get(this.system.namedCrew.drivesmaster);
+  }
+
+  get congregator() {
+    return game.actors.get(this.system.namedCrew.congregator);
+  }
+
+  get bosun() {
+    return game.actors.get(this.system.namedCrew.bosun);
+  }
+
+  get infernus() {
+    return game.actors.get(this.system.namedCrew.infernus);
+  }
+
+  get twistcatcher() {
+    return game.actors.get(this.system.namedCrew.twistcatcher);
+  }
+
+  get voxmaster() {
+    return game.actors.get(this.system.namedCrew.voxmaster);
+  }
+
+  get purser() {
+    return game.actors.get(this.system.namedCrew.purser);
+  }
+
+  get cartographer() {
+    return game.actors.get(this.system.namedCrew.cartographer);
+  }
+
+  get steward() {
+    return game.actors.get(this.system.namedCrew.steward);
   }
 }
