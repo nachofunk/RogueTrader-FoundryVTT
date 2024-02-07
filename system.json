@@ -2,12 +2,12 @@
   "id": "rogue-trader",
   "title": "Rogue Trader",
   "description": "Roleplaying in the grim darkness of the 41st Millennium",
-  "version": "1.0.3",
+  "version": "1.0.4a",
   "minimumCoreVersion" : 10,
   "compatibility" : {
     "minimum" : 10,
     "verified" : 10.291,
-    "maximum" : 10
+    "maximum" : 11
   },
   "templateVersion": 2,
   "authors": [
@@ -58,6 +58,12 @@
       "url": "",
 	  "email": "",
 	  "discord": ""
+    },
+    {
+      "name": "Switchu",
+      "url": "https://github.com/LRemplakowski",
+	  "email": "",
+	  "discord": "switchu"
     }
   ],
   "scripts": [],
@@ -87,9 +93,9 @@
   "gridUnits": "m",
   "primaryTokenAttribute": null,
   "secondaryTokenAttribute": null,
-  "url": "https://github.com/nachofunk/RogueTrader-FoundryVTT",
+  "url": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT",
   "socket": true,
-  "manifest": "https://github.com/nachofunk/RogueTrader-FoundryVTT/releases/download/1.0.3/system.json",
-  "download": "https://github.com/nachofunk/RogueTrader-FoundryVTT/releases/download/1.0.3/rogue-trader.zip",
+  "manifest": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT/releases/download/1.0.4b/system.json",
+  "download": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT/releases/download/1.0.4b/rogue-trader.zip",
   "license": "LICENSE.txt"
 }

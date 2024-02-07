@@ -2,7 +2,8 @@
   "Actor": {
     "types": [
       "explorer",
-      "npc"
+      "npc",
+      "ship"
     ],
     "templates": {
       "characteristics": {
@@ -1058,6 +1059,76 @@
       "type": "troop",
       "threatLevel": 0,
       "size": 4
+    },
+    "ship": {
+      "hullClass": "",
+      "hullName": "",
+      "speed": 0,
+      "manoeuvrability": 0,
+      "detection": 0,
+      "turretRating": 0,
+      "shields": 0,
+      "armour": 0,
+      "hullIntegrity": {
+        "max": 0,
+        "value": 0
+      },
+      "space": {
+        "max": 0,
+        "value": 0
+      },
+      "power": {
+        "max": 0,
+        "value": 0
+      },
+      "points": {
+        "base": 0,
+        "components": 0,
+        "total": 0
+      },
+      "weaponCapacity": {
+        "dorsal": 0,
+        "prow": 0,
+        "keel": 0,
+        "port": 0,
+        "starboard": 0
+      },
+      "crewCount": {
+        "max": 0,
+        "value": 0
+      },
+      "crewMorale": {
+        "max": 0,
+        "value": 0
+      },
+      "crewSkill": "",
+      "namedCrew": {
+        "lordCaptain": "",
+        "firstOfficer": "",
+        "enginseerPrime": "",
+        "highFactotum": "",
+        "masterArms": "",
+        "masterHelmsman": "",
+        "masterOrdnance": "",
+        "masterEtherics": "",
+        "masterChirurgeon": "",
+        "masterWhispers": "",
+        "masterTelepathica": "",
+        "masterWarp": "",
+        "confessor": "",
+        "drivesmaster": "",
+        "congregator": "",
+        "bosun": "",
+        "infernus": "",
+        "twistcatcher": "",
+        "voxmaster": "",
+        "purser": "",
+        "cartographer": "",
+        "steward": ""
+      },
+      "complications": "",
+      "pastHistory": "",
+      "notes": ""
     }
   },
   "Item": {
@@ -1080,7 +1151,8 @@
       "trait",
       "weapon",
       "weaponModification",
-      "ship"
+      "shipWeapon",
+      "shipComponent"
     ],
     "templates": {
       "equipment": {
@@ -1092,6 +1164,12 @@
       "itemDescription": {
         "description": "",
         "source": ""
+      },
+      "shipEquipment": {
+        "hullTypes": "all",
+        "power": 0,
+        "space": 0,
+        "shipPoints": 0
       }
     },
     "ammunition": {
@@ -1226,47 +1304,18 @@
     "aptitude" : {
       "templates": ["itemDescription"]
     },
-    "ship": {
-      "hullClass": "",
-      "hullName": "",
-      "speed": 0,
-      "manoeuvrability": 0,
-      "detection": 0,
-      "turretRating": 0,
-      "shields": 0,
-      "armour": 0,
-      "hullIntegrity": {
-        "max": 0,
-        "value": 0
-      },
-      "space": {
-        "max": 0,
-        "value": 0
-      },
-      "power": {
-        "max": 0,
-        "value": 0
-      },
-      "weaponCapacity": {
-        "dorsal": 0,
-        "prow": 0,
-        "keel": 0,
-        "port": 0,
-        "starboard": 0
-      },
-      "crewCount": {
-        "max": 0,
-        "value": 0
-      },
-      "crewMorale": {
-        "max": 0,
-        "value": 0
-      },
-      "essentialComponents": "",
-      "supplementalComponents": "",
-      "complications": "",
-      "pastHistory": "",
-      "weapons": ""
+    "shipWeapon" : {
+      "templates": ["itemDescription", "equipment", "shipEquipment"],
+      "class": "",
+      "strength": 0,
+      "damage": "",
+      "critRating": 0,
+      "range": 0,
+      "side": "port"
+    },
+    "shipComponent" : {
+      "templates": ["itemDescription", "equipment", "shipEquipment"],
+      "class": ""
     }
   }
 }

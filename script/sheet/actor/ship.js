@@ -1,0 +1,176 @@
+import {prepareCommonRoll, prepareShipCombatRoll, preparePsychicPowerRoll} from "../../common/dialog.js";
+import RogueTraderUtil from "../../common/util.js";
+import { RogueTraderSheet } from "./actor.js";
+
+let selectedToken = null;
+
+export class ShipSheet extends RogueTraderSheet {
+  side = "";
+
+  static get defaultOptions() {
+    return mergeObject(super.defaultOptions, {
+      classes: ["rogue-trader", "sheet", "actor"],
+      template: "systems/rogue-trader/template/sheet/actor/ship.html",
+      width: 775,
+      height: 835,
+      resizable: true,
+      tabs: [
+        {
+          navSelector: ".sheet-tabs",
+          contentSelector: ".sheet-body",
+          initial: "stats"
+        }
+      ]
+    });
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+    html.find(".roll-shipweapon").click(async ev => await this._prepareRollShipWeapon(ev));
+  }
+
+  async _prepareRollShipWeapon(event) {
+    event.preventDefault();
+    await this.selectTargetToken();
+    if (this.selectedToken) {
+      const div = $(event.currentTarget).parents(".item");
+      const weapon = this.actor.items.get(div.data("itemId"));
+      await prepareShipCombatRoll(
+        RogueTraderUtil.createShipWeaponRollData(this.actor, weapon), 
+        this.actor,
+        this.selectedToken
+      );
+    }
+  }
+
+  async selectTargetToken() {
+    // Minimalizuj aktualnie otwartą kartę postaci
+    this.minimize();
+    this.selectedToken = null;
+    ui.notifications.info("Wybierz cel na planszy.");
+    // Nasłuchuj zdarzenia "mousedown" na warstwie planszy
+    canvas.stage.on("mousedown", this.onCanvasClick.bind(this));
+    // Oczekuj na wybór celu
+    while (!this.selectedToken) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    // Usuń nasłuchiwanie zdarzenia "mousedown" po wybraniu celu
+    canvas.stage.off("mousedown", this.onCanvasClick);
+    // Przywróć karty postaci i wykonaj rzut
+    this.maximize();
+    if (!selectedToken) {
+      ui.notifications.error("Nie wybrano celu na planszy.");
+    }
+  }
+
+  // Metoda do obsługi kliknięcia na planszy
+  onCanvasClick(event) {
+    // Pobierz kliknięty token (jeśli istnieje)
+    const clickedToken = event.target;
+    // Sprawdź, czy kliknięty token nie należy do gracza (ignoruj wtedy)
+    if (clickedToken && clickedToken.actor && clickedToken.actor.hasPlayerOwner) {
+      return;
+    }
+    // Zatrzymaj wybieranie celu, jeśli kliknięto token
+    this.selectedToken = clickedToken;
+  }
+
+  async _onDrop(event)
+  {
+    this.side = event.target.dataset.shipside || "port";
+    return await super._onDrop(event);
+  }
+
+  async _onDropActor(event, data)
+  {
+    console.log(event);
+    console.log(data);
+    console.log(this);
+    const actorData = await this.getData();
+    console.log(actorData);
+    const droppedActor = game.actors.get(data.uuid.split(".")[1]);
+    switch (event.target.dataset.crewrole) {
+      case "captain":
+        {
+          actorData.system.namedCrew.lordCaptain = data.uuid.split(".")[1];
+          break;
+        }
+      default:
+        console.log(event.target.dataset.crewRole);
+        break;
+    }
+    this._updateObject(event, actorData);
+    console.log(droppedActor);
+  }
+
+  async _onDropItemCreate(itemData) {
+    const actorData = await this.getData();
+    if (itemData.type === "shipWeapon") {
+      itemData.system.side = this.side;
+      return await this.validateShipWeapon(actorData, itemData);
+    }
+    else if (itemData.type === "shipComponent") {
+      return await this.validateShipComponent(actorData, itemData);
+    } 
+    else {
+      return await super._onDropItemCreate(itemData);
+    }
+  }
+
+  async validateShipComponent(actorData, itemData)
+  {
+    const componentClasses = ["voidEngine", "warpEngine", "gellarField", "voidShield", "bridge", "lifeSupport", "crewQuarters", "augurArrays"];
+    for (const componentClass of componentClasses) {
+      if (itemData.system.class === componentClass && actorData.items[componentClass] !== undefined) {
+        this.sendEssentialComponentLimitReachedPopup();
+        return;
+      }
+    }
+
+    return await super._onDropItemCreate(itemData);
+  }
+
+  async validateShipWeapon(actorData, itemData) {
+    const weaponArrays = {
+      port: actorData.items.portWeapons,
+      star: actorData.items.starWeapons,
+      dorsal: actorData.items.dorsalWeapons,
+      keel: actorData.items.keelWeapons,
+      prow: actorData.items.prowWeapons
+    };
+  
+    const weaponCapacity = actorData.system.weaponCapacity[this.side];
+    const weapons = weaponArrays[this.side];
+  
+    if (weapons.length >= weaponCapacity) {
+      this.sendWeaponLimitReachedPopup();
+      return;
+    }
+  
+    return await super._onDropItemCreate(itemData);
+  }
+
+  sendWeaponLimitReachedPopup()
+  {
+    ui.notifications.warn("Not enough weapon slots!");
+  }
+
+  sendEssentialComponentLimitReachedPopup()
+  {
+    ui.notifications.warn("That component is already installed!");
+  }
+
+  async _onDropItem(event, data)
+  {
+    const items = await super._onDropItem(event, data);
+    let objectData = await this.getData();
+    await this._updateObject(event, objectData);
+    return items;
+  }
+
+  _getHeaderButtons() {
+    let buttons = super._getHeaderButtons();
+    buttons = [].concat(buttons);
+    return buttons;
+  }
+}

@@ -1,12 +1,12 @@
 import { RogueTraderItemSheet } from "./item.js";
 
-export class ShipSheet extends RogueTraderItemSheet {
+export class ShipWeaponSheet extends RogueTraderItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["rogue-trader", "sheet", "ship"],
-      template: "systems/rogue-trader/template/sheet/ship.html",
-      width: 700,
-      height: 725,
+      classes: ["rogue-trader", "sheet", "shipWeapon"],
+      template: "systems/rogue-trader/template/sheet/shipWeapon.html",
+      width: 640,
+      height: 360,
       resizable: true,
       tabs: [
         {

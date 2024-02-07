@@ -17,7 +17,7 @@ export class RogueTraderItem extends Item {
 
 
   // TODO convert to config file
-  get Clip() { return `${this.clip.value}/${this.clip.max}`; }
+  get Clip() { return `${this.clip?.value}/${this.clip?.max}`; }
 
   get RateOfFire() {
     let rof = this.rateOfFire;
@@ -78,6 +78,41 @@ export class RogueTraderItem extends Item {
         return game.i18n.localize("WEAPON.VEHICLE");
       default:
         return game.i18n.localize("WEAPON.MELEE");
+    }
+  }
+
+  get ShipWeaponClass() {
+
+    switch (this.class) {
+      case "lance":
+        return game.i18n.localize("SHIP_WEAPON.LANCE");
+      case "macro":
+        return game.i18n.localize("SHIP_WEAPON.MACRO");
+      case "hangar":
+        return game.i18n.localize("SHIP_WEAPON.HANGAR");
+      case "torpedo":
+        return game.i18n.localize("SHIP_WEAPON.TORPEDO");
+    }
+  }
+
+  get ShipComponentClass() {
+    switch (this.class) {
+      case "voidEngine":
+        return game.i18n.localize("SHIP_ITEM.VOID_ENGINE");
+      case "warpEngine":
+        return game.i18n.localize("SHIP_ITEM.WARP_ENGINE");
+      case "gellarField":
+        return game.i18n.localize("SHIP_ITEM.GELLAR_FIELD");
+      case "voidShield":
+        return game.i18n.localize("SHIP_ITEM.VOID_SHIELD");
+      case "bridge":
+        return game.i18n.localize("SHIP_ITEM.BRIDGE");
+      case "crewQuarters":
+        return game.i18n.localize("SHIP_ITEM.CREW_QUARTERS");
+      case "augurArray":
+        return game.i18n.localize("SHIP_ITEM.AUGUR_ARRAY");
+      case "supplemental":
+        return game.i18n.localize("SHIP_ITEM.SUPPLEMENTAL");
     }
   }
 
@@ -263,6 +298,12 @@ export class RogueTraderItem extends Item {
 
   get isForceField() { return this.type === "forceField"; }
 
+  get isShipWeapon() { return this.type === "shipWeapon"; }
+
+  get isShipComponent() { return this.type === "shipComponent"; }
+
+  get isVoidEngine() { return this.class === "voidEngine"; }
+
   get isAbilities() { return this.isTalent || this.isTrait || this.isSpecialAbility; }
 
   get isAdditive() { return this.system.isAdditive; }
@@ -344,4 +385,19 @@ export class RogueTraderItem extends Item {
 
   get upgrades() { return this.system.upgrades;}
 
+  get strength() { return this.system.strength; }
+
+  get critRating() { return this.system.critRating; }
+
+  get power() { return this.system.power; }
+
+  get space() { return this.system.space; }
+
+  get shipPoints() { return this.system.shipPoints; }
+
+  get side() { return this.system.side; }
+
+  get ignoreArmor() { return this.system.class === "lance"; }
+
+  get ignoreShields() { return false; }
 }

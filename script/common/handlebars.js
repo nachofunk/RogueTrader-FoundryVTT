@@ -13,6 +13,7 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/sheet/actor/explorer.html",
     "systems/rogue-trader/template/sheet/actor/npc.html",
     "systems/rogue-trader/template/sheet/actor/limited-sheet.html",
+    "systems/rogue-trader/template/sheet/actor/ship.html",
 
     "systems/rogue-trader/template/sheet/actor/tab/abilities.html",
     "systems/rogue-trader/template/sheet/actor/tab/combat.html",
@@ -23,6 +24,14 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/sheet/actor/tab/progression.html",
     "systems/rogue-trader/template/sheet/actor/tab/psychic-powers.html",
     "systems/rogue-trader/template/sheet/actor/tab/stats.html",
+    "systems/rogue-trader/template/sheet/actor/tab/ship-complications.html",
+    "systems/rogue-trader/template/sheet/actor/tab/ship-combat.html",
+    "systems/rogue-trader/template/sheet/actor/tab/ship-crew.html",
+    "systems/rogue-trader/template/sheet/actor/tab/ship-essential.html",
+    "systems/rogue-trader/template/sheet/actor/tab/ship-supplemental.html",
+    "systems/rogue-trader/template/sheet/actor/tab/ship-data.html",
+    "systems/rogue-trader/template/sheet/actor/tab/ship-notes.html",
+    "systems/rogue-trader/template/sheet/actor/tab/ship-weapons.html",
 
     "systems/rogue-trader/template/sheet/mental-disorder.html",
     "systems/rogue-trader/template/sheet/aptitude.html",
@@ -42,7 +51,6 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/sheet/weapon-modification.html",
     "systems/rogue-trader/template/sheet/ammunition.html",
     "systems/rogue-trader/template/sheet/force-field.html",
-    "systems/rogue-trader/template/sheet/ship.html",
     "systems/rogue-trader/template/sheet/characteristics/information.html",
     "systems/rogue-trader/template/sheet/characteristics/left.html",
     "systems/rogue-trader/template/sheet/characteristics/name.html",
@@ -53,7 +61,9 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/chat/critical.html",
     "systems/rogue-trader/template/dialog/common-roll.html",
     "systems/rogue-trader/template/dialog/combat-roll.html",
-    "systems/rogue-trader/template/dialog/psychic-power-roll.html"
+    "systems/rogue-trader/template/dialog/psychic-power-roll.html",
+    "systems/rogue-trader/template/sheet/shipWeapon.html",
+    "systems/rogue-trader/template/sheet/shipComponent.html"
   ];
   return loadTemplates(templatePaths);
 }

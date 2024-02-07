@@ -1,12 +1,12 @@
 import { RogueTraderItemSheet } from "./item.js";
 
-export class MentalDisorderSheet extends RogueTraderItemSheet {
+export class ShipComponentSheet extends RogueTraderItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["rogue-trader", "sheet", "mental-disorder"],
-      template: "systems/rogue-trader/template/sheet/mental-disorder.html",
-      width: 500,
-      height: 369,
+      classes: ["rogue-trader", "sheet", "shipComponent"],
+      template: "systems/rogue-trader/template/sheet/shipComponent.html",
+      width: 485,
+      height: 610,
       resizable: true,
       tabs: [
         {

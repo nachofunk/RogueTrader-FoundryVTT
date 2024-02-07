@@ -376,12 +376,16 @@ li.folder.collapsed > .folder-header {
   flex-direction: row;
   flex-wrap: wrap;
   flex-basis: 100%;
+  justify-content: center;
 }
 .rogue-trader .stats .stats-row {
   display: flex;
   flex-basis: 100%;
   margin-top: 8px;
   justify-content: space-between;
+}
+.rogue-trader .stat {
+  padding: 2px;
 }
 .rogue-trader .stats .stats-row:last-child {
   margin-bottom: 4px;
@@ -813,7 +817,7 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader h1 {
   width: 100%;
-  height: 24px;
+  height: auto;
   border: 0 none;
   border-radius: 3px;
   font-family: var(--font-text);
@@ -913,6 +917,7 @@ li.folder.collapsed > .folder-header {
 .rogue-trader .item-list .items {
   overflow-y: scroll;
   width: 100%;
+  padding: 4px;
 }
 .rogue-trader .item-list .items .item {
   align-items: center;
@@ -1650,9 +1655,10 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .gear .all-gear .item-list .header {
   margin-top: 5px;
+  justify-content: space-between;
 }
 .rogue-trader .gear .all-gear .item-list .name {
-  flex-basis: 30%;
+  flex-basis: 20%;
   text-align: center;
   align-items: center;
   font-weight: bold;
@@ -1668,7 +1674,40 @@ li.folder.collapsed > .folder-header {
   align-items: center;
 }
 .rogue-trader .gear .all-gear .item-list .class {
-  flex-basis: 30%;
+  flex-basis: 15%;
+  text-align: center;
+  align-items: center;
+}
+.button-column {
+  flex-basis:  5%;
+}
+.rogue-trader .gear .all-gear .item-list .strength {
+  flex-basis: 10%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .gear .all-gear .item-list .crit {
+  flex-basis: 10%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .gear .all-gear .item-list .range {
+  flex-basis: 10%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .gear .all-gear .item-list .power {
+  flex-basis: 10%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .gear .all-gear .item-list .space {
+  flex-basis: 10%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .gear .all-gear .item-list .points {
+  flex-basis: 10%;
   text-align: center;
   align-items: center;
 }
@@ -1727,11 +1766,12 @@ li.folder.collapsed > .folder-header {
   text-align: center;
 }
 .rogue-trader .gear .all-gear .item-list .button {
-  flex-basis: 7%;
+  flex-basis: 5%;
   text-align: center;
 }
 .rogue-trader .gear .all-gear .item-list .item {
   overflow-y: visible;
+  justify-content: space-between;
 }
 .rogue-trader .gear .all-gear .item-list .items .gear {
   width: 100%;
@@ -2117,3 +2157,57 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.ammunition .stats .stats-row .stat.special input {
     width: 427px;
 } */
+
+/* Compatibility fix for Monk's Enhanced Journal*/
+.placename .header-name .flexrow {
+  height: auto;
+  background: none;
+}
+
+.crew-img-captain {
+  width: 120px;
+  max-width: 120px;
+}
+
+.crew-img-big {
+  width: 100px;
+  max-width: 100px;
+}
+
+.crew-img-medium {
+  width: 80px;
+  max-width: 80px;
+}
+
+.crew-img-small {
+  width: 60px;
+  max-width: 60px;
+}
+
+.rogue-trader .crew { 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-basis: 100%;
+  justify-content: space-evenly;
+}
+
+.rogue-trader .crew-rank3 {
+  margin: 10px;
+  padding: 2px;
+  height: initial;
+  width: 110px;
+  max-width: 110px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.rogue-trader .crew-rank4 {
+  margin: 10px;
+  padding: 2px;
+  height: initial;
+  width: 90px;
+  max-width: 90px;
+  margin-right: 20px;
+  margin-left: 20px;
+}

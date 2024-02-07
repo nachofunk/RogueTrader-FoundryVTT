@@ -35,6 +35,33 @@ export default class RogueTraderUtil {
     rollData.psy= { value: actor.psy.rating, display: false};
     return rollData;
   }
+
+  static createCommonShipRollData(actor, item) {
+    return {
+      name: item.name,
+      ownerId: actor.id,
+      itemId: item.id,
+    };
+  }
+
+  static createShipWeaponRollData(actor, weapon, target) {
+    let rollData = this.createCommonShipRollData(actor, weapon)
+    rollData.attackTarget = target;
+    if (actor.masterOrdnance)
+      rollData.baseTarget = actor.masterOrdnance.characteristics.ballisticSkill;
+    else
+      rollData.baseTarget = actor.crewSkillValue;
+    rollData.characteristicSource = actor;
+    rollData.modifier = 0;
+    rollData.damageFormula = weapon.damage;
+    rollData.weaponType = weapon.ShipWeaponClass;
+    rollData.weaponStrength = weapon.strength;
+    rollData.critRating = weapon.critRating;
+    rollData.side = weapon.side;
+    rollData.ignoreArmor = weapon.ignoreArmor;
+    rollData.ignoreShields = weapon.ignoreShields;
+    return rollData;
+  }
   
   static createPsychicRollData(actor, power) {
     let focusPowerTarget = this.getFocusPowerTarget(actor, power);

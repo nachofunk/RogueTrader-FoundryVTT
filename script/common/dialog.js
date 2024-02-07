@@ -135,6 +135,48 @@ export async function prepareCombatRoll(rollData, actorRef) {
 }
 
 /**
+ * Show a combat roll dialog.
+ * @param {object} rollData
+ * @param {RogueTraderActor} actorRef
+ */
+export async function prepareShipCombatRoll(rollData, actorRef, target) {
+  const html = await renderTemplate("systems/rogue-trader/template/dialog/ship-combat-roll.html", rollData);
+  console.log(rollData);
+  let dialog = new Dialog({
+      title: rollData.name,
+      content: html,
+      buttons: {
+          roll: {
+              icon: '<i class="fas fa-check"></i>',
+              label: game.i18n.localize("BUTTON.ROLL"),
+              callback: async (html) => {
+                  rollData.name = game.i18n.localize(rollData.name);
+                  rollData.baseTarget = parseInt(html.find("#target")[0]?.value, 10);
+                  rollData.modifier = html.find("#modifier")[0]?.value;
+                  const range = html.find("#range")[0];
+                  if (typeof range !== "undefined" && range !== null) {
+                      rollData.range = range.value;
+                      rollData.rangeText = range.options[range.selectedIndex].text;
+                  }
+                  rollData.damageFormula = html.find("#damageFormula")[0].value.replace(' ', '');
+                  rollData.damageBonus = parseInt(html.find("#damageBonus")[0].value, 10);
+                  rollData.isCombatTest = true;
+                  await combatRoll(rollData);
+              },
+          },
+          cancel: {
+              icon: '<i class="fas fa-times"></i>',
+              label: game.i18n.localize("BUTTON.CANCEL"),
+              callback: () => {},
+          },
+      },
+      default: "roll",
+      close: () => {},
+  }, {width: 200});
+  dialog.render(true);
+}
+
+/**
  * Show a psychic power roll dialog.
  * @param {object} rollData
  */

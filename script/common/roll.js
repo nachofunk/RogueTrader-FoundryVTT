@@ -28,6 +28,14 @@ export async function combatRoll(rollData) {
   await _sendToChat(rollData);
 }
 
+export async function shipCombatRoll(rollData) {
+  
+}
+
+async function _rollShipDamage(rollData) {
+
+}
+
 /**
  * Post an "empty clip, need to reload" message to chat.
  * @param {object} rollData

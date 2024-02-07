@@ -19,15 +19,47 @@ export class RogueTraderActor extends Actor {
 
   prepareData() {
     super.prepareData();
-    this._computeCharacteristics();
-    this._computeSkills();
-    this._computeItems();
-    this._computeExperience();
-    if (this.type === 'explorer') {
-      this._computeRank();
+    if (this.type === 'ship') 
+    {
+      this._computePower();
+      this._computeSpace();
+      this._computePoints();
+    } 
+    else 
+    {
+      this._computeCharacteristics();
+      this._computeSkills();
+      this._computeItems();
+      this._computeExperience();
+      if (this.type === 'explorer') {
+        this._computeRank();
+      }
+      this._computeArmour();
+      this._computeMovement();
     }
-    this._computeArmour();
-    this._computeMovement();
+    console.log(this);
+  }
+
+  _computePower() {
+    const voidEngine = this.items.find(item => item.system.class === "voidEngine");
+    const otherItems = this.items.filter(item => (item.isShipWeapon || item.isShipComponent) && item.system.class !== "voidEngine");
+    this.system.power.max = voidEngine?.system.power | 0;
+    this.system.power.value = otherItems?.reduce((total, item) => total + item.system.power, 0) | 0;
+    this.system.power.avail = this.system.power.max - this.system.power.value;
+  }
+
+  _computeSpace() {
+    const shipItems = this.items.filter(item => item.isShipWeapon || item.isShipComponent);
+    const spaceTaken = shipItems.reduce((total, item) => total + item.system.space, 0) | 0;
+    this.system.space.value = spaceTaken;
+    this.system.space.avail = this.system.space.max - spaceTaken;
+  }
+
+  _computePoints() {
+    const shipItems = this.items.filter(item => item.isShipWeapon || item.isShipComponent);
+    const componentsValue = shipItems.reduce((total, item) => total + item.system.shipPoints, 0) | 0;
+    this.system.points.components = componentsValue;
+    this.system.points.total = componentsValue + this.system.points.base;
   }
 
   _computeCharacteristics() {
@@ -35,10 +67,10 @@ export class RogueTraderActor extends Actor {
     let i = 0;
     for (let characteristic of Object.values(this.characteristics)) {
       characteristic.total = characteristic.base + characteristic.advance;
-      characteristic.bonus = Math.floor(characteristic.total / 10) + characteristic.unnatural;
+      characteristic.bonus = Math.floor(characteristic.total / 10) * (characteristic.unnatural > 0 ? characteristic.unnatural : 1);
       if (this.fatigue.value > characteristic.bonus) {
         characteristic.total = Math.ceil(characteristic.total / 2);
-        characteristic.bonus = Math.floor(characteristic.total / 10) + characteristic.unnatural;
+        characteristic.bonus = Math.floor(characteristic.total / 10) * (characteristic.unnatural > 0 ? characteristic.unnatural : 1);
       }
       characteristic.isLeft = i < middle;
       characteristic.isRight = i >= middle;
@@ -539,4 +571,112 @@ export class RogueTraderActor extends Actor {
 
   get movement() {return this.system.movement;}
 
+  get crewSkillValue() {
+    switch(this.system.crewSkill) {
+      case "incompetent":
+        return 20;
+      case "competent":
+        return 30;
+      case "crack":
+        return 40;
+      case "veteran":
+        return 50;
+      case "elite":
+        return 60;
+      default:
+        return 0;
+    }
+  }
+
+  // Rank 1
+  get lordCaptain() {
+    return game.actors.get(this.system.namedCrew.lordCaptain);
+  }
+
+  // Rank 2
+  get firstOfficer() {
+    return game.actors.get(this.system.namedCrew.firstOfficer);
+  }
+
+  get enginseerPrime() {
+    return game.actors.get(this.system.namedCrew.enginseerPrime);
+  }
+
+  get highFactotum() {
+    return game.actors.get(this.system.namedCrew.highFactotum);
+  }
+
+  // Rank 3
+  get masterArms() {
+    return game.actors.get(this.system.namedCrew.masterArms);
+  }
+
+  get masterHelmsman() {
+    return game.actors.get(this.system.namedCrew.masterHelmsman);
+  }
+
+  get masterOrdnance() {
+    return game.actors.get(this.system.namedCrew.masterOrdnance);
+  }
+
+  get masterEtherics() {
+    return game.actors.get(this.system.namedCrew.masterEtherics);
+  }
+
+  get masterChirurgeon() {
+    return game.actors.get(this.system.namedCrew.masterChirurgeon);
+  }
+
+  get masterWhispers() {
+    return game.actors.get(this.system.namedCrew.masterWhispers);
+  }
+
+  get masterTelepathica() {
+    return game.actors.get(this.system.namedCrew.masterTelepathica);
+  }
+
+  get masterWarp() {
+    return game.actors.get(this.system.namedCrew.masterWarp);
+  }
+
+  // Rank 4
+  get confessor() {
+    return game.actors.get(this.system.namedCrew.confessor);
+  }
+
+  get drivesmaster() {
+    return game.actors.get(this.system.namedCrew.drivesmaster);
+  }
+
+  get congregator() {
+    return game.actors.get(this.system.namedCrew.congregator);
+  }
+
+  get bosun() {
+    return game.actors.get(this.system.namedCrew.bosun);
+  }
+
+  get infernus() {
+    return game.actors.get(this.system.namedCrew.infernus);
+  }
+
+  get twistcatcher() {
+    return game.actors.get(this.system.namedCrew.twistcatcher);
+  }
+
+  get voxmaster() {
+    return game.actors.get(this.system.namedCrew.voxmaster);
+  }
+
+  get purser() {
+    return game.actors.get(this.system.namedCrew.purser);
+  }
+
+  get cartographer() {
+    return game.actors.get(this.system.namedCrew.cartographer);
+  }
+
+  get steward() {
+    return game.actors.get(this.system.namedCrew.steward);
+  }
 }
