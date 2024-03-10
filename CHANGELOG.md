@@ -43,3 +43,8 @@
 
 - Adjust Degrees of Success/Failure to reflect Rogue Trader calculations instead of Dark Heresy
 - Fixed issue with hull name not saving for ship items
+
+## 1.1.0
+
+- Ship sheet refactoring by @LRemplakowski
+- Ships are now actors instead of items. If updating from a previous version, this will wipe out any ships you had as items. 
