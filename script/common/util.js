@@ -77,8 +77,11 @@ export default class RogueTraderUtil {
     rollData.psy = {
         value: actor.psy.rating,
         rating: actor.psy.rating,
-        max: this.getMaxPsyRating(actor),
+        psyStrength: "fettered",
+        push: 1,
+        maxPush: this.getMaxPsyRating(actor) - actor.psy.rating,
         warpConduit: false,
+        disciplineMastery: false,
         display: true
     };
     return rollData;
@@ -101,11 +104,11 @@ export default class RogueTraderUtil {
     let base = actor.psy.rating;
     switch (actor.psy.class) {
       case "bound":
-        return base + 2;
+        return base + 3;
       case "unbound":
         return base + 4;
       case "daemonic":
-        return base + 3;
+        return base + 4;
     }
   }
 

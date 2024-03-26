@@ -97,10 +97,17 @@ export class RogueTraderSheet extends ActorSheet {
     let header = event.currentTarget.dataset;
 
     let data = {
-      name: `New ${game.i18n.localize(`ITEM.Type${header.type.toLowerCase().capitalize()}`)}`,
+      name: `New ${game.i18n.localize(`TYPES.Item.${this.camelCase(header.type)}`)}`,
       type: header.type
     };
     this.actor.createEmbeddedDocuments("Item", [data], { renderSheet: true });
+  }
+
+  camelCase(str) {
+    // Using replace method with regEx
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+        return index == 0 ? word.toLowerCase() : word.toUpperCase();
+    }).replace(/\s+/g, '');
   }
 
   _onItemEdit(event) {

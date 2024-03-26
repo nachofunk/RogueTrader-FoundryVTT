@@ -12,16 +12,44 @@
         <div class="separator"></div>
         <div class="wrapper">
             <label>{{localize "DIALOG.PSY_RATING"}}</label>
-            <input id="rating" class="range" type="range" min="1" max="{{psy.max}}" value="{{psy.value}}" data-dtype="Number" />
-            <input id="psy" class="rangeBox" type="number" value="{{psy.value}}" data-dtype="Number" />
+            <select id="psyStrength">
+                {{#select psy.psyStrength}}
+                <option value="fettered">{{localize "PSY_STRENGTH.FETTERED"}}</option>
+                <option value="unfettered">{{localize "PSY_STRENGTH.UNFETTERED"}}</option>
+                <option value="push">{{localize "PSY_STRENGTH.PUSH"}}</option>
+                {{/select}}
+            </select>
+        </div>
+        <div class="wrapper" id="pushWrapper" style="display: none;">
+            <label>{{localize "DIALOG.PUSH"}}</label>
+            <input id="pushValue" class="range" type="range" min="1" max="{{psy.maxPush}}" value="{{psy.push}}" data-dtype="Number"/>
+            <input id="pushBox" class="rangeBox" type="number" value="{{psy.push}}" data-dtype="Number"/>
         </div>
         <!--Done here because nothing else seemed to work. Open for better ideas-->
         <script>
-            var slider = document.getElementById("rating");
-            var output = document.getElementById("psy");            
+            var slider = document.getElementById("pushValue");
+            var output = document.getElementById("pushBox");            
             slider.oninput = function() {
               output.value = this.value;
             }
+
+            // Function to toggle visibility of push wrapper based on psyStrength selection
+            function togglePushWrapper() {
+                var psyStrength = document.getElementById("psyStrength").value;
+                var pushWrapper = document.getElementById("pushWrapper");
+                
+                if (psyStrength === "push") {
+                    pushWrapper.style.display = "block"; // Show the push wrapper
+                } else {
+                    pushWrapper.style.display = "none"; // Hide the push wrapper
+                }
+            }
+
+            // Event listener for psyStrength change
+            document.getElementById("psyStrength").addEventListener("change", togglePushWrapper);
+
+            // Initial invocation to set visibility based on initial selection
+            togglePushWrapper();
         </script>
         <div class="wrapper damage">
             <label>{{localize "DIALOG.DAMAGE"}}</label>
@@ -58,9 +86,13 @@
             <label>{{localize "DIALOG.PENETRATION"}}</label>
             <input id="penetration" type="text" value="{{penetrationFormula}}"/>
         </div>
-        <div class=wrapper>
+        <div class="wrapper">
             <label>{{localize "DIALOG.WARPCONDUIT"}}</label>
             <input id="warpConduit" type="checkbox" value="{{psy.warpConduit}}" />
+        </div>
+        <div class="wrapper">
+            <label>{{localize "DIALOG.DISCIPLINE_MASTERY"}}</label>
+            <input id="disciplineMastery" type="checkbox" value="{{psy.disciplineMastery}}" />
         </div>
     </div>
 </div>

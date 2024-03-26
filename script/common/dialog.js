@@ -75,8 +75,8 @@ export async function prepareCombatRoll(rollData, actorRef) {
                     };
                     const aim = html.find("#aim")[0]
                     rollData.aim = {
-                      val : aim.value,
-                      isAiming : aim.value !== "0",
+                      val : aim?.value,
+                      isAiming : aim?.value !== "0",
                       text : aim?.options[aim.selectedIndex].text
                     };
                     rollData.damageFormula = html.find("#damageFormula")[0].value.replace(' ', '');
@@ -112,6 +112,15 @@ export async function prepareCombatRoll(rollData, actorRef) {
                                         return reportEmptyClip(rollData);
                                     } else {
                                         rollData.clip.value -= rollData.rateOfFire.full;
+                                        await weapon.update({"system.clip.value" : rollData.clip.value})
+                                    }
+                                    break;
+                                }
+                                default: {
+                                    if (rollData.clip.value < 1) {
+                                      return reportEmptyClip(rollData);
+                                    } else {
+                                        rollData.clip.value -= 1;                                        
                                         await weapon.update({"system.clip.value" : rollData.clip.value})
                                     }
                                     break;
@@ -182,6 +191,7 @@ export async function prepareShipCombatRoll(rollData, actorRef, target) {
  */
 export async function preparePsychicPowerRoll(rollData) {
   const html = await renderTemplate("systems/rogue-trader/template/dialog/psychic-power-roll.html", rollData);
+  console.log(rollData);
   let dialog = new Dialog({
     title: rollData.name,
     content: html,
@@ -193,7 +203,9 @@ export async function preparePsychicPowerRoll(rollData) {
           rollData.name = game.i18n.localize(rollData.name);
           rollData.baseTarget = parseInt(html.find("#target")[0].value, 10);
           rollData.modifier = html.find("#modifier")[0].value;
-          rollData.psy.value = parseInt(html.find("#psy")[0].value, 10);
+          rollData.psy.psyStrength = html.find("#psyStrength")[0].value;
+          rollData.psy.push = parseInt(html.find("#pushValue")[0]?.value, 10);
+          rollData.psy.value = getRollPsyRating(rollData.psy.psyStrength, rollData.psy.push, rollData.psy.rating, rollData.psy.disciplineMastery);
           rollData.psy.warpConduit = html.find("#warpConduit")[0].checked;
           rollData.damageFormula = html.find("#damageFormula")[0].value;
           rollData.damageType = html.find("#damageType")[0].value;
@@ -217,5 +229,48 @@ export async function preparePsychicPowerRoll(rollData) {
     default: "roll",
     close: () => {}
   }, {width: 200});
+  console.log(dialog);
   dialog.render(true);
+}
+
+function togglePushWrapper(html) 
+{
+  var psyStrength = html.find("#psyStrength")[0].value;
+  var pushWrapper = html.find("#pushWrapper")[0];
+  
+  if (psyStrength === "push") {
+      pushWrapper.show(); // Show the push wrapper
+  } else {
+      pushWrapper.hide(); // Hide the push wrapper
+  }
+}
+
+export function getRollPsyRating(psyStrength, push, casterPsyRating, hasDisciplineMastery) {  
+  // Initialize Psy Rating variable
+  let psyRating = 0;
+
+  // Determine Psy Rating based on selected Psy Strength and caster's Psy Rating
+  switch (psyStrength) {
+      case "fettered":
+          // Fettered Psy Rating is the caster's Psy Rating divided by 2, rounded up
+          psyRating = Math.ceil(casterPsyRating / 2);
+          if (hasDisciplineMastery) {
+            psyRating += 1;
+          }
+          break;
+      case "unfettered":
+          // Unfettered Psy Rating is the caster's Psy Rating
+          psyRating = casterPsyRating;
+          break;
+      case "push":
+          // If Psy Strength is push, get the value from the input
+          psyRating = casterPsyRating + push;
+          break;
+      default:
+          // Default to 0 if no valid Psy Strength is selected
+          psyRating = 0;
+          break;
+  }
+
+  return psyRating;
 }

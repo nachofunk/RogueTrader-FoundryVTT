@@ -239,8 +239,10 @@ function _rollPenetration(rollData) {
  * @returns {number}
  */
 function _rollRighteousFury() {
-  let r = new Roll("1d5");
+  let r = new Roll("1d10");
   r.evaluate({ async: false });
+  if (r.total === 10)
+    r.total += _rollRighteousFury();
   return r.total;
 }
 

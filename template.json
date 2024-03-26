@@ -1001,7 +1001,9 @@
           "rating": 0,
           "sustained": 0,
           "class": "bound",
-          "cost": 0
+          "cost": 0,
+          "psyStrength": "unfettered",
+          "push": 0
         }
       }
     },
