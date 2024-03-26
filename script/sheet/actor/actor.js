@@ -252,7 +252,8 @@ export class RogueTraderSheet extends ActorSheet {
       primitive: this._extractNumberedTrait(/Primitive.*\(\d\)/gi, traits),
       razorSharp: this._hasNamedTrait(/Razor *Sharp/gi, traits),
       skipAttackRoll: this._hasNamedTrait(/Spray/gi, traits),
-      tearing: this._hasNamedTrait(/Tearing/gi, traits)
+      tearing: this._hasNamedTrait(/Tearing/gi, traits),
+      force: this._hasNamedTrait(/Force/gi, traits)
     };
   }
 

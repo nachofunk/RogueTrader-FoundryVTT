@@ -28,9 +28,9 @@ export default class RogueTraderUtil {
     rollData.isRange= !isMelee;
     rollData.clip= weapon.clip;
     rollData.rateOfFire= rateOfFire;
-    rollData.damageFormula= weapon.damage + (isMelee && !weapon.damage.match(/SB/gi) ? "+SB" : "");
-    rollData.penetrationFormula= weapon.penetration;
-    rollData.weaponTraits= this.extractWeaponTraits(weapon.special);    
+    rollData.weaponTraits= this.extractWeaponTraits(weapon.special);  
+    rollData.damageFormula= weapon.damage + (isMelee && !weapon.damage.match(/SB/gi) ? "+SB" : "") + (rollData.weaponTraits.force ? "+PR" : "");
+    rollData.penetrationFormula = parseInt(weapon.penetration, 10) + parseInt(rollData.weaponTraits.force ? actor.psy.rating : 0, 10);  
     rollData.special= weapon.special;
     rollData.psy= { value: actor.psy.rating, display: false};
     return rollData;
@@ -96,7 +96,8 @@ export default class RogueTraderUtil {
       primitive: this.extractNumberedTrait(/Primitive.*\(\d\)/gi, traits),
       razorSharp: this.hasNamedTrait(/Razor *Sharp/gi, traits),
       skipAttackRoll: this.hasNamedTrait(/Spray/gi, traits),
-      tearing: this.hasNamedTrait(/Tearing/gi, traits)
+      tearing: this.hasNamedTrait(/Tearing/gi, traits),
+      force: this.hasNamedTrait(/Force/gi, traits)
     };
   }
 
