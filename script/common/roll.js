@@ -61,7 +61,7 @@ async function _computeTarget(rollData) {
     if (rollData.psy.value > rollData.psy.max) {
       rollData.psy.value = rollData.psy.max;
     }
-    psyModifier = (rollData.psy.rating - rollData.psy.value) * 10;
+    psyModifier = rollData.psy.value * 5;
     rollData.psy.push = psyModifier < 0;
     if (rollData.psy.push && rollData.psy.warpConduit) {
       let ratingBonus = new Roll("1d5").evaluate({ async: false }).total;
