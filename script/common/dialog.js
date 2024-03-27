@@ -19,6 +19,7 @@ export async function prepareCommonRoll(rollData) {
           rollData.rolledWith = html.find("[name=characteristic] :selected").text();
           rollData.modifier = html.find("#modifier")[0].value;
           rollData.isCombatTest = false;
+          rollData.unnatural = rollData.characteristics?.find((char) => char.selected).unnatural ?? 0;
           await commonRoll(rollData);
         }
       },

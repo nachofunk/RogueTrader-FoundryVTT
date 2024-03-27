@@ -88,12 +88,17 @@ async function _rollTarget(rollData) {
   rollData.isSuccess = rollData.result <= rollData.target;
   if (rollData.isSuccess) {
     rollData.dof = 0;
-    rollData.dos = _getDegree(rollData.target, rollData.result);
+    rollData.dos = _getDegree(rollData.target, rollData.result) + _getUnnaturalDoS(rollData.unnatural);
   } else {
     rollData.dos = 0;
     rollData.dof = _getDegree(rollData.result, rollData.target);
   }
   if (typeof rollData.psy !== "undefined") _computePsychicPhenomena(rollData);
+}
+
+function _getUnnaturalDoS(unnatural)
+{
+  return Math.ceil(unnatural / 2);
 }
 
 /**

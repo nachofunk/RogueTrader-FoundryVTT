@@ -146,7 +146,8 @@ export class RogueTraderSheet extends ActorSheet {
       name: characteristic.label,
       baseTarget: characteristic.total,
       modifier: 0,
-      ownerId: this.actor.id
+      ownerId: this.actor.id,
+      unnatural: characteristic.unnatural
     };
     await prepareCommonRoll(rollData);
   }
@@ -157,7 +158,8 @@ export class RogueTraderSheet extends ActorSheet {
       characteristics.push({
         label: char.label,
         target: char.total,
-        selected: char.short === selected
+        selected: char.short === selected,
+        unnatural: char.unnatural
       });
     }
     return characteristics;
@@ -180,7 +182,8 @@ export class RogueTraderSheet extends ActorSheet {
       baseTarget: skill.total,
       modifier: 0,
       characteristics: characteristics,
-      ownerId: this.actor.id
+      ownerId: this.actor.id,
+      unnatural: 0
     };
     await prepareCommonRoll(rollData);
   }

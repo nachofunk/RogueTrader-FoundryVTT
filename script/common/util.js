@@ -7,7 +7,8 @@ export default class RogueTraderUtil {
         ownerId: actor.id,
         itemId: item.id,      
         damageBonus: 0,
-        damageType: item.damageType,      
+        damageType: item.damageType,
+        unnatural: 0,      
     };
   }
   
@@ -23,6 +24,7 @@ export default class RogueTraderUtil {
     
     let rollData = this.createCommonAttackRollData(actor, weapon);
     rollData.baseTarget= characteristic.total + weapon.attack,
+    rollData.unnatural = characteristic.unnatural;
     rollData.modifier= 0,
     rollData.isMelee= isMelee;
     rollData.isRange= !isMelee;
