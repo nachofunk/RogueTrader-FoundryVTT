@@ -250,7 +250,7 @@ function _rollRighteousFury(face) {
  * @param {object} rollData
  */
 function _computePsychicPhenomena(rollData) {
-  rollData.psy.hasPhenomena = rollData.psy.push ? !_isDouble(rollData.result) : _isDouble(rollData.result);
+  rollData.psy.hasPhenomena = rollData.psy.psyStrength === "push" ? !_isDouble(rollData.result) : _isDouble(rollData.result);
 }
 
 /**
