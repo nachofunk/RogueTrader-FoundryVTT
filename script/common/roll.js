@@ -57,14 +57,10 @@ async function _computeTarget(rollData) {
   }
   let psyModifier = 0;
   if (typeof rollData.psy !== "undefined" && typeof rollData.psy.useModifier !== "undefined" && rollData.psy.useModifier) {
-    // Set Current Psyrating to the allowed maximum if it is bigger
-    if (rollData.psy.value > rollData.psy.max) {
-      rollData.psy.value = rollData.psy.max;
-    }
-    psyModifier = rollData.psy.value * 5;
     if (rollData.psy.psyStrength === "push" && rollData.psy.warpConduit) {
       rollData.psy.value += 1;
     }
+    psyModifier = rollData.psy.value * 5;
   }
   let aim = rollData.aim?.val ? rollData.aim.val : 0;
   const formula = `0 + ${rollData.modifier} + ${aim} + ${range} + ${attackType} + ${psyModifier}`;

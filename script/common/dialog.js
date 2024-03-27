@@ -205,7 +205,7 @@ export async function preparePsychicPowerRoll(rollData) {
           rollData.modifier = html.find("#modifier")[0].value;
           rollData.psy.psyStrength = html.find("#psyStrength")[0].value;
           rollData.psy.push = parseInt(html.find("#pushValue")[0]?.value, 10);
-          rollData.psy.value = getRollPsyRating(rollData.psy.psyStrength, rollData.psy.push, rollData.psy.rating, rollData.psy.disciplineMastery);
+          rollData.psy.value = getRollPsyRating(rollData);
           rollData.psy.warpConduit = html.find("#warpConduit")[0].checked;
           rollData.damageFormula = html.find("#damageFormula")[0].value;
           rollData.damageType = html.find("#damageType")[0].value;
@@ -233,38 +233,26 @@ export async function preparePsychicPowerRoll(rollData) {
   dialog.render(true);
 }
 
-function togglePushWrapper(html) 
-{
-  var psyStrength = html.find("#psyStrength")[0].value;
-  var pushWrapper = html.find("#pushWrapper")[0];
-  
-  if (psyStrength === "push") {
-      pushWrapper.show(); // Show the push wrapper
-  } else {
-      pushWrapper.hide(); // Hide the push wrapper
-  }
-}
-
-export function getRollPsyRating(psyStrength, push, casterPsyRating, hasDisciplineMastery) {  
+export function getRollPsyRating(rollData) {  
   // Initialize Psy Rating variable
   let psyRating = 0;
 
   // Determine Psy Rating based on selected Psy Strength and caster's Psy Rating
-  switch (psyStrength) {
+  switch (rollData.psy.psyStrength) {
       case "fettered":
           // Fettered Psy Rating is the caster's Psy Rating divided by 2, rounded up
-          psyRating = Math.ceil(casterPsyRating / 2);
-          if (hasDisciplineMastery) {
+          psyRating = Math.ceil(rollData.psy.rating / 2);
+          if (rollData.psy.disciplineMastery) {
             psyRating += 1;
           }
           break;
       case "unfettered":
           // Unfettered Psy Rating is the caster's Psy Rating
-          psyRating = casterPsyRating;
+          psyRating = rollData.psy.rating;
           break;
       case "push":
           // If Psy Strength is push, get the value from the input
-          psyRating = casterPsyRating + push;
+          psyRating = rollData.psy.rating + rollData.psy.push;
           break;
       default:
           // Default to 0 if no valid Psy Strength is selected
