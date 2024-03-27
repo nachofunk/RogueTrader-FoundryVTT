@@ -301,6 +301,8 @@ function _computeRateOfFire(rollData) {
 
   switch (rollData.attackType.name) {
     case "standard":
+      rollData.attackType.modifier = 10;
+      break;
     case "bolt":
     case "blast":
       rollData.attackType.modifier = 0;
@@ -308,7 +310,7 @@ function _computeRateOfFire(rollData) {
       break;
 
     case "semi_auto":
-      rollData.attackType.modifier = 10;
+      rollData.attackType.modifier = 0;
       rollData.attackType.hitMargin = 2;
       rollData.maxAdditionalHit = rollData.rateOfFire.burst - 1;
       break;
@@ -321,7 +323,7 @@ function _computeRateOfFire(rollData) {
       break;
 
     case "full_auto":
-      rollData.attackType.modifier = 20;
+      rollData.attackType.modifier = -10;
       rollData.attackType.hitMargin = 1;
       rollData.maxAdditionalHit = rollData.rateOfFire.full - 1;
       break;
