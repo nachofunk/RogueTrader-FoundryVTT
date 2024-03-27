@@ -37,7 +37,7 @@
                 <p><strong>{{localize "CHAT.DOF"}}:</strong> {{dof}}</p>
             {{/if}}
             {{#if psy.display}}
-                {{#if psy.push}}
+                {{#if (eq psy.psyStrength "push")}}
                 <p><strong>{{localize "CHAT.PSY_RATING"}}:</strong> {{psy.value}} ({{localize "CHAT.PSY_PUSH"}})</p>
                 {{else}}
                 <p><strong>{{localize "CHAT.PSY_RATING"}}:</strong> {{psy.value}}</p>

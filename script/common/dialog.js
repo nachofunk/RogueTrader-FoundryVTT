@@ -206,6 +206,7 @@ export async function preparePsychicPowerRoll(rollData) {
           rollData.modifier = html.find("#modifier")[0].value;
           rollData.psy.psyStrength = html.find("#psyStrength")[0].value;
           rollData.psy.push = parseInt(html.find("#pushValue")[0]?.value, 10);
+          rollData.psy.disciplineMastery = html.find("#disciplineMaster")[0].value;
           rollData.psy.value = getRollPsyRating(rollData);
           rollData.psy.warpConduit = html.find("#warpConduit")[0].checked;
           rollData.damageFormula = html.find("#damageFormula")[0].value;
