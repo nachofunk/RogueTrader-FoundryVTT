@@ -44,34 +44,34 @@ export class ShipSheet extends RogueTraderSheet {
   }
 
   async selectTargetToken() {
-    // Minimalizuj aktualnie otwartą kartę postaci
+    // Minimize currently open character card
     this.minimize();
     this.selectedToken = null;
-    ui.notifications.info("Wybierz cel na planszy.");
-    // Nasłuchuj zdarzenia "mousedown" na warstwie planszy
+    ui.notifications.info("Choose a target on the board.");
+    // Listen for the "mousedown" event on the board layer
     canvas.stage.on("mousedown", this.onCanvasClick.bind(this));
-    // Oczekuj na wybór celu
+    // Wait for your destination to be selected
     while (!this.selectedToken) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
-    // Usuń nasłuchiwanie zdarzenia "mousedown" po wybraniu celu
+    // Stop listening for the "mousedown" event after selecting a target
     canvas.stage.off("mousedown", this.onCanvasClick);
-    // Przywróć karty postaci i wykonaj rzut
+    // Bring back character cards and make a roll
     this.maximize();
-    if (!selectedToken) {
-      ui.notifications.error("Nie wybrano celu na planszy.");
+    if (!this.selectedToken) {
+      ui.notifications.error("No target selected on the board.");
     }
   }
 
-  // Metoda do obsługi kliknięcia na planszy
+  // Method to handle clicking on the board
   onCanvasClick(event) {
-    // Pobierz kliknięty token (jeśli istnieje)
+    // Get the clicked token (if any)
     const clickedToken = event.target;
-    // Sprawdź, czy kliknięty token nie należy do gracza (ignoruj wtedy)
+    // Check that the clicked token does not belong to the player (ignore then)
     if (clickedToken && clickedToken.actor && clickedToken.actor.hasPlayerOwner) {
       return;
     }
-    // Zatrzymaj wybieranie celu, jeśli kliknięto token
+    // Stop selecting a target if a token is clicked
     this.selectedToken = clickedToken;
   }
 

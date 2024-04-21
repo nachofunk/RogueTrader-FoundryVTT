@@ -29,7 +29,12 @@ export async function combatRoll(rollData) {
 }
 
 export async function shipCombatRoll(rollData) {
-  
+  await _computeTarget(rollData);
+  await _rollTarget(rollData);
+  if (rollData.isSuccess) {
+    await _rollDamage(rollData);
+  }
+await _sendToChat(rollData);
 }
 
 async function _rollShipDamage(rollData) {
@@ -112,13 +117,13 @@ async function _rollDamage(rollData) {
   if (rollData.damageFormula) {
     formula = rollData.damageFormula;
 
-    if (rollData.weaponTraits.tearing) {
+    if (rollData.weaponTraits?.tearing) {
       formula = _appendTearing(formula);
     }
-    if (rollData.weaponTraits.proven) {
+    if (rollData.weaponTraits?.proven) {
       formula = _appendNumberedDiceModifier(formula, "min", rollData.weaponTraits.proven);
     }
-    if (rollData.weaponTraits.primitive) {
+    if (rollData.weaponTraits?.primitive) {
       formula = _appendNumberedDiceModifier(formula, "max", rollData.weaponTraits.primitive);
     }
 
@@ -131,7 +136,7 @@ async function _rollDamage(rollData) {
     const firstLocation = _getLocation(rollData.result);
     firstHit.location = firstLocation;
     rollData.damages.push(firstHit);
-    if (rollData.attackType.hitMargin > 0) {
+    if (rollData.attackType?.hitMargin > 0) {
       let maxAdditionalHit = Math.floor((rollData.dos - 1) / rollData.attackType.hitMargin);
       if (typeof rollData.maxAdditionalHit !== "undefined" && maxAdditionalHit > rollData.maxAdditionalHit) {
         maxAdditionalHit = rollData.maxAdditionalHit;
@@ -174,7 +179,7 @@ async function _computeDamage(damageFormula, penetration, dos, isAiming, weaponT
     damageRender: await r.render()
   };
 
-  if (weaponTraits.accurate && isAiming) {
+  if (weaponTraits?.accurate && isAiming) {
     let numDice = ~~((dos - 1) / 2); //-1 because each degree after the first counts
     if (numDice >= 1) {
       if (numDice > 2) numDice = 2;
@@ -190,13 +195,13 @@ async function _computeDamage(damageFormula, penetration, dos, isAiming, weaponT
   }
 
   // Without a To Hit we a roll to associate the chat message with
-  if (weaponTraits.skipAttackRoll) {
+  if (weaponTraits?.skipAttackRoll) {
     damage.damageRoll = r;
   }
 
   r.terms.forEach(term => {
     if (typeof term === "object" && term !== null) {
-      let rfFace = weaponTraits.rfFace ? weaponTraits.rfFace : term.faces; // Without the Vengeful weapon trait rfFace is undefined
+      let rfFace = weaponTraits?.rfFace ? weaponTraits?.rfFace : term.faces; // Without the Vengeful weapon trait rfFace is undefined
       term.results?.forEach(async result => {
         let dieResult = result.count ? result.count : result.result; // Result.count = actual value if modified by term
         if (result.active && dieResult >= rfFace) damage.righteousFury = _rollRighteousFury();
@@ -224,7 +229,7 @@ function _rollPenetration(rollData) {
       penetration = penetration.replace(/\d+.*\(\d+\)/gi, rsValue); // Replace construct BaseValue(RazorsharpValue) with the extracted data
     }
 
-  } else if (rollData.weaponTraits.razorSharp) {
+  } else if (rollData.weaponTraits?.razorSharp) {
     if (rollData.dos >= 3) {
       multiplier = 2;
     }
@@ -424,8 +429,10 @@ function _replaceSymbols(formula, rollData) {
   if (rollData.psy) {
     formula = formula.replaceAll(/PR/gi, rollData.psy.value);
   }
-  for (let boni of rollData.attributeBoni) {
-    formula = formula.replaceAll(boni.regex, boni.value);
+  if (rollData?.attributeBoni) {
+    for (let boni of rollData.attributeBoni) {
+      formula = formula.replaceAll(boni.regex, boni.value);
+    }
   }
   return formula;
 }
