@@ -48,3 +48,7 @@
 
 - Ship sheet refactoring by @LRemplakowski
 - Ships are now actors instead of items. If updating from a previous version, this will wipe out any ships you had as items. 
+
+## 1.1.1
+
+- Corrected display of crew tab in ships to display for English
