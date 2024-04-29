@@ -95,6 +95,111 @@ export class ShipSheet extends RogueTraderSheet {
           actorData.system.namedCrew.lordCaptain = data.uuid.split(".")[1];
           break;
         }
+      case "firstOfficer":
+        {
+          actorData.system.namedCrew.firstOfficer = data.uuid.split(".")[1];
+          break;
+        }
+      case "enginseerPrime":
+        {
+          actorData.system.namedCrew.enginseerPrime = data.uuid.split(".")[1];
+          break;
+        }
+      case "highFactotum":
+        {
+          actorData.system.namedCrew.highFactotum = data.uuid.split(".")[1];
+          break;
+        }
+      case "masterArms":
+        {
+          actorData.system.namedCrew.masterArms = data.uuid.split(".")[1];
+          break;
+        }  
+      case "masterHelmsman":
+        {
+          actorData.system.namedCrew.masterHelmsman = data.uuid.split(".")[1];
+          break;
+        }   
+      case "masterOrdnance":
+        {
+          actorData.system.namedCrew.masterOrdnance = data.uuid.split(".")[1];
+          break;
+        }   
+      case "masterEtherics":
+        {
+          actorData.system.namedCrew.masterEtherics = data.uuid.split(".")[1];
+          break;
+        }   
+      case "masterChirurgeon":
+        {
+          actorData.system.namedCrew.masterChirurgeon = data.uuid.split(".")[1];
+          break;
+        }  
+      case "masterWhispers":
+        {
+          actorData.system.namedCrew.masterWhispers = data.uuid.split(".")[1];
+          break;
+        }   
+      case "masterTelepathica":
+        {
+          actorData.system.namedCrew.masterTelepathica = data.uuid.split(".")[1];
+          break;
+        }   
+      case "masterWarp":
+        {
+          actorData.system.namedCrew.masterWarp = data.uuid.split(".")[1];
+          break;
+        }
+      case "confessor":
+        {
+          actorData.system.namedCrew.confessor = data.uuid.split(".")[1];
+          break;
+        }
+      case "drivesmaster":
+        {
+          actorData.system.namedCrew.drivesmaster = data.uuid.split(".")[1];
+          break;
+        } 
+      case "congregator":
+        {
+          actorData.system.namedCrew.congregator = data.uuid.split(".")[1];
+          break;
+        }
+      case "bosun":
+        {
+          actorData.system.namedCrew.bosun = data.uuid.split(".")[1];
+          break;
+        } 
+      case "infernus":
+        {
+          actorData.system.namedCrew.infernus = data.uuid.split(".")[1];
+          break;
+        }
+      case "twistcatcher":
+        {
+          actorData.system.namedCrew.twistcatcher = data.uuid.split(".")[1];
+          break;
+        } 
+      case "voxmaster":
+        {
+          actorData.system.namedCrew.voxmaster = data.uuid.split(".")[1];
+          break;
+        }
+      case "purser":
+        {
+          actorData.system.namedCrew.purser = data.uuid.split(".")[1];
+          break;
+        } 
+      case "cartographer":
+        {
+          actorData.system.namedCrew.cartographer = data.uuid.split(".")[1];
+          break;
+        }
+      case "steward":
+        {
+          actorData.system.namedCrew.steward = data.uuid.split(".")[1];
+          break;
+        } 
       default:
         console.log(event.target.dataset.crewRole);
         break;
