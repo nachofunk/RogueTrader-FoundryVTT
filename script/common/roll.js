@@ -46,7 +46,7 @@ async function _rollShipDamage(rollData) {
     formula = _replaceSymbols(formula, rollData);
   }
   let penetration = 0;
-  let firstHit = await _computeDamage(formula, penetration, rollData.dos, rollData.aim?.isAiming, rollData.weaponTraits);
+  let firstHit = await _computeShipDamage(formula, penetration, rollData.dos, rollData.aim?.isAiming, rollData.weaponTraits);
   if (firstHit.total !== 0) {
     const firstLocation = "None";
     firstHit.location = firstLocation;
@@ -249,6 +249,60 @@ async function _computeDamage(damageFormula, penetration, dos, isAiming, weaponT
 }
 
 /**
+ * Roll and compute ship damage.
+ * @param {number} penetration
+ * @param {object} rollData
+ * @returns {object}
+ */
+async function _computeShipDamage(damageFormula, penetration, dos, isAiming, weaponTraits) {
+  let r = new Roll(damageFormula);
+  r.evaluate({ async: false });
+  let damage = {
+    total: r.total,
+    righteousFury: 0,
+    dices: [],
+    penetration: penetration,
+    dos: dos,
+    formula: damageFormula,
+    replaced: false,
+    damageRender: await r.render()
+  };
+
+/*   if (weaponTraits?.accurate && isAiming) {
+    let numDice = ~~((dos - 1) / 2); //-1 because each degree after the first counts
+    if (numDice >= 1) {
+      if (numDice > 2) numDice = 2;
+      let ar = new Roll(`${numDice}d10`);
+      ar.evaluate({ async: false });
+      damage.total += ar.total;
+      ar.terms.flatMap(term => term.results).forEach(async die => {
+        if (die.active && die.result < dos) damage.dices.push(die.result);
+        if (die.active && (typeof damage.minDice === "undefined" || die.result < damage.minDice)) damage.minDice = die.result;
+      });
+      damage.accurateRender = await ar.render();
+    }
+  } */
+
+  // Without a To Hit we a roll to associate the chat message with
+  if (weaponTraits?.skipAttackRoll) {
+    damage.damageRoll = r;
+  }
+
+  r.terms.forEach(term => {
+    if (typeof term === "object" && term !== null) {
+      let rfFace = weaponTraits?.rfFace ? weaponTraits?.rfFace : term.faces; // Without the Vengeful weapon trait rfFace is undefined
+      term.results?.forEach(async result => {
+        let dieResult = result.count ? result.count : result.result; // Result.count = actual value if modified by term
+        // if (result.active && dieResult >= rfFace) damage.righteousFury = _rollRighteousFury();
+        if (result.active && dieResult < dos) damage.dices.push(dieResult);
+        if (result.active && (typeof damage.minDice === "undefined" || dieResult < damage.minDice)) damage.minDice = dieResult;
+      });
+    }
+  });
+  return damage;
+}
+
+/**
  * Evaluate final penetration, by leveraging the dice roll API.
  * @param {object} rollData
  * @returns {number}
@@ -390,6 +444,17 @@ function _computeRateOfFire(rollData) {
     case "allOut":
       rollData.attackType.modifier = 30;
       rollData.attackType.hitMargin = 0;
+      break;
+    
+    case "Macrobattery":
+      // rollData.attackType.modifier = 10;
+      rollData.attackType.hitMargin = 1;
+      rollData.maxAdditionalHit = rollData.weaponStrength - 1;
+      break;
+    case "Lance":
+      // rollData.attackType.modifier = 20;
+      rollData.attackType.hitMargin = 2;
+      rollData.maxAdditionalHit = rollData.weaponStrength - 1;
       break;
 
     default:
