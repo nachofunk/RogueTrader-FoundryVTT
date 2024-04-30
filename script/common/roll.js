@@ -32,13 +32,47 @@ export async function shipCombatRoll(rollData) {
   await _computeTarget(rollData);
   await _rollTarget(rollData);
   if (rollData.isSuccess) {
-    await _rollDamage(rollData);
+    await _rollShipDamage(rollData);
   }
 await _sendToChat(rollData);
 }
 
 async function _rollShipDamage(rollData) {
-
+  let formula = "0";
+  rollData.damages = [];
+  if (rollData.damageFormula) {
+    formula = rollData.damageFormula;
+    formula = `${formula}+${rollData.damageBonus}`;
+    formula = _replaceSymbols(formula, rollData);
+  }
+  let penetration = 0;
+  let firstHit = await _computeDamage(formula, penetration, rollData.dos, rollData.aim?.isAiming, rollData.weaponTraits);
+  if (firstHit.total !== 0) {
+    const firstLocation = "None";
+    firstHit.location = firstLocation;
+    firstHit.hasLocation = false
+    rollData.damages.push(firstHit);
+    if (rollData.attackType?.hitMargin > 0) {
+      let maxAdditionalHit = Math.floor((rollData.dos - 1) / rollData.attackType.hitMargin);
+      if (typeof rollData.maxAdditionalHit !== "undefined" && maxAdditionalHit > rollData.maxAdditionalHit) {
+        maxAdditionalHit = rollData.maxAdditionalHit;
+      }
+      rollData.numberOfHit = maxAdditionalHit + 1;
+      for (let i = 0; i < maxAdditionalHit; i++) {
+        let additionalHit = await _computeDamage(formula, penetration, rollData.dos, rollData.aim?.isAiming, rollData.weaponTraits);
+        additionalHit.location = "None";
+        rollData.damages.push(additionalHit);
+      }
+    } else {
+      rollData.numberOfHit = 1;
+    }
+    let minDamage = rollData.damages.reduce(
+      (min, damage) => min.minDice < damage.minDice ? min : damage, rollData.damages[0]
+    );
+    if (minDamage.minDice < rollData.dos) {
+      minDamage.total += (rollData.dos - minDamage.minDice);
+    }
+  }
 }
 
 /**
@@ -135,6 +169,7 @@ async function _rollDamage(rollData) {
   if (firstHit.total !== 0) {
     const firstLocation = _getLocation(rollData.result);
     firstHit.location = firstLocation;
+    firstHit.hasLocation = true
     rollData.damages.push(firstHit);
     if (rollData.attackType?.hitMargin > 0) {
       let maxAdditionalHit = Math.floor((rollData.dos - 1) / rollData.attackType.hitMargin);

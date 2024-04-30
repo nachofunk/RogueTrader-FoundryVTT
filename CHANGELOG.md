@@ -52,3 +52,5 @@
 ## 1.1.1
 
 - Corrected display of crew tab in ships to display for English
+- Updated crew tab for ships to allow any crew spot to have an actor added
+- Updated roll dialog for ship attacks to not include location

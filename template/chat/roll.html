@@ -54,7 +54,11 @@
             <h1>{{name}}</h1>
         {{/unless}}
         {{#each damages as |damage|}}
+            {{#if hasLocation}}
             <h3 class="separator damage-location" data-location={{location}}>{{localize location}}</h3>
+            {{else}}
+            <h3></h3>
+            {{/if}}
             <div>
                 <p><strong>{{localize "CHAT.DAMAGE"}}:</strong> <span class="damage-total">{{damage.total}}</span> 
                    <strong class="damage-type">{{damageTypeShort ../damageType}}</strong>
