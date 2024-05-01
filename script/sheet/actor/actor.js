@@ -14,6 +14,7 @@ export class RogueTraderSheet extends ActorSheet {
     html.find(".roll-insanity").click(async ev => await this._prepareRollInsanity(ev));
     html.find(".roll-corruption").click(async ev => await this._prepareRollCorruption(ev));
     html.find(".roll-weapon").click(async ev => await this._prepareRollWeapon(ev));
+    // html.find(".roll-shipWeapon").click(async ev => await this._prepareRollShipWeapon(ev));
     html.find(".roll-psychic-power").click(async ev => await this._prepareRollPsychicPower(ev));
   }
 
@@ -237,6 +238,20 @@ export class RogueTraderSheet extends ActorSheet {
     );
   }
 
+/*   async _prepareRollShipWeapon(event) {
+    event.preventDefault();
+    await this.selectTargetToken();
+    if (this.selectedToken) {
+      const div = $(event.currentTarget).parents(".item");
+      const weapon = this.actor.items.get(div.data("itemId"));
+      await prepareShipCombatRoll(
+        RogueTraderUtil.createShipWeaponRollData(this.actor, weapon), 
+        this.actor,
+        this.selectedToken
+      );
+    }
+  }
+ */
   async _prepareRollPsychicPower(event) {
     event.preventDefault();
     const div = $(event.currentTarget).parents(".item");

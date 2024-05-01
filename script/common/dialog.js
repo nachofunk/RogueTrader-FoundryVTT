@@ -1,4 +1,4 @@
-import { commonRoll, combatRoll, reportEmptyClip } from "./roll.js";
+import { commonRoll, combatRoll, shipCombatRoll, reportEmptyClip } from "./roll.js";
 
 /**
  * Show a generic roll dialog.
@@ -168,10 +168,17 @@ export async function prepareShipCombatRoll(rollData, actorRef, target) {
                       rollData.range = range.value;
                       rollData.rangeText = range.options[range.selectedIndex].text;
                   }
+                  const attackType = [];
+                  rollData.attackType = { 
+                    name : rollData.weaponType,
+                    text : rollData.weaponType,
+                    modifier : 0
+                  };
                   rollData.damageFormula = html.find("#damageFormula")[0].value.replace(' ', '');
                   rollData.damageBonus = parseInt(html.find("#damageBonus")[0].value, 10);
                   rollData.isCombatTest = true;
-                  await combatRoll(rollData);
+                  rollData.actorRef = actorRef
+                  await shipCombatRoll(rollData);
               },
           },
           cancel: {

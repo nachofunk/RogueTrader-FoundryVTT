@@ -41,6 +41,38 @@ export class ShipSheet extends RogueTraderSheet {
     }
   }
 
+  async selectTargetToken() {
+    // Minimize currently open character card
+    this.minimize();
+    this.selectedToken = null;
+    ui.notifications.info("Choose a target on the board.");
+    // Listen for the "mousedown" event on the board layer
+    canvas.stage.on("mousedown", this.onCanvasClick.bind(this));
+    // Wait for your destination to be selected
+    while (!this.selectedToken) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    // Stop listening for the "mousedown" event after selecting a target
+    canvas.stage.off("mousedown", this.onCanvasClick);
+    // Bring back character cards and make a roll
+    this.maximize();
+    if (!this.selectedToken) {
+      ui.notifications.error("No target selected on the board.");
+    }
+  }
+
+  // Method to handle clicking on the board
+  onCanvasClick(event) {
+    // Get the clicked token (if any)
+    const clickedToken = event.target;
+    // Check that the clicked token does not belong to the player (ignore then)
+    if (clickedToken && clickedToken.actor && clickedToken.actor.hasPlayerOwner) {
+      return;
+    }
+    // Stop selecting a target if a token is clicked
+    this.selectedToken = clickedToken;
+  }
+
   async _onDrop(event)
   {
     this.side = event.target.dataset.shipside || "port";

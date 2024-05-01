@@ -58,6 +58,7 @@ export default class RogueTraderUtil {
       rollData.baseTarget = actor.crewSkillValue;
     rollData.characteristicSource = actor;
     rollData.modifier = 0;
+    rollData.damageBonus = 0;
     rollData.damageFormula = weapon.damage;
     rollData.weaponType = weapon.ShipWeaponClass;
     rollData.weaponStrength = weapon.strength;
