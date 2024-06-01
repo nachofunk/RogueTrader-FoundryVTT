@@ -400,4 +400,6 @@ export class RogueTraderItem extends Item {
   get ignoreArmor() { return this.system.class === "lance"; }
 
   get ignoreShields() { return false; }
+
+  get statModifiers() { return this.modifiers; }
 }

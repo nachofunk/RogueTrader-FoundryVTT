@@ -287,6 +287,54 @@ export class RogueTraderSheet extends ActorSheet {
     }
   }
 
+  _getModifiers(modType) {
+    let result = {}
+    for (let list in this.actor.items) {
+      switch (modType) {
+        case 'characteristic':
+          for (let itemType in this.actor.items[list]) {
+            let items = this.actor.items[list][itemType];
+            for (let item in items) {
+              let itemModifiers = items[item].modifiers;
+              for (let charMod in itemModifiers.characteristic) {
+                if (result[charMod]) {
+                  result[charMod].valueMod += itemModifiers.characteristic[charMod].valueMod;
+                  result[charMod].unnaturalMod += itemModifiers.characteristic[charMod].unnaturalMod;
+                }
+                else {
+                  result[charMod] = {
+                    valueMod: itemModifiers.characteristic[charMod].valueMod,
+                    unnaturalMod: itemModifiers.characteristic[charMod].unnaturalMod
+                  };
+                }
+              }
+            }
+          }
+          break;
+        case 'skill':
+          for (let itemType in this.actor.items[list]) {
+            let items = this.actor.items[list][itemType];
+            for (let item in items) {
+              let itemModifiers = items[item].modifiers;
+              for (let skillMod in itemModifiers.skill) {
+                if (result[skillMod]) {
+                  result[skillMod].valueMod += itemModifiers.skill[skillMod].valueMod;
+                }
+                else {
+                  result[skillMod] = {
+                    valueMod: itemModifiers.skill[skillMod].valueMod,
+                  };
+                }
+              }
+            }
+          }
+          break;
+        case 'other':
+          break;
+      }
+    }
+  }
+
   _extractNumberedTrait(regex, traits) {
     let rfMatch = traits.match(regex);
     if (rfMatch) {
@@ -340,6 +388,7 @@ export class RogueTraderSheet extends ActorSheet {
   constructItemLists() {
       let items = {}
       let itemTypes = this.actor.itemTypes;
+      console.log(itemTypes);
       items.mentalDisorders = itemTypes["mentalDisorder"];
       items.malignancies = itemTypes["malignancy"];
       items.mutations = itemTypes["mutation"];

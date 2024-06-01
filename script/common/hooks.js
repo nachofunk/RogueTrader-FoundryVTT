@@ -25,7 +25,7 @@ import { ShipWeaponSheet } from "../sheet/shipWeapon.js";
 import { ShipComponentSheet } from "../sheet/shipComponent.js";
 import { initializeHandlebars } from "./handlebars.js";
 import { migrateWorld } from "./migration.js";
-import { prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll } from "./dialog.js";
+import { prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll, showAddModifierDialog } from "./dialog.js";
 import { commonRoll, combatRoll } from "./roll.js";
 import RtMacroUtil from "./macro.js";
 
@@ -42,6 +42,7 @@ Hooks.once("init", () => {
       prepareCommonRoll,
       prepareCombatRoll,
       preparePsychicPowerRoll,
+      showAddModifierDialog,
     },
     tests:{
       commonRoll,

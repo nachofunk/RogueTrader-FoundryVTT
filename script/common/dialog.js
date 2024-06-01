@@ -271,3 +271,41 @@ export function getRollPsyRating(rollData) {
 
   return psyRating;
 }
+
+export async function showAddModifierDialog(itemSheet, modifierType) {
+  console.log("foo");
+  console.log(itemSheet);
+  console.log(modifierType);
+  const html = await renderTemplate("systems/rogue-trader/template/dialog/add-modifier.html", {
+    modifierType: modifierType
+  });
+
+  let dialog = new Dialog({
+    title: game.i18n.localize(`MODIFIER.ADD_${modifierType.toUpperCase()}`),
+    content: html,
+    buttons: {
+      add: {
+        icon: '<i class="fas fa-check"></i>',
+        label: game.i18n.localize("BUTTON.ADD"),
+        callback: html => {
+          const attributeName = html.find("#attribute-name")[0].value.trim();
+          const modifierValue = parseInt(html.find("#modifier-value")[0].value, 10);
+          if (attributeName && !isNaN(modifierValue)) {
+            itemSheet.addModifier(modifierType, attributeName, modifierValue);
+          }
+        }
+      },
+      cancel: {
+        icon: '<i class="fas fa-times"></i>',
+        label: game.i18n.localize("BUTTON.CANCEL"),
+        callback: () => {}
+      }
+    },
+    default: "add",
+    close: () => {}
+  }, {
+    width: 400
+  });
+
+  dialog.render(true);
+}

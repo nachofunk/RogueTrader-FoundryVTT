@@ -61,9 +61,12 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/chat/critical.html",
     "systems/rogue-trader/template/dialog/common-roll.html",
     "systems/rogue-trader/template/dialog/combat-roll.html",
+    "systems/rogue-trader/template/dialog/add-modifier.html",
     "systems/rogue-trader/template/dialog/psychic-power-roll.html",
     "systems/rogue-trader/template/sheet/shipWeapon.html",
-    "systems/rogue-trader/template/sheet/shipComponent.html"
+    "systems/rogue-trader/template/sheet/shipComponent.html",
+
+    "systems/rogue-trader/template/sheet/utility/modifiers.html"
   ];
   return loadTemplates(templatePaths);
 }
@@ -113,5 +116,23 @@ function registerHandlebarsHelpers() {
     }
   });
 
+  Handlebars.registerHelper('log', function(context) {
+    console.log(context);
+  });
+
+  Handlebars.registerHelper('getCharacteristics', function() {
+    const characteristics = {
+      weaponSkill: "CHARACTERISTIC.WEAPON_SKILL",
+      ballisticSkill: "CHARACTERISTIC.BALLISTIC_SKILL",
+      strength: "CHARACTERISTIC.STRENGTH",
+      toughness: "CHARACTERISTIC.TOUGHNESS",
+      agility: "CHARACTERISTIC.AGILITY",
+      intelligence: "CHARACTERISTIC.INTELLIGENCE",
+      perception: "CHARACTERISTIC.PERCEPTION",
+      willpower: "CHARACTERISTIC.WILLPOWER",
+      fellowship: "CHARACTERISTIC.FELLOWSHIP"
+    };
+    return characteristics;
+  });
 }
 
