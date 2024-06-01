@@ -1,3 +1,5 @@
-2024/03/27-19:17:27.755 2abad8 Recovering log #55
-2024/03/27-19:17:27.763 2abad8 Delete type=0 #55
-2024/03/27-19:17:27.764 2abad8 Delete type=3 #54
+2024/06/01-17:20:13.468 6628 Log #59: 0 ops saved to Table #60 OK
+2024/06/01-17:20:13.469 6628 Archiving C:\Users\lremp\AppData\Local\FoundryVTT\Data\systems\rogue-trader\packs\character\aptitudes/000059.log: OK
+2024/06/01-17:20:13.516 6628 Table #15: 19 entries OK
+2024/06/01-17:20:13.547 6628 Archiving C:\Users\lremp\AppData\Local\FoundryVTT\Data\systems\rogue-trader\packs\character\aptitudes/MANIFEST-000058: OK
+2024/06/01-17:20:13.566 6628 **** Repaired leveldb C:\Users\lremp\AppData\Local\FoundryVTT\Data\systems\rogue-trader\packs\character\aptitudes; recovered 1 files; 2954 bytes. Some data may have been lost. ****
