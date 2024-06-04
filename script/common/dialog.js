@@ -272,16 +272,13 @@ export function getRollPsyRating(rollData) {
   return psyRating;
 }
 
-export async function showAddModifierDialog(itemSheet, modifierType) {
-  console.log("foo");
-  console.log(itemSheet);
-  console.log(modifierType);
-  const html = await renderTemplate("systems/rogue-trader/template/dialog/add-modifier.html", {
+export async function showAddCharacteristicModifierDialog(itemSheet, modifierType) {
+  const html = await renderTemplate("systems/rogue-trader/template/dialog/add-characteristic-modifier.html", {
     modifierType: modifierType
   });
 
   let dialog = new Dialog({
-    title: game.i18n.localize(`MODIFIER.ADD_${modifierType.toUpperCase()}`),
+    title: game.i18n.localize("DIALOG.NEW_MODIFIER"),
     content: html,
     buttons: {
       add: {
@@ -289,9 +286,54 @@ export async function showAddModifierDialog(itemSheet, modifierType) {
         label: game.i18n.localize("BUTTON.ADD"),
         callback: html => {
           const attributeName = html.find("#attribute-name")[0].value.trim();
-          const modifierValue = parseInt(html.find("#modifier-value")[0].value, 10);
+          const modifierValue = parseInt(html.find("#modifier-char-value")[0].value, 10);
+          const unnaturalValue = parseInt(html.find("#modifier-unnatural-value")[0].value, 10);
+          const modifierData = {
+            name: attributeName,
+            characteristicModifier: modifierValue,
+            unnaturalModifier: unnaturalValue,
+          }
           if (attributeName && !isNaN(modifierValue)) {
-            itemSheet.addModifier(modifierType, attributeName, modifierValue);
+            itemSheet.addModifier(modifierType, attributeName, modifierData);
+          }
+        }
+      },
+      cancel: {
+        icon: '<i class="fas fa-times"></i>',
+        label: game.i18n.localize("BUTTON.CANCEL"),
+        callback: () => {}
+      }
+    },
+    default: "add",
+    close: () => {}
+  }, {
+    width: 400
+  });
+
+  dialog.render(true);
+}
+
+export async function showAddSkillModifierDialog(itemSheet, modifierType){
+  const html = await renderTemplate("systems/rogue-trader/template/dialog/add-skill-modifier.html", {
+    modifierType: modifierType
+  });
+
+  let dialog = new Dialog({
+    title: game.i18n.localize("DIALOG.NEW_MODIFIER"),
+    content: html,
+    buttons: {
+      add: {
+        icon: '<i class="fas fa-check"></i>',
+        label: game.i18n.localize("BUTTON.ADD"),
+        callback: html => {
+          const attributeName = html.find("#attribute-name")[0].value.trim();
+          const modifierValue = parseInt(html.find("#modifier-skill-value")[0].value, 10);
+          const modifierData = {
+            name: attributeName,
+            skillModifier: modifierValue,
+          }
+          if (attributeName && !isNaN(modifierValue)) {
+            itemSheet.addModifier(modifierType, attributeName, modifierData);
           }
         }
       },

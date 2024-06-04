@@ -1,17 +1,17 @@
 <div class="rogue-trader dialog">
     <div class="flex row wrap background border" style="flex-basis: 100%;margin-bottom: 5px">
-        <h1>{{localize "DIALOG.ADD_MODIFIER"}}</h1>
+        <h1>{{localize "DIALOG.ADD_SKILL_MODIFIER"}}</h1>
         <div class="flex row wrapper">
-            <label style="width: 50%;">{{localize "DIALOG.ATTRIBUTE_NAME"}}</label>
+            <label style="width: 50%;">{{localize "DIALOG.SKILL_NAME"}}</label>
             <select id="attribute-name" data-dtype="String" style="width: 50%;">
-                {{#each (getCharacteristics)}}
-                  <option value="{{@key}}">{{localize this}}</option>
+                {{#each (getSkills)}}
+                  <option value="{{@key}}">{{this}}</option>
                 {{/each}}
             </select>
         </div>
         <div class="flex row wrapper">
-            <label style="width: 50%;">{{localize "DIALOG.MODIFIER_VALUE"}}</label>
-            <input id="modifier-value" type="number" value="0" data-dtype="Number" style="width: 50%;"/>
+            <label style="width: 50%;">{{localize "DIALOG.SKILL_VALUE"}}</label>
+            <input id="modifier-skill-value" type="number" value="0" data-dtype="Number" style="width: 50%;"/>
         </div>
     </div>
 </div>

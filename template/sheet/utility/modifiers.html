@@ -1,23 +1,51 @@
-<div class="flex wrap modifiers">
-    <div class="item-list border">
-        <div class="flex header">
-          <b class="name">Characteristic Modifiers</b>
-          <a class="button add-modifier" title="Add Characteristic Modifier" data-type="characteristic"><i class="fas fa-plus"></i></a>
+<div class="flex wrap modifiers" style="height: 100%;">
+  <div class="border" style="flex-basis: 100%;">
+    <h1>
+      {{localize "TITLE.ITEM_MODIFIERS"}}
+    </h1>
+    <div class="item-list">
+        <!-- Handlebars template to dynamically list characteristic modifiers -->
+        <div class="modifier-item flex header row">
+          <b class="modifier-column">Characteristic</b>
+          <b class="modifier-column">Value Modifier</b>
+          <b class="modifier-column">Unnatural Modifier</b>
+          <a class="modifier-button button add-char-modifier" title="Add Characteristic Modifier" data-type="characteristic"><i class="fas fa-plus"></i></a>
         </div>
-        <div class="items">
-          <div class="modifier-group flex row" data-modifier-type="characteristic">
-            <!-- Handlebars template to dynamically list characteristic modifiers -->
-            {{log this}}
-            {{#each system.modifiers.characteristic as |charMod|}}
-              <div class="modifier flex row" data-modifier-key="{{charMod}}">
-                <div class="flex name">{{charMod.name}}</div>
-                <div class="value">{{charMod.value}}</div>
-                <div class="button">
-                  <a class="item-control item-delete" title="Delete Modifier"><i class="fas fa-trash"></i></a>
-                </div>
+        {{#each system.modifiers.characteristic as |charMod|}}
+          <div class="modifier-item flex row" data-modifier-id="characteristic" data-modifier-key="{{charMod.name}}">
+              <a class="flex row modifier-column">{{charMod.name}}</a>
+              <div class="flex row modifier-column">
+                <input id="modifier-char-value-{{charMod.name}}" type="number" value="{{charMod.characteristicModifier}}" data-dtype="Number"/>
               </div>
-            {{/each}}
+              <div class="flex row modifier-column">
+                <input id="modifier-unnatural-value-{{charMod.name}}" type="number" value="{{charMod.unnaturalModifier}}" data-dtype="Number"/>
+              </div>
+              <div class="flex row modifier-button button">
+                <a class="item-control item-delete" title="Delete Modifier"><i class="fas fa-trash"></i></a>
+              </div>
           </div>
+        {{/each}}
+        <div class="modifier-item flex header row">
+          <b class="modifier-column">Skill</b>
+          <b class="modifier-column">Value Modifier</b>
+          <a class="modifier-button button add-skill-modifier" title="Add Skill Modifier" data-type="skill"><i class="fas fa-plus"></i></a>
         </div>
-      </div>
+        {{#each system.modifiers.skill as |skillMod|}}
+          <div class="modifier-item flex row" data-modifier-id="characteristic" data-modifier-key="{{skillMod.name}}">
+            <a class="flex row modifier-column">{{skillMod.name}}</a>
+            <div class="flex row modifier-column">
+              <input id="modifier-char-value-{{skillMod.name}}" type="number" value="{{skillMod.skillModifier}}" data-dtype="Number"/>
+            </div>
+            <div class="flex row modifier-button button">
+              <a class="item-control item-delete" title="Delete Modifier"><i class="fas fa-trash"></i></a>
+            </div>
+          </div>
+        {{/each}}
+        <div class="modifier-item flex header row">
+          <b class="modifier-column">Other</b>
+          <b class="modifier-column">Value</b>
+          <a class="modifier-button button add-other-modifier" title="Add Other Modifier" data-type="other"><i class="fas fa-plus"></i></a>
+        </div>
+    </div>
+  </div>
 </div>

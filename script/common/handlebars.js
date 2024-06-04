@@ -61,7 +61,8 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/chat/critical.html",
     "systems/rogue-trader/template/dialog/common-roll.html",
     "systems/rogue-trader/template/dialog/combat-roll.html",
-    "systems/rogue-trader/template/dialog/add-modifier.html",
+    "systems/rogue-trader/template/dialog/add-characteristic-modifier.html",
+    "systems/rogue-trader/template/dialog/add-skill-modifier.html",
     "systems/rogue-trader/template/dialog/psychic-power-roll.html",
     "systems/rogue-trader/template/sheet/shipWeapon.html",
     "systems/rogue-trader/template/sheet/shipComponent.html",
@@ -133,6 +134,44 @@ function registerHandlebarsHelpers() {
       fellowship: "CHARACTERISTIC.FELLOWSHIP"
     };
     return characteristics;
+  });
+
+  Handlebars.registerHelper('getSkills', function() {
+    const actorSchema = game.system.model.Actor;
+    // console.log(actorSchema);
+    const advSkillRegex = /^adv/;
+    const skillSchema = actorSchema.explorer.skills;
+    const skills = {};
+  
+    for (const entry in skillSchema) {
+      if (skillSchema.hasOwnProperty(entry)) {
+        const entryObject = skillSchema[entry];
+        if (entryObject.isSpecialist) {
+          const specialities = skillSchema[entry].specialities;
+          for (const specialty in specialities) {
+            if (specialities.hasOwnProperty(specialty)) {
+              if (advSkillRegex.test(entry))
+                skills[specialty] = game.i18n.localize(specialities[specialty].label);
+              else
+                skills[specialty] = `${game.i18n.localize(entryObject.label)} ${game.i18n.localize(specialities[specialty].label)}`;
+            }
+          }
+        } else {
+          skills[entry] = game.i18n.localize(skillSchema[entry].label);
+        }
+      }
+    }
+
+    const sortedKeys = Object.keys(skills).sort((a, b) => {
+      return skills[a].localeCompare(skills[b]);
+    });
+    
+    const result = {};
+    sortedKeys.forEach(function(key) { 
+      result[key] = skills[key];
+    });
+    
+    return result;
   });
 }
 

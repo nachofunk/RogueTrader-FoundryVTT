@@ -101,6 +101,7 @@
   "BUTTON.CANCEL": "Cancel",
   "BUTTON.YES": "Yes",
   "BUTTON.NO": "No",
+  "BUTTON.ADD": "Add",
 
   "ENCUMBRANCE.MAX": "Max",
   "ENCUMBRANCE.CURRENT": "Current",
@@ -468,6 +469,7 @@
   "TAB.WEAPONS": "WEAPONS",
   "TAB.COMPLICATIONS": "COMPLICATIONS",
   "TAB.CREW": "CREW",
+  "TAB.MODIFIERS": "Modifiers",
 
   "TALENT.NAME": "Name",
   "TALENT.BENEFIT": "Benefit",
@@ -525,6 +527,7 @@
   "TITLE.CREW_RANK_TWO": "RANK TWO",
   "TITLE.CREW_RANK_THREE": "RANK THREE",
   "TITLE.CREW_RANK_FOUR": "RANK FOUR",
+  "TITLE.ITEM_MODIFIERS": "Modifiers",
 
   "WEAPON.HEADER": "Weapon",
   "WEAPON.NAME": "Name",
@@ -636,5 +639,14 @@
   "SHIP.NAMED_CREW.VOXMASTER": "Master Of The Vox",
   "SHIP.NAMED_CREW.PURSER": "Purser",
   "SHIP.NAMED_CREW.CARTOGRAPHER": "Carto-Artifex",
-  "SHIP.NAMED_CREW.STEWARD": "Ship's Steward"
+  "SHIP.NAMED_CREW.STEWARD": "Ship's Steward",
+
+  "DIALOG.NEW_MODIFIER": "Add New Modifier",
+  "DIALOG.ADD_CHARACTERISTIC_MODIFIER": "New Characteristic Modifier",
+  "DIALOG.ADD_SKILL_MODIFIER": "New Skill Modifier",
+  "DIALOG.CHARACTERISTIC_NAME": "Characteristic",
+  "DIALOG.SKILL_NAME": "Skill",
+  "DIALOG.CHARACTERISTIC_VALUE": "Characteristic Modifier",
+  "DIALOG.UNNATURAL_VALUE": "Unnatural Modifier",
+  "DIALOG.SKILL_VALUE": "Skill Modifier"
 }

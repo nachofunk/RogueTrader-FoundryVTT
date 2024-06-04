@@ -312,6 +312,8 @@ export class RogueTraderItem extends Item {
 
   get description() { return this.system.description;}
 
+  get effect() { return this.system.effect; }
+
   get availability() { return this.system.availability;}
 
   get weight() { return this.system.weight;}
@@ -402,4 +404,10 @@ export class RogueTraderItem extends Item {
   get ignoreShields() { return false; }
 
   get statModifiers() { return this.modifiers; }
+
+  get characteristicModifiers() { return this.modifiers.characteristic; }
+
+  get skillModifiers() { return this.modifiers.skill; }
+
+  get otherModifiers() { return this.modifiers.other; }
 }

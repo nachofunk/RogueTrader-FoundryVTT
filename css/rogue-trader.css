@@ -2102,3 +2102,20 @@ li.folder.collapsed > .folder-header {
   margin-right: 20px;
   margin-left: 20px;
 }
+
+.modifier-item {
+  padding: 4px;
+  justify-content: space-between;
+}
+
+.modifier-column {
+  flex-basis: 20%;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.modifier-button {
+  flex-basis: 5%;
+  min-width: 10px;
+  justify-content: center;
+}
