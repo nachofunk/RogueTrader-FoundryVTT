@@ -37,7 +37,6 @@ export class RogueTraderActor extends Actor {
       this._computeArmour();
       this._computeMovement();
     }
-    console.log(this);
   }
 
   _computePower() {
@@ -65,18 +64,20 @@ export class RogueTraderActor extends Actor {
   _computeCharacteristics() {
     let middle = Object.values(this.characteristics).length / 2;
     let i = 0;
-    for (let characteristic of Object.values(this.characteristics)) {
-      characteristic.total = characteristic.base + characteristic.advance;
+    for (const key in this.characteristics) {
+      const characteristic = this.characteristics[key];
+      const characteristicBonuses = this._getCharacteristicsBonuses(key);
+      characteristic.total = characteristic.base + characteristic.advance + characteristicBonuses.characteristicModifier;
       characteristic.bonus = Math.floor(characteristic.total / 10) + characteristic.unnatural;
       if (this.fatigue.value > characteristic.bonus) {
         characteristic.total = Math.ceil(characteristic.total / 2);
-        characteristic.bonus = Math.floor(characteristic.total / 10) + characteristic.unnatural;
+        characteristic.bonus = Math.floor(characteristic.total / 10) + characteristic.unnatural + characteristicBonuses.unnaturalModifier;
       }
       characteristic.isLeft = i < middle;
       characteristic.isRight = i >= middle;
       characteristic.advanceCharacteristic = this._getAdvanceCharacteristic(characteristic.advance);
       i++;
-    }
+    };
     this.system.insanityBonus = Math.floor(this.insanity / 10);
     this.system.corruptionBonus = Math.floor(this.corruption / 10);
     this.psy.currentRating = this.psy.rating - this.psy.sustained;
@@ -93,6 +94,26 @@ export class RogueTraderActor extends Actor {
     // The only thing not affected by itself
     this.fatigue.max = tb + wb;
 
+  }
+
+  _getCharacteristicsBonuses(characteristic) {
+    const items = this.items;
+    const result = {
+      characteristicModifier: 0,
+      unnaturalModifier: 0,
+    };
+    items.forEach((value, key) => {
+      const charMods = value.statModifiers.characteristic;
+      if (charMods !== null && charMods !== undefined) {
+        if (charMods.hasOwnProperty(characteristic)) {
+          const mod = charMods[characteristic];
+          result.characteristicModifier += mod.characteristicModifier;
+          result.unnaturalModifier += mod.unnaturalModifier;
+        }
+      }
+    });
+    console.log(`Modifier ${characteristic}: ${JSON.stringify(result)}`);
+    return result;
   }
 
   _computeSkills() {

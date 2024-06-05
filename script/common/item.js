@@ -403,11 +403,19 @@ export class RogueTraderItem extends Item {
 
   get ignoreShields() { return false; }
 
-  get statModifiers() { return this.modifiers; }
+  get statModifiers() { 
+    if (this.system.hasOwnProperty("modifiers") === false)
+      this.system.modifiers = {
+        characteristic: {},
+        skill: {},
+        other: {}
+    }
+    return this.system.modifiers; 
+  }
 
-  get characteristicModifiers() { return this.modifiers.characteristic; }
+  get characteristicModifiers() { return this.statModifiers.characteristic; }
 
-  get skillModifiers() { return this.modifiers.skill; }
+  get skillModifiers() { return this.statModifiers.skill; }
 
-  get otherModifiers() { return this.modifiers.other; }
+  get otherModifiers() { return this.statModifiers.other; }
 }
