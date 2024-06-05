@@ -151,9 +151,9 @@ function registerHandlebarsHelpers() {
           for (const specialty in specialities) {
             if (specialities.hasOwnProperty(specialty)) {
               if (advSkillRegex.test(entry))
-                skills[specialty] = game.i18n.localize(specialities[specialty].label);
+                skills[`${entry}:${specialty}`] = game.i18n.localize(specialities[specialty].label);
               else
-                skills[specialty] = `${game.i18n.localize(entryObject.label)} ${game.i18n.localize(specialities[specialty].label)}`;
+                skills[`${entry}:${specialty}`] = `${game.i18n.localize(entryObject.label)} ${game.i18n.localize(specialities[specialty].label)}`;
             }
           }
         } else {
