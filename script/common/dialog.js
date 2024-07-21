@@ -286,10 +286,16 @@ export async function showAddCharacteristicModifierDialog(itemSheet, modifierTyp
         label: game.i18n.localize("BUTTON.ADD"),
         callback: html => {
           const attributeName = html.find("#attribute-name")[0].value.trim();
+          console.log(attributeName)
           const modifierValue = parseInt(html.find("#modifier-char-value")[0].value, 10);
           const unnaturalValue = parseInt(html.find("#modifier-unnatural-value")[0].value, 10);
+          const optionElement = html.find(`option[id='modifier-option-${attributeName}']`);
+          console.log(optionElement);
+          const optionLabel = optionElement.data('option-label');
+          console.log(optionLabel);
           const modifierData = {
-            name: attributeName,
+            id: attributeName,
+            label: optionLabel,
             characteristicModifier: modifierValue,
             unnaturalModifier: unnaturalValue,
           }
@@ -328,8 +334,13 @@ export async function showAddSkillModifierDialog(itemSheet, modifierType){
         callback: html => {
           const attributeName = html.find("#attribute-name")[0].value.trim();
           const modifierValue = parseInt(html.find("#modifier-skill-value")[0].value, 10);
+          const optionElement = html.find(`option[id='modifier-option-${attributeName}']`);
+          console.log('foo');
+          console.log(optionElement);
+          const optionLabel = optionElement.data('option-label');
           const modifierData = {
-            name: attributeName,
+            id: attributeName,
+            label: optionLabel,
             skillModifier: modifierValue,
           }
           if (attributeName && !isNaN(modifierValue)) {

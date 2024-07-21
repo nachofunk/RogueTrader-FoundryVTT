@@ -3,6 +3,8 @@ import {showAddCharacteristicModifierDialog, showAddSkillModifierDialog} from ".
 export class RogueTraderItemSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
+    console.log('item mods');
+    console.log(this.object.system.modifiers);
     html.find("input").focusin(ev => this._onFocusIn(ev));
     html.find('.add-char-modifier').click(event => {
       const button = $(event.currentTarget);
@@ -28,7 +30,7 @@ export class RogueTraderItemSheet extends ItemSheet {
                 this._subscribeCharacteristicChange(html, category, key);
                 break;
               case 'skill':
-                // Attach skill-specific change handlers
+                this._subscribeSkillChange(html, category, key);
                 break;
               case 'other':
                 // Attach other-specific change handlers
@@ -44,18 +46,37 @@ export class RogueTraderItemSheet extends ItemSheet {
   _subscribeCharacteristicChange(html, category, key) {
     const charModInputField = html.find(`input[id='modifier-char-value-${key}']`);
     const unnaturalModInputField = html.find(`input[id='modifier-unnatural-value-${key}']`);
-    charModInputField.change(() => this._onCharacteristicModifierChange(category, key, charModInputField, unnaturalModInputField));
-    unnaturalModInputField.change(() => this._onCharacteristicModifierChange(category, key, charModInputField, unnaturalModInputField));
+    const charModLabel = html.find(`a[id='modifier-char-label-${key}']`);
+    charModInputField.change(() => this._onCharacteristicModifierChange(category, key, charModLabel, charModInputField, unnaturalModInputField));
+    unnaturalModInputField.change(() => this._onCharacteristicModifierChange(category, key, charModLabel, charModInputField, unnaturalModInputField));
+  }
+
+  _subscribeSkillChange(html, category, key) {
+    console.log('subscribin skill change');
+    const skillModInputField = html.find(`input[id='modifier-skill-value-${key}']`);
+    const skillModLabel = html.find(`a[id='modifier-skill-label-${key}']`);
+    skillModInputField.change(() => this._onSkillModifierChange(category, key, skillModLabel, skillModInputField));
   }
   
-  _onCharacteristicModifierChange(category, key, charValueField, unnaturalValueField) {
+  _onCharacteristicModifierChange(category, key, labelElement, charValueField, unnaturalValueField) {
     const charValue = parseInt(charValueField.val(), 10);
     const unnaturalValue = parseInt(unnaturalValueField.val(), 10);
     const modifierData = {
-      name: key,
+      id: key,
+      label: labelElement.data('modifier-label'),
       characteristicModifier: charValue,
       unnaturalModifier: unnaturalValue
     };
+    this.addModifier(category, key, modifierData);
+  }
+
+  _onSkillModifierChange(category, key, labelElement, skillValueField) {
+    const skillValue = parseInt(skillValueField.val(), 10);
+    const modifierData = {
+      id: key,
+      label: labelElement.data('modifier-label'),
+      skillModifier: skillValue,
+    }
     this.addModifier(category, key, modifierData);
   }
   
@@ -144,7 +165,7 @@ export class RogueTraderItemSheet extends ItemSheet {
    * Adds a new modifier to the item.
    * @param {string} modifierType - The type of the modifier ('characteristic', 'skill', 'other').
    * @param {string} attributeName - The name of the affected attribute.
-   * @param {number} modifierData - The value of the modifier to add.
+   * @param {object} modifierData - The value of the modifier to add.
    */
   addModifier(modifierType, attributeName, modifierData) {
     // Ensure the modifier type is valid
@@ -173,9 +194,9 @@ export class RogueTraderItemSheet extends ItemSheet {
     const div = $(event.currentTarget).parents(".modifier-item");
     const modId = div.data("modifierId");
     const modKey = div.data("modifierKey");
-    let modifiers = this.object.system.modifiers;
-    delete modifiers[modId][modKey];
-    this.object.update({ 'system.modifiers': modifiers}).then(() => {
+    const itemData = this.object.system;
+    delete itemData.modifiers[modId][modKey];
+    this.object.update({ [`system.modifiers.${modId}.-=${modKey}`]: null }).then(() => {
       console.log(`Modifier removed: ${modId} - ${modKey}`);
     }).catch(err => {
       console.error('Error updating item with deleted modifier:', err);

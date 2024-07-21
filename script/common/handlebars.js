@@ -151,13 +151,13 @@ function registerHandlebarsHelpers() {
           for (const specialty in specialities) {
             if (specialities.hasOwnProperty(specialty)) {
               if (advSkillRegex.test(entry))
-                skills[`${entry}:${specialty}`] = game.i18n.localize(specialities[specialty].label);
+                skills[`${entry}:${specialty}`] = specialities[specialty].label;
               else
-                skills[`${entry}:${specialty}`] = `${game.i18n.localize(entryObject.label)} ${game.i18n.localize(specialities[specialty].label)}`;
+                skills[`${entry}:${specialty}`] = `${entryObject.label} ${specialities[specialty].label}`;
             }
           }
         } else {
-          skills[entry] = game.i18n.localize(skillSchema[entry].label);
+          skills[entry] = skillSchema[entry].label;
         }
       }
     }
@@ -171,6 +171,13 @@ function registerHandlebarsHelpers() {
       result[key] = skills[key];
     });
     
+    return result;
+  });
+
+  Handlebars.registerHelper('localizeMultiple', function(text) {
+    const parts = text.split(' '); // Split the string by spaces
+    const localizedParts = parts.map(part => game.i18n.localize(part)); // Localize each part
+    const result = localizedParts.join(': '); // Join the localized parts with spaces
     return result;
   });
 }

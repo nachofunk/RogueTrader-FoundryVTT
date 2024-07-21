@@ -101,6 +101,9 @@ async function _computeTarget(rollData) {
     }
     psyModifier = rollData.psy.value * 5;
   }
+  if (rollData.weaponTraits?.scatter && range > 0) {
+    rollData.modifier += 10;
+  }
   let aim = rollData.aim?.val ? rollData.aim.val : 0;
   const formula = `0 + ${rollData.modifier} + ${aim} + ${range} + ${attackType} + ${psyModifier}`;
   let r = new Roll(formula, {});
@@ -149,7 +152,9 @@ async function _rollDamage(rollData) {
   rollData.damages = [];
   if (rollData.damageFormula) {
     formula = rollData.damageFormula;
-
+    if (rollData.weaponTraits?.scatter) {
+      formula = _appendScatter(formula, rollData.range);
+    }
     if (rollData.weaponTraits?.tearing) {
       formula = _appendTearing(formula);
     }
@@ -573,6 +578,16 @@ function _appendTearing(formula) {
     let faces = parseInt(match[1]);
     let diceTerm = `${numDice}d${faces}dl`;
     formula = formula.replace(diceRegex, diceTerm);
+  }
+  return formula;
+}
+
+function _appendScatter(formula, range) {
+  if (range >= 30) {
+    formula = formula + "+2";
+  }
+  else if (range < 0) {
+    formula = formula + "-3";
   }
   return formula;
 }

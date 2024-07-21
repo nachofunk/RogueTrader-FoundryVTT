@@ -68,7 +68,7 @@ export class RogueTraderActor extends Actor {
       const characteristic = this.characteristics[key];
       const characteristicBonuses = this._getCharacteristicsBonuses(key);
       characteristic.total = characteristic.base + characteristic.advance + characteristicBonuses.characteristicModifier;
-      characteristic.bonus = Math.floor(characteristic.total / 10) + characteristic.unnatural;
+      characteristic.bonus = Math.floor(characteristic.total / 10) + characteristic.unnatural + characteristicBonuses.unnaturalModifier;
       if (this.fatigue.value > characteristic.bonus) {
         characteristic.total = Math.ceil(characteristic.total / 2);
         characteristic.bonus = Math.floor(characteristic.total / 10) + characteristic.unnatural + characteristicBonuses.unnaturalModifier;
@@ -103,7 +103,7 @@ export class RogueTraderActor extends Actor {
       unnaturalModifier: 0,
     };
     items.forEach((value, key) => {
-      const charMods = value.statModifiers.characteristic;
+      const charMods = value.characteristicModifiers;
       if (charMods !== null && charMods !== undefined) {
         if (charMods.hasOwnProperty(characteristic)) {
           const mod = charMods[characteristic];
@@ -170,7 +170,7 @@ export class RogueTraderActor extends Actor {
     }
     const items = this.items;
     items.forEach((value, key) => {
-      const skillMods = value.statModifiers.skill;
+      const skillMods = value.skillModifiers;
       if (skillMods !== null && skillMods !== undefined) {
         for (const skillMod in skillMods ) {
           const split = skillMod.split(":");

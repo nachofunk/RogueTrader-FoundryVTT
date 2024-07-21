@@ -104,7 +104,8 @@ export default class RogueTraderUtil {
       skipAttackRoll: this.hasNamedTrait(/Spray/gi, traits),
       tearing: this.hasNamedTrait(/Tearing/gi, traits),
       force: this.hasNamedTrait(/Force/gi, traits),
-      warp: this.hasNamedTrait(/Warp/gi, traits)
+      warp: this.hasNamedTrait(/Warp/gi, traits),
+      scatter: this.hasNamedTrait(/Scatter/gi, traits)
     };
   }
 

@@ -647,6 +647,7 @@
   "DIALOG.CHARACTERISTIC_NAME": "Characteristic",
   "DIALOG.SKILL_NAME": "Skill",
   "DIALOG.CHARACTERISTIC_VALUE": "Characteristic Modifier",
-  "DIALOG.UNNATURAL_VALUE": "Unnatural Modifier",
+  "DIALOG.VALUE_MODIFIER": "Value Modifier",
+  "DIALOG.UNNATURAL_VALUE": "Bonus Modifier",
   "DIALOG.SKILL_VALUE": "Skill Modifier"
 }
