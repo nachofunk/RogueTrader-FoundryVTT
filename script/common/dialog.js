@@ -150,8 +150,8 @@ export async function prepareCombatRoll(rollData, actorRef) {
  * @param {RogueTraderActor} actorRef
  */
 export async function prepareShipCombatRoll(rollData, actorRef) {
+  rollData.ignoreArmor |= rollData.weaponType === "Lance";
   const html = await renderTemplate("systems/rogue-trader/template/dialog/ship-combat-roll.html", rollData);
-  console.log(rollData);
   let dialog = new Dialog({
       title: rollData.name,
       content: html,
@@ -163,6 +163,7 @@ export async function prepareShipCombatRoll(rollData, actorRef) {
                   rollData.name = game.i18n.localize(rollData.name);
                   rollData.baseTarget = parseInt(html.find("#target")[0]?.value, 10);
                   rollData.modifier = html.find("#modifier")[0]?.value;
+                  rollData.performer = html.find("#performer")[0]?.value;
                   const range = html.find("#range")[0];
                   if (typeof range !== "undefined" && range !== null) {
                       rollData.range = range.value;
@@ -189,6 +190,17 @@ export async function prepareShipCombatRoll(rollData, actorRef) {
       },
       default: "roll",
       close: () => {},
+      render: html => {
+        const sel = html.find("#performer");
+        const target = html.find("#target");
+        sel.change(ev => {
+          if (sel.val() === "crew") {
+            target.val(actorRef.crewSkillValue);
+          } else {
+            target.val(game.actors.get(sel.val()).characteristics.ballisticSkill.total);
+          }
+        });
+      }
   }, {width: 200});
   dialog.render(true);
 }

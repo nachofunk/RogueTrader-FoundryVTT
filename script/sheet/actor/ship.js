@@ -69,11 +69,7 @@ export class ShipSheet extends RogueTraderSheet {
 
   async _onDropActor(event, data)
   {
-    console.log(event);
-    console.log(data);
-    console.log(this);
     const actorData = await this.getData();
-    console.log(actorData);
     const droppedActor = game.actors.get(data.uuid.split(".")[1]);
     switch (event.target.dataset.crewrole) {
       case "captain":
@@ -186,7 +182,6 @@ export class ShipSheet extends RogueTraderSheet {
         break;
     }
     this._updateObject(event, actorData);
-    console.log(droppedActor);
   }
 
   async _onDropItemCreate(itemData) {

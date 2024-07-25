@@ -46,8 +46,6 @@ async function _rollShipDamage(rollData) {
     formula = _replaceSymbols(formula, rollData);
   }
   let penetration = 0;
-  console.log("ship damage roll data");
-  console.log(rollData);
   if (rollData.attackType.name === "Lance") {
     penetration = game.i18n.localize("CHAT.PENETRATION_IGNORE_ARMOR");
   }
@@ -87,7 +85,6 @@ async function _rollShipDamage(rollData) {
       minDamage.total += (rollData.dos - minDamage.minDice);
     }
   }
-  console.log(rollData);
 }
 
 /**
@@ -292,21 +289,6 @@ async function _computeShipDamage(damageFormula, penetration, rollData, weaponTr
     damageRender: await r.render()
   };
 
-/*   if (weaponTraits?.accurate && isAiming) {
-    let numDice = ~~((dos - 1) / 2); //-1 because each degree after the first counts
-    if (numDice >= 1) {
-      if (numDice > 2) numDice = 2;
-      let ar = new Roll(`${numDice}d10`);
-      ar.evaluate({ async: false });
-      damage.total += ar.total;
-      ar.terms.flatMap(term => term.results).forEach(async die => {
-        if (die.active && die.result < dos) damage.dices.push(die.result);
-        if (die.active && (typeof damage.minDice === "undefined" || die.result < damage.minDice)) damage.minDice = die.result;
-      });
-      damage.accurateRender = await ar.render();
-    }
-  } */
-
   // Without a To Hit we a roll to associate the chat message with
   if (weaponTraits?.skipAttackRoll) {
     damage.damageRoll = r;
@@ -318,8 +300,10 @@ async function _computeShipDamage(damageFormula, penetration, rollData, weaponTr
       term.results?.forEach(async result => {
         let dieResult = result.count ? result.count : result.result; // Result.count = actual value if modified by term
         // if (result.active && dieResult >= rfFace) damage.righteousFury = _rollRighteousFury();
-        if (result.active && dieResult < dos) damage.dices.push(dieResult);
-        if (result.active && (typeof damage.minDice === "undefined" || dieResult < damage.minDice)) damage.minDice = dieResult;
+        if (result.active && dieResult < rollData.dos) 
+          damage.dices.push(dieResult);
+        if (result.active && (typeof damage.minDice === "undefined" || dieResult < damage.minDice)) 
+          damage.minDice = dieResult;
       });
     }
   });

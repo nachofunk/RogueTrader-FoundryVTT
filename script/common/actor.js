@@ -745,4 +745,16 @@ export class RogueTraderActor extends Actor {
   get steward() {
     return game.actors.get(this.system.namedCrew.steward);
   }
+
+  get namedCrewMembers() {
+    let shipCrewObject = this.system.namedCrew;
+    let crewRoster = {};
+    for (let crewMember in shipCrewObject) {
+      let crewId = shipCrewObject[crewMember];
+      if (crewId !== "") {
+        crewRoster[crewMember] = game.actors.get(crewId); 
+      }
+    }
+    return crewRoster;
+  }
 }

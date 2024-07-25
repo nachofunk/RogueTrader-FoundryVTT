@@ -194,6 +194,8 @@
   "DIALOG.AIM": "Aiming",
   "DIALOG.DISCIPLINE_MASTERY": "Discipline Mastery",
   "DIALOG.PUSH": "Push Power",
+  "DIALOG.ARTILLERIST": "Gunner",
+  "DIALOG.CREW": "Crew",
 
   "DRUG.HEADER": "Drug",
   "DRUG.NAME": "Name",

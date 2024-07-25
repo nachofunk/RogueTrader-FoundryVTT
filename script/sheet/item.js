@@ -3,8 +3,6 @@ import {showAddCharacteristicModifierDialog, showAddSkillModifierDialog} from ".
 export class RogueTraderItemSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
-    console.log('item mods');
-    console.log(this.object.system.modifiers);
     html.find("input").focusin(ev => this._onFocusIn(ev));
     html.find('.add-char-modifier').click(event => {
       const button = $(event.currentTarget);
@@ -52,7 +50,6 @@ export class RogueTraderItemSheet extends ItemSheet {
   }
 
   _subscribeSkillChange(html, category, key) {
-    console.log('subscribin skill change');
     const skillModInputField = html.find(`input[id='modifier-skill-value-${key}']`);
     const skillModLabel = html.find(`a[id='modifier-skill-label-${key}']`);
     skillModInputField.change(() => this._onSkillModifierChange(category, key, skillModLabel, skillModInputField));
