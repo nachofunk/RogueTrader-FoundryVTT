@@ -647,6 +647,12 @@
   "SHIP.NAMED_CREW.CARTOGRAPHER": "Carto-Artifex",
   "SHIP.NAMED_CREW.STEWARD": "Ship's Steward",
 
+  "SHIP.SIDE.STARBOARD": "Starboard",
+  "SHIP.SIDE.PORT": "Port",
+  "SHIP.SIDE.PROW": "Prow",
+  "SHIP.SIDE.DORSAL": "Dorsal",
+  "SHIP.SIDE.KEEL": "Keel",
+
   "DIALOG.NEW_MODIFIER": "Add New Modifier",
   "DIALOG.ADD_CHARACTERISTIC_MODIFIER": "New Characteristic Modifier",
   "DIALOG.ADD_SKILL_MODIFIER": "New Skill Modifier",

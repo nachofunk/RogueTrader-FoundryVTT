@@ -199,5 +199,33 @@ function registerHandlebarsHelpers() {
     let maximal = rangeValue * 5;
     return `${pointBlank}/${short}/${long}/${extreme}/${maximal}`;
   });
+
+  Handlebars.registerHelper('localizeShipSide', function(side) {
+    let result = "";
+    let localizer = game.i18n;
+    switch (side) {
+      case "port": {
+        result = localizer.localize("SHIP.SIDE.PORT");
+        break;
+      }
+      case "star": {
+        result = localizer.localize("SHIP.SIDE.STARBOARD");
+        break;
+      }
+      case "dorsal": {
+        result = localizer.localize("SHIP.SIDE.DORSAL");
+        break;
+      }
+      case "prow": {
+        result = localizer.localize("SHIP.SIDE.PROW");
+        break;
+      }
+      case "keel": {
+        result = localizer.localize("SHIP.SIDE.KEEL");
+        break;
+      }
+    }
+    return result;
+  });
 }
 

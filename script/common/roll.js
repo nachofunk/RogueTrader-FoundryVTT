@@ -63,7 +63,7 @@ async function _rollShipDamage(rollData) {
     firstHit.hasLocation = false
     rollData.damages.push(firstHit);
     if (rollData.attackType?.hitMargin > 0) {
-      let maxAdditionalHit = Math.floor((rollData.dos - 1) / rollData.attackType.hitMargin);
+      let maxAdditionalHit = Math.floor((rollData.dos) / rollData.attackType.hitMargin);
       if (typeof rollData.maxAdditionalHit !== "undefined" && maxAdditionalHit > rollData.maxAdditionalHit) {
         maxAdditionalHit = rollData.maxAdditionalHit;
       }
@@ -468,7 +468,7 @@ function _computeRateOfFire(rollData) {
       break;
     case "Lance":
       // rollData.attackType.modifier = 20;
-      rollData.attackType.hitMargin = 2;
+      rollData.attackType.hitMargin = 3;
       rollData.maxAdditionalHit = rollData.weaponStrength - 1;
       break;
 
