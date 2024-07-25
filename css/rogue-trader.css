@@ -922,6 +922,13 @@ li.folder.collapsed > .folder-header {
   height: 100%;
   min-height: 100px;
 }
+.rogue-trader.sheet .complications-editor {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 50%;
+  min-height: 100px;
+}
 .rogue-trader .explorer {
   display: flex;
   flex-direction: column;
