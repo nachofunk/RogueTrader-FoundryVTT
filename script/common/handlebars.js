@@ -180,5 +180,24 @@ function registerHandlebarsHelpers() {
     const result = localizedParts.join(': '); // Join the localized parts with spaces
     return result;
   });
+
+  Handlebars.registerHelper('getShipRangeBrackets', function(range) {
+    let rangeValue = parseInt(range);
+    let short = Math.floor(rangeValue / 2);
+    let long = rangeValue * 2;
+    return `${short}/${rangeValue}/${long}`;
+  });
+
+  Handlebars.registerHelper('getExplorerRangeBrackets', function(range) {
+    let rangeValue = parseInt(range);
+    if (rangeValue <= 0)
+      return 0;
+    let short = Math.floor(rangeValue / 2);
+    let pointBlank = Math.min(short - 1, 2);
+    let long = rangeValue * 2;
+    let extreme = rangeValue * 3;
+    let maximal = rangeValue * 5;
+    return `${pointBlank}/${short}/${long}/${extreme}/${maximal}`;
+  });
 }
 

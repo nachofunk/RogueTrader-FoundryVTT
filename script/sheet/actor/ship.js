@@ -29,32 +29,26 @@ export class ShipSheet extends RogueTraderSheet {
 
   async _prepareRollShipWeapon(event) {
     event.preventDefault();
-    await this.selectTargetToken();
-    if (this.selectedToken) {
-      const div = $(event.currentTarget).parents(".item");
-      const weapon = this.actor.items.get(div.data("itemId"));
-      await prepareShipCombatRoll(
-        RogueTraderUtil.createShipWeaponRollData(this.actor, weapon), 
-        this.actor,
-        this.selectedToken
-      );
-    }
+    // await this.selectTargetToken();
+    const div = $(event.currentTarget).parents(".item");
+    const weapon = this.actor.items.get(div.data("itemId"));
+    await prepareShipCombatRoll(
+      RogueTraderUtil.createShipWeaponRollData(this.actor, weapon), 
+      this.actor
+    );
   }
 
   async selectTargetToken() {
-    // Minimize currently open character card
     this.minimize();
     this.selectedToken = null;
     ui.notifications.info("Choose a target on the board.");
-    // Listen for the "mousedown" event on the board layer
-    canvas.stage.on("mousedown", this.onCanvasClick.bind(this));
-    // Wait for your destination to be selected
+    Hooks.on("targetToken", this.onTokenSelected.bind(this));
     while (!this.selectedToken) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
-    // Stop listening for the "mousedown" event after selecting a target
-    canvas.stage.off("mousedown", this.onCanvasClick);
-    // Bring back character cards and make a roll
+    Hooks.off("targetToken", this.onTokenSelected);
+    console.log("selected token");
+    console.log(this.selectedToken);
     this.maximize();
     if (!this.selectedToken) {
       ui.notifications.error("No target selected on the board.");
@@ -62,15 +56,9 @@ export class ShipSheet extends RogueTraderSheet {
   }
 
   // Method to handle clicking on the board
-  onCanvasClick(event) {
-    // Get the clicked token (if any)
-    const clickedToken = event.target;
-    // Check that the clicked token does not belong to the player (ignore then)
-    if (clickedToken && clickedToken.actor && clickedToken.actor.hasPlayerOwner) {
-      return;
-    }
-    // Stop selecting a target if a token is clicked
-    this.selectedToken = clickedToken;
+  onTokenSelected(user, token, targeted) {
+    if (targeted)
+      this.selectedToken = token;
   }
 
   async _onDrop(event)

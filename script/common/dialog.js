@@ -149,7 +149,7 @@ export async function prepareCombatRoll(rollData, actorRef) {
  * @param {object} rollData
  * @param {RogueTraderActor} actorRef
  */
-export async function prepareShipCombatRoll(rollData, actorRef, target) {
+export async function prepareShipCombatRoll(rollData, actorRef) {
   const html = await renderTemplate("systems/rogue-trader/template/dialog/ship-combat-roll.html", rollData);
   console.log(rollData);
   let dialog = new Dialog({

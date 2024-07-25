@@ -49,9 +49,8 @@ export default class RogueTraderUtil {
     };
   }
 
-  static createShipWeaponRollData(actor, weapon, target) {
+  static createShipWeaponRollData(actor, weapon) {
     let rollData = this.createCommonShipRollData(actor, weapon)
-    rollData.attackTarget = target;
     if (actor.masterOrdnance)
       rollData.baseTarget = actor.masterOrdnance.characteristics.ballisticSkill;
     else
@@ -105,7 +104,8 @@ export default class RogueTraderUtil {
       tearing: this.hasNamedTrait(/Tearing/gi, traits),
       force: this.hasNamedTrait(/Force/gi, traits),
       warp: this.hasNamedTrait(/Warp/gi, traits),
-      scatter: this.hasNamedTrait(/Scatter/gi, traits)
+      scatter: this.hasNamedTrait(/Scatter/gi, traits),
+      melta: this.hasNamedTrait(/Melta/gi, traits),
     };
   }
 

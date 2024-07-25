@@ -131,8 +131,10 @@
   "CHAT.DOS": "Degrees of Success",
   "CHAT.DOF": "Degrees of Failure",
   "CHAT.DAMAGE": "Damage",
+  "CHAT.DAMAGE_TOTAL": "Damage Total",
   "CHAT.RIGHTEOUS_FURY": "Righteous Fury",
   "CHAT.PENETRATION": "Penetration",
+  "CHAT.PENETRATION_IGNORE_ARMOR": "Ignore Armor",
   "CHAT.PSY_RATING": "Psy Rating",
   "CHAT.PSY_PUSH": "Push",
   "CHAT.NUMBER_OF_HIT": "Number of Hit",
@@ -144,6 +146,7 @@
   "CHAT.DAMAGE_HEADER": "Damage Roll",
   "CHAT.REROLL" : "Fate Reroll",
   "CHAT.AIMING" : "Aiming",
+  "CHAT.CRITICAL_HIT": "CRITICAL HIT!",
 
   "CORRUPTION.HEADER": "Corruption",
   "CORRUPTION.MALIGNANCY": "Malignancy",
@@ -596,6 +599,7 @@
   "SHIP_WEAPON.LANCE": "Lance",
   "SHIP_WEAPON.TORPEDO": "Torpedo",
   "SHIP_WEAPON.HANGAR": "Hangar",
+  "SHIP_WEAPON.SIDE": "Side",
 
   "SHIP_ITEM.HEADER": "Component",
   "SHIP_ITEM.CLASS": "Type",

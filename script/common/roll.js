@@ -34,7 +34,7 @@ export async function shipCombatRoll(rollData) {
   if (rollData.isSuccess) {
     await _rollShipDamage(rollData);
   }
-await _sendToChat(rollData);
+  await _sendToChat(rollData);
 }
 
 async function _rollShipDamage(rollData) {
@@ -46,7 +46,19 @@ async function _rollShipDamage(rollData) {
     formula = _replaceSymbols(formula, rollData);
   }
   let penetration = 0;
-  let firstHit = await _computeShipDamage(formula, penetration, rollData.dos, rollData.aim?.isAiming, rollData.weaponTraits);
+  console.log("ship damage roll data");
+  console.log(rollData);
+  if (rollData.attackType.name === "Lance") {
+    penetration = game.i18n.localize("CHAT.PENETRATION_IGNORE_ARMOR");
+  }
+  rollData.salvoTotal = 0;
+  let isMacrobattery = rollData.attackType.name === "Macrobattery";
+  rollData.showTotalDamage = isMacrobattery;
+  rollData.isCritical = rollData.dos >= rollData.critRating;
+  rollData.hidePenetration = isMacrobattery;
+  let firstHit = await _computeShipDamage(formula, penetration, rollData);
+  if (isMacrobattery)
+    rollData.salvoTotal += firstHit.total;
   if (firstHit.total !== 0) {
     const firstLocation = "None";
     firstHit.location = firstLocation;
@@ -59,9 +71,11 @@ async function _rollShipDamage(rollData) {
       }
       rollData.numberOfHit = maxAdditionalHit + 1;
       for (let i = 0; i < maxAdditionalHit; i++) {
-        let additionalHit = await _computeDamage(formula, penetration, rollData.dos, rollData.aim?.isAiming, rollData.weaponTraits);
+        let additionalHit = await _computeShipDamage(formula, penetration, rollData);
         additionalHit.location = "None";
         rollData.damages.push(additionalHit);
+        if (isMacrobattery)
+          rollData.salvoTotal += additionalHit.total;
       }
     } else {
       rollData.numberOfHit = 1;
@@ -73,6 +87,7 @@ async function _rollShipDamage(rollData) {
       minDamage.total += (rollData.dos - minDamage.minDice);
     }
   }
+  console.log(rollData);
 }
 
 /**
@@ -140,7 +155,10 @@ async function _rollTarget(rollData) {
 
 function _getUnnaturalDoS(unnatural)
 {
-  return Math.ceil(unnatural / 2);
+  if (unnatural)
+    return Math.ceil(unnatural / 2);
+  else 
+    return 0;
 }
 
 /**
@@ -169,7 +187,7 @@ async function _rollDamage(rollData) {
     formula = _replaceSymbols(formula, rollData);
   }
   let penetration = _rollPenetration(rollData);
-  let firstHit = await _computeDamage(formula, penetration, rollData.dos, rollData.aim?.isAiming, rollData.weaponTraits);
+  let firstHit = await _computeDamage(formula, penetration, rollData);
   if (firstHit.total !== 0) {
     const firstLocation = _getLocation(rollData.result);
     firstHit.location = firstLocation;
@@ -182,7 +200,7 @@ async function _rollDamage(rollData) {
       }
       rollData.numberOfHit = maxAdditionalHit + 1;
       for (let i = 0; i < maxAdditionalHit; i++) {
-        let additionalHit = await _computeDamage(formula, penetration, rollData.dos, rollData.aim?.isAiming, rollData.weaponTraits);
+        let additionalHit = await _computeDamage(formula, penetration, rollData);
         additionalHit.location = _getAdditionalLocation(firstLocation, i);
         rollData.damages.push(additionalHit);
       }
@@ -204,7 +222,8 @@ async function _rollDamage(rollData) {
  * @param {object} rollData
  * @returns {object}
  */
-async function _computeDamage(damageFormula, penetration, dos, isAiming, weaponTraits) {
+async function _computeDamage(damageFormula, penetration, rollData) {
+  let weaponTraits = rollData.weaponTraits;
   let r = new Roll(damageFormula);
   r.evaluate({ async: false });
   let damage = {
@@ -212,7 +231,7 @@ async function _computeDamage(damageFormula, penetration, dos, isAiming, weaponT
     righteousFury: 0,
     dices: [],
     penetration: penetration,
-    dos: dos,
+    dos: rollData.dos,
     formula: damageFormula,
     replaced: false,
     damageRender: await r.render()
@@ -258,7 +277,7 @@ async function _computeDamage(damageFormula, penetration, dos, isAiming, weaponT
  * @param {object} rollData
  * @returns {object}
  */
-async function _computeShipDamage(damageFormula, penetration, dos, isAiming, weaponTraits) {
+async function _computeShipDamage(damageFormula, penetration, rollData, weaponTraits) {
   let r = new Roll(damageFormula);
   r.evaluate({ async: false });
   let damage = {
@@ -266,7 +285,8 @@ async function _computeShipDamage(damageFormula, penetration, dos, isAiming, wea
     righteousFury: 0,
     dices: [],
     penetration: penetration,
-    dos: dos,
+    hidePenetration: rollData.hidePenetration,
+    dos: rollData.dos,
     formula: damageFormula,
     replaced: false,
     damageRender: await r.render()
@@ -326,6 +346,9 @@ function _rollPenetration(rollData) {
     if (rollData.dos >= 3) {
       multiplier = 2;
     }
+  }
+  if (rollData.weaponTraits?.melta && rollData.range > 0) {
+    multiplier = 2;
   }
   let r = new Roll(penetration.toString());
   r.evaluate({ async: false });

@@ -49,6 +49,7 @@
 }
 .rogue-trader .wrap {
   flex-wrap: wrap;
+  height: 100%;
 }
 .rogue-trader .justify-center {
   justify-content: center;
@@ -735,6 +736,7 @@ li.folder.collapsed > .folder-header {
   height: 100%;
   width: 100%;
   text-align: initial;
+  min-height: 75px;
 }
 .rogue-trader .sheet-tabs {
   border-radius: 3px;
@@ -914,6 +916,7 @@ li.folder.collapsed > .folder-header {
   flex-wrap: wrap;
   flex-basis: 100%;
   height: 100%;
+  min-height: 100px;
 }
 .rogue-trader .explorer {
   display: flex;
@@ -1192,7 +1195,7 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .abilities {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   flex-basis: calc(46% - 2px);
   margin-left: 2px;
@@ -1334,8 +1337,12 @@ li.folder.collapsed > .folder-header {
   margin-top: 2px;
   flex-basis: 100%;
 }
+.rogue-trader .combat {
+  height: 100%;
+}
 .rogue-trader .combat .weapons .item-list .header {
   margin-top: 5px;
+  justify-content: space-around;
 }
 .rogue-trader .combat .weapons .item-list .name {
   flex-basis: 20%;
@@ -1349,12 +1356,25 @@ li.folder.collapsed > .folder-header {
 .rogue-trader .combat .weapons .item-list .range {
   flex-basis: 5%;
   text-align: center;
+  min-width: 120px;
 }
 .rogue-trader .combat .weapons .item-list .rate-of-fire {
   flex-basis: 10%;
   text-align: center;
 }
 .rogue-trader .combat .weapons .item-list .damage {
+  flex-basis: 10%;
+  text-align: center;
+}
+.rogue-trader .combat .weapons .item-list .critical {
+  flex-basis: 10%;
+  text-align: center;
+}
+.rogue-trader .combat .weapons .item-list .strength {
+  flex-basis: 10%;
+  text-align: center;
+}
+.rogue-trader .combat .weapons .item-list .side {
   flex-basis: 10%;
   text-align: center;
 }
@@ -1380,6 +1400,11 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .combat .weapons .item-list .items .weapon {
   width: 100%;
+  justify-content: space-around;
+}
+.rogue-trader .combat .weapons .item-list .weapon {
+  width: 100%;
+  justify-content: space-around;
 }
 .rogue-trader .combat .weapons .item-list .items {
   max-height: 100px;
@@ -1991,13 +2016,14 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .notes-tab .notes-editor {
   margin-top: 2px;
-  height: 100%;
+  height: 65%;
+  flex-grow: 1;
 }
 .rogue-trader .notes-tab .information {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  flex-basis: 100%;
+  height: 30%;
 }
 .rogue-trader .notes-tab .information .information-row {
   align-items: baseline;

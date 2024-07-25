@@ -25,7 +25,7 @@ export const addChatMessageContextOptions = function(html, options) {
   let canReroll = li => {
       const message = game.messages.get(li.data("messageId"));
       let actor = game.actors.get(message.getRollData()?.ownerId);
-      return message.isRoll && message.isContentVisible && actor?.fate.value > 0;
+      return message.isRoll && message.isContentVisible && actor?.fate?.value > 0;
   };
   
   options.push(
