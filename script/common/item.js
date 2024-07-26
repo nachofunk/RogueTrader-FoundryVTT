@@ -1,3 +1,5 @@
+import RogueTraderUtil from "./util.js";
+
 export class RogueTraderItem extends Item {
   async sendToChat() {
     const item = new CONFIG.Item.documentClass(this.data._source);
@@ -261,6 +263,19 @@ export class RogueTraderItem extends Item {
     : game.i18n.localize("No");
   }
 
+  get explorerRangeBrackets() {
+    if (RogueTraderUtil.extractWeaponTraits(this.special)?.skipAttackRoll) {
+      return `${this.range}`;
+    }
+    if (this.range <= 0)
+      return 0;
+    let short = Math.floor(this.range / 2);
+    let pointBlank = Math.min(short - 1, 2);
+    let long = this.range * 2;
+    let extreme = this.range * 3;
+    let maximal = this.range * 5;
+    return `${pointBlank}/${short}/${long}/${extreme}/${maximal}`;
+  }
 
   get isMentalDisorder() { return this.type === "mentalDisorder"; }
 
