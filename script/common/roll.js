@@ -222,6 +222,8 @@ async function _rollDamage(rollData) {
 async function _computeDamage(damageFormula, penetration, rollData) {
   let weaponTraits = rollData.weaponTraits;
   let r = new Roll(damageFormula);
+  let dos = rollData.dos;
+  let isAiming = rollData.aim?.isAiming;
   r.evaluate({ async: false });
   let damage = {
     total: r.total,
@@ -344,10 +346,8 @@ function _rollPenetration(rollData) {
  * @returns {number}
  */
 function _rollRighteousFury(face) {
-  let r = new Roll("1d10");
+  let r = new Roll(`1d10x>${face}`);
   r.evaluate({ async: false });
-  if (r.total >= face)
-    r.total += _rollRighteousFury(face);
   return r.total;
 }
 
@@ -356,7 +356,7 @@ function _rollRighteousFury(face) {
  * @param {object} rollData
  */
 function _computePsychicPhenomena(rollData) {
-  rollData.psy.hasPhenomena = rollData.psy.psyStrength === "push" ? !_isDouble(rollData.result) : _isDouble(rollData.result);
+  rollData.psy.hasPhenomena = rollData.psy.psyStrength === "push" ? !_isDouble(rollData.result) : _isDouble(rollData.result) && rollData.psy.psyStrength != "fettered";
 }
 
 /**

@@ -102,6 +102,11 @@ export class ShipSheet extends RogueTraderSheet {
           actorData.system.namedCrew.masterHelmsman = data.uuid.split(".")[1];
           break;
         }
+      case "masterOrdnance":
+        {
+          actorData.system.namedCrew.masterOrdnance = data.uuid.split(".")[1];
+          break;
+        }
       case "masterEtherics": 
         {
           actorData.system.namedCrew.masterEtherics = data.uuid.split(".")[1];

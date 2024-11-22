@@ -96,9 +96,9 @@ export default class RogueTraderUtil {
     // These weapon traits never go above 9 or below 2
     return {
       accurate: this.hasNamedTrait(/Accurate/gi, traits),
-      rfFace: this.extractNumberedTrait(/Vengeful.*\(\d\)/gi, traits), // The alternativ die face Righteous Fury is triggered on
-      proven: this.extractNumberedTrait(/Proven.*\(\d\)/gi, traits),
-      primitive: this.extractNumberedTrait(/Primitive.*\(\d\)/gi, traits),
+      rfFace: this.extractNumberedTrait(/Vengeful\s*\(?\s*\d+\s*\)?/gi, traits), // The alternativ die face Righteous Fury is triggered on
+      proven: this.extractNumberedTrait(/Proven\s*\(?\s*\d+\s*\)?/gi, traits),
+      primitive: this.extractNumberedTrait(/Primitive\s*\(?\s*\d+\s*\)?/gi, traits),
       razorSharp: this.hasNamedTrait(/Razor *Sharp/gi, traits),
       skipAttackRoll: this.hasNamedTrait(/Spray/gi, traits),
       tearing: this.hasNamedTrait(/Tearing/gi, traits),
@@ -106,6 +106,7 @@ export default class RogueTraderUtil {
       warp: this.hasNamedTrait(/Warp/gi, traits),
       scatter: this.hasNamedTrait(/Scatter/gi, traits),
       melta: this.hasNamedTrait(/Melta/gi, traits),
+      maximal: this.hasNamedTrait(/Maximal/gi, traits),
     };
   }
 
