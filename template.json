@@ -1318,7 +1318,8 @@
       "damage": "",
       "critRating": 0,
       "range": 0,
-      "side": "port"
+      "side": "port",
+      "rof": 1
     },
     "shipComponent" : {
       "templates": ["itemDescription", "equipment", "shipEquipment"],

@@ -418,6 +418,8 @@ export class RogueTraderItem extends Item {
 
   get ignoreShields() { return false; }
 
+  get dosPerHit() { return this.system.rof; }
+
   get statModifiers() { 
     if (this.system.hasOwnProperty("modifiers") === false)
       this.system.modifiers = {

@@ -463,12 +463,12 @@ function _computeRateOfFire(rollData) {
     
     case "Macrobattery":
       // rollData.attackType.modifier = 10;
-      rollData.attackType.hitMargin = 1;
+      rollData.attackType.hitMargin = rollData.dosPerHit ?? 1;
       rollData.maxAdditionalHit = rollData.weaponStrength - 1;
       break;
     case "Lance":
       // rollData.attackType.modifier = 20;
-      rollData.attackType.hitMargin = 3;
+      rollData.attackType.hitMargin = rollData.dosPerHit ?? 3;
       rollData.maxAdditionalHit = rollData.weaponStrength - 1;
       break;
 

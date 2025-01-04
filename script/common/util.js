@@ -65,6 +65,7 @@ export default class RogueTraderUtil {
     rollData.side = weapon.side;
     rollData.ignoreArmor = weapon.ignoreArmor;
     rollData.ignoreShields = weapon.ignoreShields;
+    rollData.dosPerHit = weapon.dosPerHit;
     return rollData;
   }
   
