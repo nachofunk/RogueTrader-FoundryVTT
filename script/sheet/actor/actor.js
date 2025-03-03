@@ -1,4 +1,4 @@
-import {prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll} from "../../common/dialog.js";
+import {prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll, prepareForceFieldRoll} from "../../common/dialog.js";
 import RogueTraderUtil from "../../common/util.js";
 
 export class RogueTraderSheet extends ActorSheet {
@@ -14,6 +14,7 @@ export class RogueTraderSheet extends ActorSheet {
     html.find(".roll-insanity").click(async ev => await this._prepareRollInsanity(ev));
     html.find(".roll-corruption").click(async ev => await this._prepareRollCorruption(ev));
     html.find(".roll-weapon").click(async ev => await this._prepareRollWeapon(ev));
+    html.find(".roll-forceField").click(async ev => await this._prepareRollForceField(ev));
     // html.find(".roll-shipWeapon").click(async ev => await this._prepareRollShipWeapon(ev));
     html.find(".roll-psychic-power").click(async ev => await this._prepareRollPsychicPower(ev));
   }
@@ -234,6 +235,16 @@ export class RogueTraderSheet extends ActorSheet {
     const weapon = this.actor.items.get(div.data("itemId"));
     await prepareCombatRoll(
       RogueTraderUtil.createWeaponRollData(this.actor, weapon), 
+      this.actor
+    );
+  }
+
+  async _prepareRollForceField(event) {
+    event.preventDefault();
+    const div = $(event.currentTarget).parents(".item");
+    const forceField = this.actor.items.get(div.data("itemId"));
+    await prepareForceFieldRoll(
+      RogueTraderUtil.createForceFieldRollData(this.actor, forceField),
       this.actor
     );
   }

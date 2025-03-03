@@ -41,6 +41,18 @@ export default class RogueTraderUtil {
     return rollData;
   }
 
+  static createForceFieldRollData(actor, forceField) {
+    let rollData = {
+      name: forceField.name, 
+      ownerId: actor.id,
+      itemId: forceField.id,    
+      protectionRating: parseInt(forceField.protectionRating),
+      overloadChance: parseInt(forceField.overloadChance),
+      description: forceField.description,
+    }
+    return rollData;
+  }
+
   static createCommonShipRollData(actor, item) {
     return {
       name: item.name,

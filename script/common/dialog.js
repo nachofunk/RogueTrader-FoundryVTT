@@ -1,4 +1,4 @@
-import { commonRoll, combatRoll, shipCombatRoll, reportEmptyClip } from "./roll.js";
+import { commonRoll, combatRoll, shipCombatRoll, forceFieldRoll, reportEmptyClip } from "./roll.js";
 
 /**
  * Show a generic roll dialog.
@@ -142,6 +142,37 @@ export async function prepareCombatRoll(rollData, actorRef) {
         close: () => {},
     }, {width: 200});
     dialog.render(true);
+}
+
+/**
+ * Show a force field roll dialog.
+ * @param {object} rollData
+ * @param {RogueTraderActor} actorRef
+ */
+export async function prepareForceFieldRoll(rollData, actorRef) {
+  const html = await renderTemplate("systems/rogue-trader/template/dialog/forceField-roll.html", rollData);
+  let dialog = new Dialog({
+    title: rollData.name,
+    content: html,
+    buttons: {
+      roll: {
+        icon: '<i class="fas fa-check"></i>',
+        label: game.i18n.localize("BUTTON.ROLL"),
+        callback: async (html) => {
+          rollData.name = game.i18n.localize(rollData.name);
+          rollData.protectionRating = parseInt(html.find("#target")[0]?.value, 10);
+          rollData.overloadChance = parseInt(html.find("#overload")[0]?.value, 10);
+          await forceFieldRoll(rollData);
+        }
+      },
+      cancel: {
+        icon: '<i class="fas fa-times"></i>',
+        label: game.i18n.localize("BUTTON.CANCEL"),
+        callback: () => {},
+      },
+    },
+  }, {width: 200});
+  dialog.render(true);
 }
 
 /**

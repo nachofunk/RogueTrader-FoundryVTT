@@ -4,10 +4,10 @@ export class RogueTraderActor extends Actor {
     
     let initData = {
       "prototypeToken.bar1": { attribute: "wounds" },
-      "prototypeToken.bar2": { attribute: "fate" },
+      "prototypeToken.bar2": { attribute: "fatigue" },
       "prototypeToken.name": data.name,
-      "prototypeToken.displayName" : CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
-      "prototypeToken.displayBars" : CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
+      "prototypeToken.displayName" : CONST.TOKEN_DISPLAY_MODES.HOVER,
+      "prototypeToken.displayBars" : CONST.TOKEN_DISPLAY_MODES.HOVER,
             
     };
     if (this.type === "explorer") {

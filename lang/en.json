@@ -124,6 +124,7 @@
 
   "CHAT.SUCCESS": "Success!",
   "CHAT.FAILURE": "Failure!",
+  "CHAT.OVERLOAD": "Force Field Overloaded!",
   "CHAT.TEST_MODIFIER": "Modifier",
   "CHAT.ATTACK_RANGE": "Range",
   "CHAT.ATTACK_TYPE": "Type",

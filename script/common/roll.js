@@ -28,6 +28,15 @@ export async function combatRoll(rollData) {
   await _sendToChat(rollData);
 }
 
+/**
+ * Roll a force field roll, and post the result to chat.
+ * @param {object} rollData
+ */
+export async function forceFieldRoll(rollData) {
+  await _rollForceField(rollData);
+  await _sendToChat(rollData);
+}
+
 export async function shipCombatRoll(rollData) {
   await _computeTarget(rollData);
   await _rollTarget(rollData);
@@ -128,6 +137,15 @@ async function _computeTarget(rollData) {
     rollData.target = rollData.baseTarget + r.total;
   }
   rollData.rollObject = r;
+}
+
+async function _rollForceField(rollData) {
+  let r = new Roll("1d100", {});
+  r.evaluate({async: false});
+  rollData.result = r.total;
+  rollData.rollObject = r;
+  rollData.isSuccess = rollData.result <= rollData.protectionRating;
+  rollData.isOverload = rollData.result <= rollData.overloadChance;
 }
 
 /**
