@@ -27,6 +27,38 @@ export class ShipSheet extends RogueTraderSheet {
     html.find(".roll-shipweapon").click(async ev => await this._prepareRollShipWeapon(ev));
   }
 
+  /** @override */
+  async getData(options) {
+    const data = await super.getData(options);
+    data.system.pastHistoryHTML = await TextEditor.enrichHTML(
+      data.system.pastHistory,
+      {
+        secrets: data.actor.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.actor,
+      }
+    );
+    data.system.complicationsHTML = await TextEditor.enrichHTML(
+      data.system.complications,
+      {
+        secrets: data.actor.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.actor,
+      }
+    );
+    data.system.notesHTML = await TextEditor.enrichHTML(
+      data.system.notes,
+      {
+        secrets: data.actor.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.actor,
+      }
+    );
+  }
+
   async _prepareRollShipWeapon(event) {
     event.preventDefault();
     // await this.selectTargetToken();

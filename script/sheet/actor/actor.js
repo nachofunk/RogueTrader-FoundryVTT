@@ -24,49 +24,6 @@ export class RogueTraderSheet extends ActorSheet {
     const data = super.getData(options);
     data.system = data.data.system;
     data.items = this.constructItemLists(data)
-    // Biography HTML enrichment
-    if (data.actor.type === 'ship')
-    {
-      data.system.pastHistoryHTML = await TextEditor.enrichHTML(
-        data.system.pastHistory,
-        {
-          secrets: data.actor.isOwner,
-          rollData: data.rollData,
-          async: true,
-          relativeTo: this.actor,
-        }
-      );
-      data.system.complicationsHTML = await TextEditor.enrichHTML(
-        data.system.complications,
-        {
-          secrets: data.actor.isOwner,
-          rollData: data.rollData,
-          async: true,
-          relativeTo: this.actor,
-        }
-      );
-      data.system.notesHTML = await TextEditor.enrichHTML(
-        data.system.notes,
-        {
-          secrets: data.actor.isOwner,
-          rollData: data.rollData,
-          async: true,
-          relativeTo: this.actor,
-        }
-      );
-    }
-    else
-    {
-      data.system.bio.biographyHTML = await TextEditor.enrichHTML(
-        data.system.bio.notes,
-        {
-          secrets: data.actor.isOwner,
-          rollData: data.rollData,
-          async: true,
-          relativeTo: this.actor,
-        }
-      );
-    }
     return data;
   }
 

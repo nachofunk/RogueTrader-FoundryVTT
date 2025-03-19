@@ -25,7 +25,11 @@ export class RogueTraderActor extends Actor {
       this._computeSpace();
       this._computePoints();
     } 
-    else 
+    else if (this.type === 'colony')
+    {
+
+    }
+    else
     {
       this._computeCharacteristics();
       this._computeSkills();

@@ -3,7 +3,8 @@
     "types": [
       "explorer",
       "npc",
-      "ship"
+      "ship",
+      "colony"
     ],
     "templates": {
       "characteristics": {
@@ -1130,6 +1131,10 @@
       },
       "complications": "",
       "pastHistory": "",
+      "notes": ""
+    },
+    "colony": {
+      "foo": 0,
       "notes": ""
     }
   },
