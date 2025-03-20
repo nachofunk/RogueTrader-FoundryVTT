@@ -192,3 +192,5 @@ $RECYCLE.BIN/
 node_modules/
 
 rogue-trader.zip
+foundry-config.yaml
+foundry
