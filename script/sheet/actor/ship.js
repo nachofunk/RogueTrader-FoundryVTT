@@ -57,6 +57,7 @@ export class ShipSheet extends RogueTraderSheet {
         relativeTo: this.actor,
       }
     );
+    return data;
   }
 
   async _prepareRollShipWeapon(event) {
