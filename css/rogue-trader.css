@@ -936,7 +936,9 @@ li.folder.collapsed > .folder-header {
   width: 100%;
 }
 .rogue-trader .explorer .header .career,
-.rogue-trader .explorer .header .home-world {
+.rogue-trader .explorer .header .home-world,
+.rogue-trader .colony .header .star-system,
+.rogue-trader .colony .header .planet {
   flex-basis: 40%;
 }
 .rogue-trader .explorer .header .rank,
@@ -946,7 +948,9 @@ li.folder.collapsed > .folder-header {
 .rogue-trader .explorer .header .home-world input,
 .rogue-trader .explorer .header .rank input,
 .rogue-trader .explorer .header .career input,
-.rogue-trader .explorer .header .motivation input {
+.rogue-trader .explorer .header .motivation input,
+.rogue-trader .colony .header .star-system,
+.rogue-trader .colony .header .planet {
   width: 11em;
 }
 .rogue-trader .explorer .header .fate input,

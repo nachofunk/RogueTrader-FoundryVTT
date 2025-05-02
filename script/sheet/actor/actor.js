@@ -357,7 +357,6 @@ export class RogueTraderSheet extends ActorSheet {
   constructItemLists() {
       let items = {}
       let itemTypes = this.actor.itemTypes;
-      console.log(itemTypes);
       items.mentalDisorders = itemTypes["mentalDisorder"];
       items.malignancies = itemTypes["malignancy"];
       items.mutations = itemTypes["mutation"];

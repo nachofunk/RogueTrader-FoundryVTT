@@ -2,6 +2,8 @@
 
   "TYPES.Actor.explorer" : "Explorer",
   "TYPES.Actor.npc" : "NPC",
+  "TYPES.Actor.ship": "Ship",
+  "TYPES.Actor.colony": "Colony",
 
   "ADVANCE.NONE": "None",
   "ADVANCE.UNTRAINED": "Untrained",
@@ -257,7 +259,10 @@
   "TYPES.Item.trait": "Trait",
   "TYPES.Item.weapon": "Weapon",
   "TYPES.Item.weaponModification": "Weapon Modification",
-  "TYPES.Item.ship": "Ship",
+  "TYPES.Item.shipWeapon": "Ship Weapon",
+  "TYPES.Item.shipComponent": "Ship Component",
+  "TYPES.Item.colonyUpgrade": "Colony Upgrade",
+  "TYPES.Item.colonyEvent": "Colony Event",
 
   "MALIGNANCY.NAME": "Name",
 
@@ -663,5 +668,8 @@
   "DIALOG.CHARACTERISTIC_VALUE": "Characteristic Modifier",
   "DIALOG.VALUE_MODIFIER": "Value Modifier",
   "DIALOG.UNNATURAL_VALUE": "Bonus Modifier",
-  "DIALOG.SKILL_VALUE": "Skill Modifier"
+  "DIALOG.SKILL_VALUE": "Skill Modifier",
+
+  "COLONY.STAR_SYSTEM": "Star System",
+  "COLONY.PLANET": "Planet"
 }

@@ -9,13 +9,13 @@ export class ColonySheet extends RogueTraderSheet {
             width: 720,
             height: 881,
             resizable: true,
-            // tabs: [
-            // {
-            //     navSelector: ".sheet-tabs",
-            //     contentSelector: ".sheet-body",
-            //     initial: "stats"
-            // }
-            // ]
+            tabs: [
+                {
+                    navSelector: ".sheet-tabs",
+                    contentSelector: ".sheet-body",
+                    initial: "stats"
+                }
+            ]
         });
     }
 
@@ -30,7 +30,22 @@ export class ColonySheet extends RogueTraderSheet {
         return data;
     }
 
-    _onRollColonyGrowth(event) {
+    async _onRollColonyGrowth(ev) {
+        ev.preventDefault();
+        const growthTableID = game.settings.get("rogue-trader", "colonyGrowth");
+        await this.rollTableWithID(growthTableID);
+    }
+
+    async rollTableWithID(tableID) {
+        let colonyTable = game.tables.get(tableID);
+        if (colonyTable) {
+            await colonyTable.draw(); // Perform the roll
+        } else {
+            console.error(`Table with ID ${tableID} not found.`);
+        }
+    }
+
+    rollColonyFortune(event) {
         event.preventDefault();
         const growthTableID = game.settings.get("rogue-trader", "colonyGrowth");
         let growthTable = game.tables.get(growthTableID);

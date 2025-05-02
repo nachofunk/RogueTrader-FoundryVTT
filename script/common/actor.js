@@ -1,18 +1,27 @@
 export class RogueTraderActor extends Actor {
 
   async _preCreate(data, options, user) {
-    
-    let initData = {
-      "prototypeToken.bar1": { attribute: "wounds" },
-      "prototypeToken.bar2": { attribute: "fatigue" },
-      "prototypeToken.name": data.name,
-      "prototypeToken.displayName" : CONST.TOKEN_DISPLAY_MODES.HOVER,
-      "prototypeToken.displayBars" : CONST.TOKEN_DISPLAY_MODES.HOVER,
-            
-    };
-    if (this.type === "explorer") {
-      initData["prototypeToken.actorLink"] = true;      
-      initData["prototypeToken.disposition"] = CONST.TOKEN_DISPOSITIONS.FRIENDLY
+    let initData;
+    if (this.type === 'ship') {
+      initData = {
+        "prototypeToken.bar1": { attribute: "hullIntegrity" },
+        "prototypeToken.bar2": { attribute: "crewCount" },
+        "prototypeToken.name": data.name,
+        "prototypeToken.displayName" : CONST.TOKEN_DISPLAY_MODES.ALWAYS,
+        "prototypeToken.displayBars" : CONST.TOKEN_DISPLAY_MODES.ALWAYS,           
+      };
+    } else {
+      initData = {
+        "prototypeToken.bar1": { attribute: "wounds" },
+        "prototypeToken.bar2": { attribute: "fatigue" },
+        "prototypeToken.name": data.name,
+        "prototypeToken.displayName" : CONST.TOKEN_DISPLAY_MODES.HOVER,
+        "prototypeToken.displayBars" : CONST.TOKEN_DISPLAY_MODES.HOVER,            
+      };
+      if (this.type === "explorer") {
+        initData["prototypeToken.actorLink"] = true;      
+        initData["prototypeToken.disposition"] = CONST.TOKEN_DISPOSITIONS.FRIENDLY
+      }
     }
     this.updateSource(initData);
   }
@@ -27,7 +36,8 @@ export class RogueTraderActor extends Actor {
     } 
     else if (this.type === 'colony')
     {
-
+      this._computeProfitFactor();
+      this._computerYearlyGains();
     }
     else
     {
@@ -41,6 +51,33 @@ export class RogueTraderActor extends Actor {
       this._computeArmour();
       this._computeMovement();
     }
+  }
+
+  _computeProfitFactor() {
+    const colonySize = this.system.stats.size;
+    if (colonySize < 0) {
+      this.system.stats.profitFactor = 0;
+      return;
+    }
+    if (colonySize < 10) {
+      this.system.stats.profitFactor = Math.min(colonySize, 4) + (Math.max(0, colonySize - 4) * 2);
+    } else {
+      this.system.stats.profitFactor = 18 + ((colonySize - 10) * 2);
+    }
+  }
+
+  _computeYearlyGains() {
+    const items = this.items;
+    const yearlyGains = items.reduce((totals, item) => {
+      return {
+        yearlyLoyalty: totals.yearlyLoyalty + (item.system.yearlyLoyalty || 0),
+        yearlyProsperity: totals.yearlyProsperity + (item.system.yearlyProsperity || 0),
+        yearlySecurity: totals.yearlySecurity + (item.system.yearlySecurity || 0),
+      };
+    }, { yearlyLoyalty: 0, yearlyProsperity: 0, yearlySecurity: 0 });
+    this.system.yearlyGains.yearlyLoyalty = yearlyGains.yearlyLoyalty;
+    this.system.yearlyGains.yearlyProsperity = yearlyGains.yearlyProsperity;
+    this.system.yearlyGains.yearlySecurity = yearlyGains.yearlySecurity;
   }
 
   _computePower() {
@@ -592,6 +629,51 @@ export class RogueTraderActor extends Actor {
     });
     ChatMessage.create({ content: html });
   }
+
+  get growthAcquisitionBase() {
+    const colonySize = this.system.stats.size;
+    switch (colonySize) {
+      case 1:
+      case 2:
+      case 3:
+        return 20;
+      case 4:
+      case 5:
+        return 0;
+      case 6:
+      case 7:
+        return -10;
+      case 8:
+        return -20;
+      case 9:
+        return -40;
+      case 10:
+      default:
+        return -60;
+    }
+  }
+
+  get growthPointRequirementBase() {
+    const colonySize = this.system.stats.size;
+    switch (colonySize) {
+      case 1:
+      case 2:
+      case 3:
+        return colonySize;
+      case 4:
+      case 5:
+        return colonySize + 1;
+      case 6:
+      case 7:
+        return colonySize + 2;
+      case 8:
+      case 9:
+        return colonySize + 3;
+      case 10:
+      default:
+        return colonySize + 4;
+    }
+  }
   
   get attributeBoni() {
     let boni = [];
@@ -601,45 +683,45 @@ export class RogueTraderActor extends Actor {
     return boni;
   }
 
-  get characteristics() {return this.system.characteristics;}
+  get characteristics() { return this.system.characteristics; }
 
-  get skills() {return this.system.skills;}
+  get skills() { return this.system.skills; }
 
-  get initiative() {return this.system.initiative;}
+  get initiative() { return this.system.initiative; }
 
-  get wounds() {return this.system.wounds;}
+  get wounds() { return this.system.wounds; }
 
-  get fatigue() {return this.system.fatigue;}
+  get fatigue() { return this.system.fatigue; }
 
-  get fate() {return this.system.fate;}
+  get fate() { return this.system.fate; }
 
-  get psy() {return this.system.psy;}
+  get psy() { return this.system.psy; }
 
-  get bio() {return this.system.bio;}
+  get bio() { return this.system.bio; }
 
-  get experience() {return this.system.experience;}
+  get experience() { return this.system.experience; }
 
-  get insanity() {return this.system.insanity;}
+  get insanity() { return this.system.insanity; }
 
-  get corruption() {return this.system.corruption;}
+  get corruption() { return this.system.corruption; }
 
-  get aptitudes() {return this.system.aptitudes;}
+  get aptitudes() { return this.system.aptitudes; }
 
-  get size() {return this.system.size;}
+  get size() { return this.system.size; }
 
-  get faction() {return this.system.faction;}
+  get faction() { return this.system.faction; }
 
-  get subfaction() {return this.system.subfaction;}
+  get subfaction() { return this.system.subfaction; }
 
-  get subtype() {return this.system.type;}
+  get subtype() { return this.system.type; }
 
-  get threatLevel() {return this.system.threatLevel;}
+  get threatLevel() { return this.system.threatLevel; }
 
-  get armour() {return this.system.armour;}
+  get armour() { return this.system.armour; }
 
-  get encumbrance() {return this.system.encumbrance;}
+  get encumbrance() { return this.system.encumbrance; }
 
-  get movement() {return this.system.movement;}
+  get movement() { return this.system.movement; }
 
   get crewSkillValue() {
     switch(this.system.crewSkill) {
@@ -753,8 +835,9 @@ export class RogueTraderActor extends Actor {
   get namedCrewMembers() {
     let shipCrewObject = this.system.namedCrew;
     let crewRoster = {};
+    let crewId = "";
     for (let crewMember in shipCrewObject) {
-      let crewId = shipCrewObject[crewMember];
+      crewId = shipCrewObject[crewMember];
       if (crewId !== "") {
         crewRoster[crewMember] = game.actors.get(crewId); 
       }

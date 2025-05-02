@@ -1,7 +1,27 @@
 <form class="{{cssCkass}}" autocomplete="off">
     <div class="colony">
-        <div class="button">
-            <a class="item-control roll-growth" title="Roll Colony Growth"><i class="fas fa-trash"></i></a>
+        <div class="header border">
+            <div class="flex row">
+                <div class="avatar">
+                    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+                </div>
+                <div class="flex column grow">
+                    <div class="header-row">
+                        <label>{{localize "BIO.NAME"}}</label>
+                        <input name="name" type="text" value="{{actor.name}}" />
+                    </div>
+                    <div class="header-row">
+                        <div class="star-system">
+                            <label>{{localize "COLONY.STAR_SYSTEM"}}</label>
+                            <input name="system.bio.starSystem" type="text" value="{{system.bio.starSystem}}" />
+                        </div>
+                        <div class="planet">
+                            <label>{{localize "COLONY.PLANET"}}</label>
+                            <input name="system.bio.planet" type="text" value="{{system.bio.planet}}" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </form>

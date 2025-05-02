@@ -113,6 +113,7 @@ function registerSettings() {
   registerColonyGrowthTable();
   registerColonyCalamityTable();
   registerColonyFortuneTable();
+  registerColonyInfrastructureTable();
 }
 
 function registerWorldVersion() {
@@ -152,6 +153,17 @@ function registerColonyFortuneTable() {
   game.settings.register("rogue-trader", "colonyFortune", {
     name: "Colony Fortune Table",
     hint: "Used by colony sheet to handle Fortune events.",
+    scope: "world",
+    config: true,
+    default: "",
+    type: String
+  });
+}
+
+function registerColonyInfrastructureTable() {
+  game.settings.register("rogue-trader", "colonyInfrastructure", {
+    name: "Colony Infrastructure Requirement Table",
+    hint: "Used by colony sheet to handle Infrastructure Requirement events.",
     scope: "world",
     config: true,
     default: "",

@@ -410,7 +410,10 @@
                 "label": "SKILL.WAR",
                 "advance": -20,
                 "cost": 0
-              }
+              },
+              "underground": "SKILL.UNDERWORLD",
+              "advance": -20,
+              "cost": 0
             }
           },
           "deceive": {
@@ -1134,8 +1137,27 @@
       "notes": ""
     },
     "colony": {
-      "foo": 0,
-      "notes": ""
+      "governor": "",
+      "governorType": "",
+      "colonyType": "",
+      "initialCost": 0,
+      "stats": {
+        "size": 0,
+        "loyalty": 0,
+        "prosperity": 0,
+        "security": 0
+      },
+      "yearlyGains": {
+        "yearlyLoyalty": 0,
+        "yearlyProsperity": 0,
+        "yearlySecurity": 0
+      },
+      "bio": {
+        "starSystem": "",
+        "planet": "",
+        "establishmentDate": "",
+        "notes": ""
+      }
     }
   },
   "Item": {
@@ -1159,7 +1181,9 @@
       "weapon",
       "weaponModification",
       "shipWeapon",
-      "shipComponent"
+      "shipComponent",
+      "colonyUpgrade",
+      "colonyEvent"
     ],
     "templates": {
       "equipment": {
@@ -1329,6 +1353,20 @@
     "shipComponent" : {
       "templates": ["itemDescription", "equipment", "shipEquipment"],
       "class": ""
+    },
+    "colonyUpgrade" : {
+      "yearlyLoyalty": 0,
+      "yearlyProsperity": 0,
+      "yearlySecurity": 0,
+      "usesUpgradeSlot": true,
+      "prerequisite": "",
+      "availability": "common",
+      "description": ""
+    },
+    "colonyEvent" : {
+      "description": "",
+      "themes": "",
+      "effect": ""
     }
   }
 }
