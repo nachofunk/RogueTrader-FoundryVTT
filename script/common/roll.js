@@ -211,7 +211,7 @@ async function _rollDamage(rollData) {
     firstHit.hasLocation = true
     rollData.damages.push(firstHit);
     if (rollData.attackType?.hitMargin > 0) {
-      let maxAdditionalHit = Math.floor((rollData.dos - 1) / rollData.attackType.hitMargin);
+      let maxAdditionalHit = Math.floor((rollData.dos) / rollData.attackType.hitMargin);
       if (typeof rollData.maxAdditionalHit !== "undefined" && maxAdditionalHit > rollData.maxAdditionalHit) {
         maxAdditionalHit = rollData.maxAdditionalHit;
       }
