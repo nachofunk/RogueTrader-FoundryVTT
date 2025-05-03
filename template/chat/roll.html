@@ -38,7 +38,7 @@
             {{/if}}
 
             {{#if isSuccess}}
-                {{#if dos}}
+                {{#if showDoS}}
                     <p><strong>{{localize "CHAT.DOS"}}:</strong> {{dos}}</p>
                     {{#if numberOfHit}}
                         <p><strong>{{localize "CHAT.NUMBER_OF_HIT"}}:</strong> {{numberOfHit}}</p>
@@ -52,7 +52,7 @@
                     {{/if}}
                 {{/if}}
             {{else}}
-                {{#if dof}}
+                {{#if showDoS}}
                     <p><strong>{{localize "CHAT.DOF"}}:</strong> {{dof}}</p>
                 {{/if}}
             {{/if}}
@@ -69,6 +69,9 @@
                         <p><strong style="color: var(--color-failure)">{{localize "CHAT.HAS_PSYCHIC_PHENOMENA"}}</strong></p>
                     {{/if}}
                 {{/if}}
+            {{/if}}
+            {{#if weaponSpecial}}
+                <p><strong>{{localize "CHAT.WEAPON_TRAITS"}}: </strong>{{weaponSpecial}}</p>
             {{/if}}
         {{else}}
             <h1>{{name}}</h1>

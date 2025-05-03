@@ -411,9 +411,11 @@
                 "advance": -20,
                 "cost": 0
               },
-              "underground": "SKILL.UNDERWORLD",
-              "advance": -20,
-              "cost": 0
+              "underworld": {
+                "label":  "SKILL.UNDERWORLD",
+                "advance": -20,
+                "cost": 0
+              }
             }
           },
           "deceive": {

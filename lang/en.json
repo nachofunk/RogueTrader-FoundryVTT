@@ -150,6 +150,7 @@
   "CHAT.REROLL" : "Fate Reroll",
   "CHAT.AIMING" : "Aiming",
   "CHAT.CRITICAL_HIT": "CRITICAL HIT!",
+  "CHAT.WEAPON_TRAITS": "Weapon Traits",
 
   "CORRUPTION.HEADER": "Corruption",
   "CORRUPTION.MALIGNANCY": "Malignancy",

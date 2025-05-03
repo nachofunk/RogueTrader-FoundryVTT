@@ -144,6 +144,7 @@ async function _rollForceField(rollData) {
   r.evaluate({async: false});
   rollData.result = r.total;
   rollData.rollObject = r;
+  rollData.showDoS = false;
   rollData.isSuccess = rollData.result <= rollData.protectionRating;
   rollData.isOverload = rollData.result <= rollData.overloadChance;
 }
@@ -155,6 +156,7 @@ async function _rollForceField(rollData) {
 async function _rollTarget(rollData) {
   let r = new Roll("1d100", {});
   r.evaluate({ async: false });
+  rollData.showDoS = true;
   rollData.result = r.total;
   rollData.rollObject = r;
   rollData.isSuccess = rollData.result <= rollData.target;
@@ -217,6 +219,7 @@ async function _rollDamage(rollData) {
       for (let i = 0; i < maxAdditionalHit; i++) {
         let additionalHit = await _computeDamage(formula, penetration, rollData);
         additionalHit.location = _getAdditionalLocation(firstLocation, i);
+        additionalHit.hasLocation = true;
         rollData.damages.push(additionalHit);
       }
     } else {
@@ -392,31 +395,6 @@ function _isDouble(number) {
 }
 
 /**
- * Get the hit location from a WS/BS roll.
- * @param {number} result
- * @returns {string}
- */
-function _getLocation(result) {
-  const toReverse = result < 10 ? `0${result}` : result.toString();
-  const locationTarget = parseInt(toReverse.split("").reverse().join(""));
-  if (locationTarget <= 10) {
-    return "ARMOUR.HEAD";
-  } else if (locationTarget <= 20) {
-    return "ARMOUR.RIGHT_ARM";
-  } else if (locationTarget <= 30) {
-    return "ARMOUR.LEFT_ARM";
-  } else if (locationTarget <= 70) {
-    return "ARMOUR.BODY";
-  } else if (locationTarget <= 85) {
-    return "ARMOUR.RIGHT_LEG";
-  } else if (locationTarget <= 100) {
-    return "ARMOUR.LEFT_LEG";
-  } else {
-    return "ARMOUR.BODY";
-  }
-}
-
-/**
  * Calculate modifiers/etc. from RoF type, and add them to the rollData.
  * @param {object} rollData
  */
@@ -497,13 +475,38 @@ function _computeRateOfFire(rollData) {
   }
 }
 
-const additionalHit = {
-  head: ["ARMOUR.HEAD", "ARMOUR.RIGHT_ARM", "ARMOUR.BODY", "ARMOUR.LEFT_ARM", "ARMOUR.BODY"],
-  rightArm: ["ARMOUR.RIGHT_ARM", "ARMOUR.RIGHT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY", "ARMOUR.RIGHT_ARM"],
-  leftArm: ["ARMOUR.LEFT_ARM", "ARMOUR.LEFT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY", "ARMOUR.LEFT_ARM"],
-  body: ["ARMOUR.BODY", "ARMOUR.RIGHT_ARM", "ARMOUR.HEAD", "ARMOUR.LEFT_ARM", "ARMOUR.BODY"],
-  rightLeg: ["ARMOUR.RIGHT_LEG", "ARMOUR.BODY", "ARMOUR.RIGHT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY"],
-  leftLeg: ["ARMOUR.LEFT_LEG", "ARMOUR.BODY", "ARMOUR.LEFT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY"]
+/**
+ * Get the hit location from a WS/BS roll.
+ * @param {number} result
+ * @returns {string}
+ */
+function _getLocation(result) {
+  const toReverse = result < 10 ? `0${result}` : result.toString();
+  const locationTarget = parseInt(toReverse.split("").reverse().join(""));
+  if (locationTarget <= 10) {
+    return "ARMOUR.HEAD";
+  } else if (locationTarget <= 20) {
+    return "ARMOUR.RIGHT_ARM";
+  } else if (locationTarget <= 30) {
+    return "ARMOUR.LEFT_ARM";
+  } else if (locationTarget <= 70) {
+    return "ARMOUR.BODY";
+  } else if (locationTarget <= 85) {
+    return "ARMOUR.RIGHT_LEG";
+  } else if (locationTarget <= 100) {
+    return "ARMOUR.LEFT_LEG";
+  } else {
+    return "ARMOUR.BODY";
+  }
+}
+
+const hitTable = {
+  "ARMOUR.HEAD": ["ARMOUR.HEAD", "ARMOUR.RIGHT_ARM", "ARMOUR.BODY", "ARMOUR.LEFT_ARM", "ARMOUR.BODY"],
+  "ARMOUR.RIGHT_ARM": ["ARMOUR.RIGHT_ARM", "ARMOUR.RIGHT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY", "ARMOUR.RIGHT_ARM"],
+  "ARMOUR.LEFT_ARM": ["ARMOUR.LEFT_ARM", "ARMOUR.LEFT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY", "ARMOUR.LEFT_ARM"],
+  "ARMOUR.BODY": ["ARMOUR.BODY", "ARMOUR.RIGHT_ARM", "ARMOUR.HEAD", "ARMOUR.LEFT_ARM", "ARMOUR.BODY"],
+  "ARMOUR.RIGHT_LEG": ["ARMOUR.RIGHT_LEG", "ARMOUR.BODY", "ARMOUR.RIGHT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY"],
+  "ARMOUR.LEFT_LEG": ["ARMOUR.LEFT_LEG", "ARMOUR.BODY", "ARMOUR.LEFT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY"]
 };
 
 /**
@@ -513,32 +516,9 @@ const additionalHit = {
  * @returns {string}
  */
 function _getAdditionalLocation(firstLocation, numberOfHit) {
-  if (firstLocation === "ARMOUR.HEAD") {
-    return _getLocationByIt(additionalHit.head, numberOfHit);
-  } else if (firstLocation === "ARMOUR.RIGHT_ARM") {
-    return _getLocationByIt(additionalHit.rightArm, numberOfHit);
-  } else if (firstLocation === "ARMOUR.LEFT_ARM") {
-    return _getLocationByIt(additionalHit.leftArm, numberOfHit);
-  } else if (firstLocation === "ARMOUR.BODY") {
-    return _getLocationByIt(additionalHit.body, numberOfHit);
-  } else if (firstLocation === "ARMOUR.RIGHT_LEG") {
-    return _getLocationByIt(additionalHit.rightLeg, numberOfHit);
-  } else if (firstLocation === "ARMOUR.LEFT_LEG") {
-    return _getLocationByIt(additionalHit.leftLeg, numberOfHit);
-  } else {
-    return _getLocationByIt(additionalHit.body, numberOfHit);
-  }
-}
-
-/**
- * Lookup hit location from array.
- * @param {Array} part
- * @param {number} numberOfHit
- * @returns {string}
- */
-function _getLocationByIt(part, numberOfHit) {
-  const index = numberOfHit > (part.length - 1) ? part.length - 1 : numberOfHit;
-  return part[index];
+  const hitProgression = hitTable[firstLocation];
+  const hitLength = hitProgression.length;
+  return numberOfHit >= hitLength ? hitProgression[hitLength] : hitProgression[numberOfHit];
 }
 
 
