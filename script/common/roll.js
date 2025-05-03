@@ -502,8 +502,8 @@ function _getLocation(result) {
 
 const hitTable = {
   "ARMOUR.HEAD": ["ARMOUR.HEAD", "ARMOUR.RIGHT_ARM", "ARMOUR.BODY", "ARMOUR.LEFT_ARM", "ARMOUR.BODY"],
-  "ARMOUR.RIGHT_ARM": ["ARMOUR.RIGHT_ARM", "ARMOUR.RIGHT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY", "ARMOUR.RIGHT_ARM"],
-  "ARMOUR.LEFT_ARM": ["ARMOUR.LEFT_ARM", "ARMOUR.LEFT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY", "ARMOUR.LEFT_ARM"],
+  "ARMOUR.RIGHT_ARM": ["ARMOUR.RIGHT_ARM", "ARMOUR.BODY", "ARMOUR.HEAD", "ARMOUR.BODY", "ARMOUR.RIGHT_ARM"],
+  "ARMOUR.LEFT_ARM": ["ARMOUR.LEFT_ARM", "ARMOUR.BODY", "ARMOUR.HEAD", "ARMOUR.BODY", "ARMOUR.LEFT_ARM"],
   "ARMOUR.BODY": ["ARMOUR.BODY", "ARMOUR.RIGHT_ARM", "ARMOUR.HEAD", "ARMOUR.LEFT_ARM", "ARMOUR.BODY"],
   "ARMOUR.RIGHT_LEG": ["ARMOUR.RIGHT_LEG", "ARMOUR.BODY", "ARMOUR.RIGHT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY"],
   "ARMOUR.LEFT_LEG": ["ARMOUR.LEFT_LEG", "ARMOUR.BODY", "ARMOUR.LEFT_ARM", "ARMOUR.HEAD", "ARMOUR.BODY"]
@@ -512,13 +512,13 @@ const hitTable = {
 /**
  * Get successive hit locations for an attack which scored multiple hits.
  * @param {string} firstLocation
- * @param {number} numberOfHit
+ * @param {number} hitIndex
  * @returns {string}
  */
-function _getAdditionalLocation(firstLocation, numberOfHit) {
+function _getAdditionalLocation(firstLocation, hitIndex) {
   const hitProgression = hitTable[firstLocation];
-  const hitLength = hitProgression.length;
-  return numberOfHit >= hitLength ? hitProgression[hitLength] : hitProgression[numberOfHit];
+  const maxHitIndex = hitProgression.length - 1;
+  return hitIndex > maxHitIndex ? hitProgression[maxHitIndex] : hitProgression[hitIndex];
 }
 
 
