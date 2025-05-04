@@ -86,47 +86,48 @@ export async function prepareCombatRoll(rollData, actorRef) {
                     rollData.penetrationFormula = html.find("#penetration")[0].value;
                     rollData.isCombatTest = true;
                     if (rollData.isRange && rollData.clip.max > 0) {
+                        const ammoUseMultiplier = rollData.weaponTraits.storm ? 2 : 1;
                         const weapon = game.actors.get(rollData.ownerId)?.items?.get(rollData.itemId);
                         if(weapon) {
-                            switch(rollData.attackType.name) {
-                                case 'standard':
-                                case 'called_shot': {
-                                    if (rollData.clip.value < 1) {
-                                        return reportEmptyClip(rollData);
-                                    } else {
-                                        rollData.clip.value -= 1;                                        
-                                        await weapon.update({"system.clip.value" : rollData.clip.value})
-                                    }
-                                    break;
-                                }
-                                case 'semi_auto': {
-                                    if (rollData.clip.value < rollData.rateOfFire.burst) {
-                                        return reportEmptyClip(rollData);
-                                    } else {
-                                        rollData.clip.value -= rollData.rateOfFire.burst;
-                                        await weapon.update({"system.clip.value" : rollData.clip.value})
-                                    }
-                                    break;
-                                }
-                                case 'full_auto': {
-                                    if (rollData.clip.value < rollData.rateOfFire.full) {
-                                        return reportEmptyClip(rollData);
-                                    } else {
-                                        rollData.clip.value -= rollData.rateOfFire.full;
-                                        await weapon.update({"system.clip.value" : rollData.clip.value})
-                                    }
-                                    break;
-                                }
-                                default: {
-                                    if (rollData.clip.value < 1) {
+                          switch(rollData.attackType.name) {
+                              case 'standard':
+                              case 'called_shot': {
+                                  if (rollData.clip.value < 1 * ammoUseMultiplier) {
                                       return reportEmptyClip(rollData);
-                                    } else {
-                                        rollData.clip.value -= 1;                                        
-                                        await weapon.update({"system.clip.value" : rollData.clip.value})
-                                    }
-                                    break;
-                                }
-                            }
+                                  } else {
+                                      rollData.clip.value -= 1 * ammoUseMultiplier;                                        
+                                      await weapon.update({"system.clip.value" : rollData.clip.value})
+                                  }
+                                  break;
+                              }
+                              case 'semi_auto': {
+                                  if (rollData.clip.value < rollData.rateOfFire.burst * ammoUseMultiplier) {
+                                      return reportEmptyClip(rollData);
+                                  } else {
+                                      rollData.clip.value -= rollData.rateOfFire.burst * ammoUseMultiplier;
+                                      await weapon.update({"system.clip.value" : rollData.clip.value})
+                                  }
+                                  break;
+                              }
+                              case 'full_auto': {
+                                  if (rollData.clip.value < rollData.rateOfFire.full * ammoUseMultiplier) {
+                                      return reportEmptyClip(rollData);
+                                  } else {
+                                      rollData.clip.value -= rollData.rateOfFire.full * ammoUseMultiplier;
+                                      await weapon.update({"system.clip.value" : rollData.clip.value})
+                                  }
+                                  break;
+                              }
+                              default: {
+                                  if (rollData.clip.value < 1 * ammoUseMultiplier) {
+                                    return reportEmptyClip(rollData);
+                                  } else {
+                                      rollData.clip.value -= 1 * ammoUseMultiplier;                                        
+                                      await weapon.update({"system.clip.value" : rollData.clip.value})
+                                  }
+                                  break;
+                              }
+                          }
                         }
                     }
                     await combatRoll(rollData);

@@ -212,14 +212,16 @@ async function _rollDamage(rollData) {
     rollData.damages.push(firstHit);
     if (rollData.attackType?.hitMargin > 0) {
       let maxAdditionalHit = Math.floor((rollData.dos) / rollData.attackType.hitMargin);
+      if (rollData.weaponTraits.storm) {
+        maxAdditionalHit *= 2;
+        maxAdditionalHit += 1;
+      }
       if (typeof rollData.maxAdditionalHit !== "undefined" && maxAdditionalHit > rollData.maxAdditionalHit) {
         maxAdditionalHit = rollData.maxAdditionalHit;
       }
       rollData.numberOfHit = maxAdditionalHit + 1;
       for (let i = 0; i < maxAdditionalHit; i++) {
-        let additionalHit = await _computeDamage(formula, penetration, rollData);
-        additionalHit.location = _getAdditionalLocation(firstLocation, i);
-        additionalHit.hasLocation = true;
+        let additionalHit = await _generateNextHit(formula, penetration, rollData, firstLocation, i);
         rollData.damages.push(additionalHit);
       }
     } else {
@@ -232,6 +234,13 @@ async function _rollDamage(rollData) {
       minDamage.total += (rollData.dos - minDamage.minDice);
     }
   }
+}
+
+async function _generateNextHit(damageFormula, armorPen, rollData, firstHitLocation, hitIndex) {
+  let hitResult = await _computeDamage(damageFormula, armorPen, rollData);
+  hitResult.location = _getAdditionalLocation(firstHitLocation, hitIndex);
+  hitResult.hasLocation = true;
+  return hitResult;
 }
 
 /**
@@ -282,7 +291,7 @@ async function _computeDamage(damageFormula, penetration, rollData) {
       let rfFace = weaponTraits?.rfFace ? weaponTraits?.rfFace : term.faces; // Without the Vengeful weapon trait rfFace is undefined
       term.results?.forEach(async result => {
         let dieResult = result.count ? result.count : result.result; // Result.count = actual value if modified by term
-        if (result.active && dieResult >= rfFace) damage.righteousFury = _rollRighteousFury(rfFace);
+        if (result.active && dieResult >= rfFace) damage.righteousFury = _rollRighteousFury(rfFace, rollData);
         if (result.active && dieResult < dos) damage.dices.push(dieResult);
         if (result.active && (typeof damage.minDice === "undefined" || dieResult < damage.minDice)) damage.minDice = dieResult;
       });
@@ -366,10 +375,17 @@ function _rollPenetration(rollData) {
  * Roll a Righteous Fury dice, and return the value.
  * @returns {number}
  */
-function _rollRighteousFury(face) {
-  let r = new Roll(`1d10x>${face}`);
-  r.evaluate({ async: false });
-  return r.total;
+function _rollRighteousFury(face, rollData) {
+  let confirmRoll = new Roll("1d100", {});
+  confirmRoll.evaluate({ async: false });
+  if (confirmRoll.total >= rollData.target) {
+    let r = new Roll(`1d10x>${face}`);
+    r.evaluate({ async: false });
+    return r.total;
+  }
+  else {
+    return 0;
+  }
 }
 
 /**

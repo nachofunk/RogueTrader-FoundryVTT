@@ -121,6 +121,7 @@ export default class RogueTraderUtil {
       scatter: this.hasNamedTrait(/Scatter/gi, traits),
       melta: this.hasNamedTrait(/Melta/gi, traits),
       maximal: this.hasNamedTrait(/Maximal/gi, traits),
+      storm: this.hasNamedTrait(/Storm/gi, traits),
     };
   }
 
@@ -146,12 +147,7 @@ export default class RogueTraderUtil {
   }
 
   static hasNamedTrait(regex, traits) {
-    let rfMatch = traits.match(regex);
-    if (rfMatch) {
-      return true;
-    } else {
-      return false;
-    }
+    return traits.match(regex);
   }
   
   static getWeaponCharacteristic(actor, weapon) {
