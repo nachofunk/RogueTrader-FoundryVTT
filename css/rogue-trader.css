@@ -180,7 +180,7 @@ li.folder > .folder-header {
   font-size: 1.5em;
   color: #FFF;
   text-shadow: 1px 1px 3px #000, 1px -1px 3px #000, -1px 1px 3px #000;
-  line-height: 100px;
+  /* line-height: 100px; */
   padding-left: 0px;
 }
 #scenes .subdirectory {
