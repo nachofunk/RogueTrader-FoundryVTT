@@ -1069,6 +1069,7 @@
       "size": 4
     },
     "ship": {
+      "templates": ["initiative"],
       "hullClass": "",
       "hullName": "",
       "speed": 0,

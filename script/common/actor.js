@@ -33,11 +33,12 @@ export class RogueTraderActor extends Actor {
       this._computePower();
       this._computeSpace();
       this._computePoints();
+      this._computeShipInitiative();
     } 
     else if (this.type === 'colony')
     {
       this._computeProfitFactor();
-      this._computerYearlyGains();
+      this._computeYearlyGains();
     }
     else
     {
@@ -100,6 +101,16 @@ export class RogueTraderActor extends Actor {
     const componentsValue = shipItems.reduce((total, item) => total + item.system.shipPoints, 0) | 0;
     this.system.points.components = componentsValue;
     this.system.points.total = componentsValue + this.system.points.base;
+  }
+
+  _computeShipInitiative() {
+    this.initiative = {
+      base: "1d10",
+      bonus: this.system.detection / 10
+    };
+    console.log(this);
+    // this.initiative.base = "1d10";
+    // this.initiative.bonus = this.detection / 10;
   }
 
   _computeCharacteristics() {
@@ -688,6 +699,8 @@ export class RogueTraderActor extends Actor {
   get skills() { return this.system.skills; }
 
   get initiative() { return this.system.initiative; }
+
+  set initiative(value) { this.system.initiative = value; }
 
   get wounds() { return this.system.wounds; }
 
