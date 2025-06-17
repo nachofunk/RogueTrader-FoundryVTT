@@ -33,6 +33,7 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/sheet/actor/tab/ship-data.html",
     "systems/rogue-trader/template/sheet/actor/tab/ship-notes.html",
     "systems/rogue-trader/template/sheet/actor/tab/ship-weapons.html",
+    "systems/rogue-trader/template/sheet/actor/tab/colony-core.html",
 
     "systems/rogue-trader/template/sheet/mental-disorder.html",
     "systems/rogue-trader/template/sheet/aptitude.html",
@@ -225,6 +226,51 @@ function registerHandlebarsHelpers() {
         result = localizer.localize("SHIP.SIDE.KEEL");
         break;
       }
+    }
+    return result;
+  });
+
+  Handlebars.registerHelper('localizeColonySize', function(colonySize) {
+    let result = "";
+    let localizer = game.i18n;
+    console.log("Colony Size: " + colonySize);
+    switch (colonySize) {
+      case 0:
+        result = localizer.localize("COLONY.SIZE.GHOST_TOWN");
+        break;
+      case 1:
+        result = localizer.localize("COLONY.SIZE.SETTLEMENT");
+        break;
+      case 2:
+        result = localizer.localize("COLONY.SIZE.OUTPOST");
+        break;
+      case 3:
+        result = localizer.localize("COLONY.SIZE.FREEHOLD");
+        break;
+      case 4:
+        result = localizer.localize("COLONY.SIZE.DEMESNE");
+        break;
+      case 5:
+        result = localizer.localize("COLONY.SIZE.HOLDING");
+        break;
+      case 6:
+        result = localizer.localize("COLONY.SIZE.DOMINION");
+        break;
+      case 7:
+        result = localizer.localize("COLONY.SIZE.TERRITORY");
+        break;
+      case 8:
+        result = localizer.localize("COLONY.SIZE.CITY");
+        break;
+      case 9:
+        result = localizer.localize("COLONY.SIZE.METROPOLIS");
+        break;
+      case 10:
+        result = localizer.localize("COLONY.SIZE.HIVE");
+        break;
+      default:
+        result = localizer.localize("COLONY.SIZE.HIVE");
+        break;
     }
     return result;
   });

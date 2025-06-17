@@ -1,4 +1,4 @@
-<form class="{{cssCkass}}" autocomplete="off">
+<form class="{{cssClass}}" autocomplete="off">
     <div class="colony">
         <div class="header border">
             <div class="flex row">
@@ -10,17 +10,27 @@
                         <label>{{localize "BIO.NAME"}}</label>
                         <input name="name" type="text" value="{{actor.name}}" />
                     </div>
-                    <div class="header-row">
-                        <div class="star-system">
+                    <div class="flex row justify-space-around">
+                        <div class="star-system flex column align-center wrap">
                             <label>{{localize "COLONY.STAR_SYSTEM"}}</label>
                             <input name="system.bio.starSystem" type="text" value="{{system.bio.starSystem}}" />
                         </div>
-                        <div class="planet">
+                        <div class="planet flex column align-center wrap">
                             <label>{{localize "COLONY.PLANET"}}</label>
-                            <input name="system.bio.planet" type="text" value="{{system.bio.planet}}" disabled />
+                            <input name="system.bio.planet" type="text" value="{{system.bio.planet}}" />
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="sheet-tabs tabs flex row" data-group="primary">
+            <b class="item" data-tab="core">{{localize "TAB.CORE"}}</b>
+        </div>
+
+        <div class="sheet-body">
+            <div class="tab" data-group="primary" data-tab="core">
+                {{> systems/rogue-trader/template/sheet/actor/tab/colony-core.html}}
             </div>
         </div>
     </div>

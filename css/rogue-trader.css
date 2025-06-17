@@ -58,6 +58,14 @@
 .rogue-trader .justify-center {
   justify-content: center;
 }
+
+.rogue-trader .justify-space-around {
+  justify-content: space-around;
+}
+
+.rogue-trader .align-center {
+  align-content: center;
+}
 /* TAB COLORS */
 #sidebar-tabs > .item {
   line-height: 31px;
@@ -2117,6 +2125,14 @@ li.folder.collapsed > .folder-header {
   flex-direction: row;
   flex-wrap: wrap;
   flex-basis: 100%;
+  justify-content: space-evenly;
+}
+
+.rogue-trader .governor {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 150px;
   justify-content: space-evenly;
 }
 

@@ -7,19 +7,19 @@ export class RogueTraderActor extends Actor {
         "prototypeToken.bar1": { attribute: "hullIntegrity" },
         "prototypeToken.bar2": { attribute: "crewCount" },
         "prototypeToken.name": data.name,
-        "prototypeToken.displayName" : CONST.TOKEN_DISPLAY_MODES.ALWAYS,
-        "prototypeToken.displayBars" : CONST.TOKEN_DISPLAY_MODES.ALWAYS,           
+        "prototypeToken.displayName": CONST.TOKEN_DISPLAY_MODES.ALWAYS,
+        "prototypeToken.displayBars": CONST.TOKEN_DISPLAY_MODES.ALWAYS,
       };
     } else {
       initData = {
         "prototypeToken.bar1": { attribute: "wounds" },
         "prototypeToken.bar2": { attribute: "fatigue" },
         "prototypeToken.name": data.name,
-        "prototypeToken.displayName" : CONST.TOKEN_DISPLAY_MODES.HOVER,
-        "prototypeToken.displayBars" : CONST.TOKEN_DISPLAY_MODES.HOVER,            
+        "prototypeToken.displayName": CONST.TOKEN_DISPLAY_MODES.HOVER,
+        "prototypeToken.displayBars": CONST.TOKEN_DISPLAY_MODES.HOVER,
       };
       if (this.type === "explorer") {
-        initData["prototypeToken.actorLink"] = true;      
+        initData["prototypeToken.actorLink"] = true;
         initData["prototypeToken.disposition"] = CONST.TOKEN_DISPOSITIONS.FRIENDLY
       }
     }
@@ -28,20 +28,17 @@ export class RogueTraderActor extends Actor {
 
   prepareData() {
     super.prepareData();
-    if (this.type === 'ship') 
-    {
+    if (this.type === 'ship') {
       this._computePower();
       this._computeSpace();
       this._computePoints();
       this._computeShipInitiative();
-    } 
-    else if (this.type === 'colony')
-    {
+    }
+    else if (this.type === 'colony') {
       this._computeProfitFactor();
       this._computeYearlyGains();
     }
-    else
-    {
+    else {
       this._computeCharacteristics();
       this._computeSkills();
       this._computeItems();
@@ -136,12 +133,12 @@ export class RogueTraderActor extends Actor {
     this.initiative.bonus = this.characteristics[this.initiative.characteristic].bonus;
     // Done as variables to make it easier to read & understand
     let tb = Math.floor(
-      ( this.characteristics.toughness.base
-            + this.characteristics.toughness.advance) / 10);
+      (this.characteristics.toughness.base
+        + this.characteristics.toughness.advance) / 10);
 
     let wb = Math.floor(
-      ( this.characteristics.willpower.base
-            + this.characteristics.willpower.advance) / 10);
+      (this.characteristics.willpower.base
+        + this.characteristics.willpower.advance) / 10);
 
     // The only thing not affected by itself
     this.fatigue.max = tb + wb;
@@ -208,14 +205,14 @@ export class RogueTraderActor extends Actor {
           const specialities = skillSchema[entry].specialities;
           for (const specialty in specialities) {
             if (specialities.hasOwnProperty(specialty)) {
-              result[entry][specialty] = { 
+              result[entry][specialty] = {
                 skillModifier: 0
               };
             }
           }
         } else {
           result[entry] = {
-            skillModifier : 0
+            skillModifier: 0
           };
         }
       }
@@ -224,7 +221,7 @@ export class RogueTraderActor extends Actor {
     items.forEach((value, key) => {
       const skillMods = value.skillModifiers;
       if (skillMods !== null && skillMods !== undefined) {
-        for (const skillMod in skillMods ) {
+        for (const skillMod in skillMods) {
           const split = skillMod.split(":");
           if (split.length > 1)
             result[split[0]][split[1]].skillModifier += skillMods[skillMod].skillModifier;
@@ -314,15 +311,15 @@ export class RogueTraderActor extends Actor {
     let toughness = this.characteristics.toughness;
 
     this.system.armour = locations
-              .reduce((accumulator, location) =>
-                Object.assign(accumulator,
-                  {
-                    [location]: {
-                      total: toughness.bonus,
-                      toughnessBonus: toughness.bonus,
-                      value: 0
-                    }
-                  }), {});
+      .reduce((accumulator, location) =>
+        Object.assign(accumulator,
+          {
+            [location]: {
+              total: toughness.bonus,
+              toughnessBonus: toughness.bonus,
+              value: 0
+            }
+          }), {});
 
     // Object for storing the max armour
     let maxArmour = locations
@@ -334,22 +331,22 @@ export class RogueTraderActor extends Actor {
       .filter(item => item.isArmour && !item.isAdditive)
       .reduce((acc, armour) => {
         locations.forEach(location => {
-            let armourVal = armour.part[location] || 0;
-            if (armourVal > acc[location]) {
-              acc[location] = armourVal;
-            }
-          });
+          let armourVal = armour.part[location] || 0;
+          if (armourVal > acc[location]) {
+            acc[location] = armourVal;
+          }
+        });
         return acc;
       }, maxArmour);
 
     this.items
       .filter(item => item.isArmour && item.isAdditive)
       .forEach(armour => {
-         locations.forEach(location =>{
-            let armourVal = armour.part[location] || 0;
-            maxArmour[location] += armourVal;
-         });
-      });  
+        locations.forEach(location => {
+          let armourVal = armour.part[location] || 0;
+          maxArmour[location] += armourVal;
+        });
+      });
 
     this.armour.head.value = maxArmour.head;
     this.armour.leftArm.value = maxArmour.leftArm;
@@ -463,8 +460,7 @@ export class RogueTraderActor extends Actor {
   }
 
 
-  _getAdvanceCharacteristic(characteristic)
-  {
+  _getAdvanceCharacteristic(characteristic) {
     switch (characteristic || 0) {
       case 0:
         return "N";
@@ -483,8 +479,7 @@ export class RogueTraderActor extends Actor {
     }
   }
 
-  _getAdvanceSkill(skill)
-  {
+  _getAdvanceSkill(skill) {
     switch (skill || 0) {
       case -20:
         return "U";
@@ -644,6 +639,7 @@ export class RogueTraderActor extends Actor {
   get growthAcquisitionBase() {
     const colonySize = this.system.stats.size;
     switch (colonySize) {
+      case 0:
       case 1:
       case 2:
       case 3:
@@ -667,6 +663,7 @@ export class RogueTraderActor extends Actor {
   get growthPointRequirementBase() {
     const colonySize = this.system.stats.size;
     switch (colonySize) {
+      case 0:
       case 1:
       case 2:
       case 3:
@@ -685,11 +682,43 @@ export class RogueTraderActor extends Actor {
         return colonySize + 4;
     }
   }
-  
+
+  get colonyProfitFactorBase() {
+    const colonySize = this.size;
+    switch (colonySize) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+        return colonySize;
+      case 5:
+      case 6:
+      case 7:
+      case 8:
+      case 9:
+        return colonySize + (colonySize - 4);
+      case 10:
+        return colonySize + 8;
+      default:
+        return 18 + (2 * (colonySize - 10));
+    }
+  }
+
+  get governor() {
+    return game.actors.get(this.system.governor);
+  }
+
+  get colonySize() {
+    console.log("Foo");
+    console.log(this);
+    return this.system.stats.size || 0;
+  }
+
   get attributeBoni() {
     let boni = [];
     for (let characteristic of Object.values(this.characteristics)) {
-      boni.push( {regex: new RegExp(`${characteristic.short}B`, "gi"), value: characteristic.bonus} );
+      boni.push({ regex: new RegExp(`${characteristic.short}B`, "gi"), value: characteristic.bonus });
     }
     return boni;
   }
@@ -737,7 +766,7 @@ export class RogueTraderActor extends Actor {
   get movement() { return this.system.movement; }
 
   get crewSkillValue() {
-    switch(this.system.crewSkill) {
+    switch (this.system.crewSkill) {
       case "incompetent":
         return 20;
       case "competent":
@@ -852,7 +881,7 @@ export class RogueTraderActor extends Actor {
     for (let crewMember in shipCrewObject) {
       crewId = shipCrewObject[crewMember];
       if (crewId !== "") {
-        crewRoster[crewMember] = game.actors.get(crewId); 
+        crewRoster[crewMember] = game.actors.get(crewId);
       }
     }
     return crewRoster;

@@ -482,6 +482,7 @@
   "TAB.COMPLICATIONS": "COMPLICATIONS",
   "TAB.CREW": "CREW",
   "TAB.MODIFIERS": "Modifiers",
+  "TAB.CORE": "Core",
 
   "TALENT.NAME": "Name",
   "TALENT.BENEFIT": "Benefit",
@@ -672,5 +673,18 @@
   "DIALOG.SKILL_VALUE": "Skill Modifier",
 
   "COLONY.STAR_SYSTEM": "Star System",
-  "COLONY.PLANET": "Planet"
+  "COLONY.PLANET": "Planet",
+  "COLONY.GOVERNOR": "Governor",
+  "COLONY.SIZE.GHOST_TOWN": "Ghost Town",
+  "COLONY.SIZE.SETTLEMENT": "Settlement",
+  "COLONY.SIZE.OUTPOST": "Outpost",
+  "COLONY.SIZE.FREEHOLD": "Freehold",
+  "COLONY.SIZE.DEMESNE": "Demesne",
+  "COLONY.SIZE.HOLDING": "Holding",
+  "COLONY.SIZE.DOMINION": "Dominion",
+  "COLONY.SIZE.TERRITORY": "Territory",
+  "COLONY.SIZE.CITY": "City",
+  "COLONY.SIZE.METROPOLIS": "Metropolis",
+  "COLONY.SIZE.HIVE": "Hive"
+  
 }

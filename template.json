@@ -1145,7 +1145,7 @@
       "colonyType": "",
       "initialCost": 0,
       "stats": {
-        "size": 0,
+        "size": 1,
         "loyalty": 0,
         "prosperity": 0,
         "security": 0
@@ -1160,6 +1160,11 @@
         "planet": "",
         "establishmentDate": "",
         "notes": ""
+      }, 
+      "establishmentData": {
+        "initialCost": 0,
+        "baseSlots": 0,
+        "acquisitionModifier": 0
       }
     }
   },
