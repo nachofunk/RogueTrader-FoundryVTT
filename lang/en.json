@@ -685,6 +685,13 @@
   "COLONY.SIZE.TERRITORY": "Territory",
   "COLONY.SIZE.CITY": "City",
   "COLONY.SIZE.METROPOLIS": "Metropolis",
-  "COLONY.SIZE.HIVE": "Hive"
+  "COLONY.SIZE.HIVE": "Hive",
+  "COLONY.GOV.ADMINISTRATIVE": "Administrative",
+  "COLONY.GOV.FAITHFUL": "Faithful",
+  "COLONY.GOV.LAWFUL": "Lawful",
+  "COLONY.GOV.ACCOUNTING": "Accounting",
+  "COLONY.GOV.LOCAL": "Local",
+  "COLONY.GOV.RELAXED": "Relaxed",
+  "COLONY.GOV.WARLIKE": "Warlike"
   
 }

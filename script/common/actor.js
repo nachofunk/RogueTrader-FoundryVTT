@@ -52,7 +52,7 @@ export class RogueTraderActor extends Actor {
   }
 
   _computeProfitFactor() {
-    const colonySize = this.system.stats.size;
+    const colonySize = this.colonySize;
     if (colonySize < 0) {
       this.system.stats.profitFactor = 0;
       return;
@@ -660,8 +660,8 @@ export class RogueTraderActor extends Actor {
     }
   }
 
-  get growthPointRequirementBase() {
-    const colonySize = this.system.stats.size;
+  get colonyRequiredGrowth() {
+    const colonySize = this.colonySize;
     switch (colonySize) {
       case 0:
       case 1:
@@ -683,35 +683,13 @@ export class RogueTraderActor extends Actor {
     }
   }
 
-  get colonyProfitFactorBase() {
-    const colonySize = this.size;
-    switch (colonySize) {
-      case 0:
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-        return colonySize;
-      case 5:
-      case 6:
-      case 7:
-      case 8:
-      case 9:
-        return colonySize + (colonySize - 4);
-      case 10:
-        return colonySize + 8;
-      default:
-        return 18 + (2 * (colonySize - 10));
-    }
-  }
+  get colonyProfitFactor() { return this.system.stats.profitFactor || 0; }
 
   get governor() {
     return game.actors.get(this.system.governor);
   }
 
   get colonySize() {
-    console.log("Foo");
-    console.log(this);
     return this.system.stats.size || 0;
   }
 

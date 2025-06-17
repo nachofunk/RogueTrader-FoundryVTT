@@ -33,14 +33,36 @@
   display: flex;
   flex-direction: column;
 }
+.rogue-trader .space10 {
+  margin-bottom: 10px;
+}
+.rogue-trader .space5 {
+  margin-bottom: 5px;
+}
 .rogue-trader .flex {
   display: flex;
 }
 .rogue-trader .row {
   flex-direction: row;
 }
+.rogue-trader .full-row {
+  flex-direction: row;
+  width: 100%;
+}
+.rogue-trader .half-row {
+  flex-direction: row;
+  width: 50%;
+}
 .rogue-trader .column {
   flex-direction: column;
+}
+.rogue-trader .full-column {
+  flex-direction: column;
+  width: 100%;
+}
+.rogue-trader .half-column {
+  flex-direction: column;
+  width: 50%;
 }
 .rogue-trader .border {
   border: 2px solid var(--color-border);
@@ -2132,7 +2154,7 @@ li.folder.collapsed > .folder-header {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  max-width: 150px;
+  max-width: 125px;
   justify-content: space-evenly;
 }
 

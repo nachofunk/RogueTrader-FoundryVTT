@@ -1148,7 +1148,8 @@
         "size": 1,
         "loyalty": 0,
         "prosperity": 0,
-        "security": 0
+        "security": 0,
+        "profitFactor": 0
       },
       "yearlyGains": {
         "yearlyLoyalty": 0,

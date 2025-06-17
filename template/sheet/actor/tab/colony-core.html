@@ -1,23 +1,66 @@
 <div class="flex wrap border row colony-core">
-    <h1 style="margin-bottom: 5px;">Basics</h1>
-    <div class="flex row">
-        <div class="governor flex column">
-            <div class="stat border" data-crewRole="governor">
-                <div class="avatar" data-crewRole="governor">
-                    {{#if system.governor}}
-                        <img class="crew-img-governor" src="{{actor.governor.img}}" title="{{actor.governor.name}}" data-crewRole="governor">
-                    {{else}}
-                        <img class="crew-img-governor" src="icons/svg/mystery-man.svg" title="Governor" data-crewRole="governor">
-                    {{/if}}
+    <div class="flex wrap space5 full-row">
+        <h1 class="space5">Governance</h1>
+        <div class="flex full-row justify-space-around">
+            <div class="governor flex half-column">
+                <div class="stat border" data-crewRole="governor">
+                    <div class="avatar" data-crewRole="governor">
+                        {{#if system.governor}}
+                            <img class="crew-img-governor" src="{{actor.governor.img}}" title="{{actor.governor.name}}" data-crewRole="governor">
+                        {{else}}
+                            <img class="crew-img-governor" src="icons/svg/mystery-man.svg" title="Governor" data-crewRole="governor">
+                        {{/if}}
+                    </div>
+                    <label>{{localize "COLONY.GOVERNOR"}}</label>
                 </div>
-                <label>{{localize "COLONY.GOVERNOR"}}</label>
+            </div>
+            <div class="flex half-column">
+                <div class="flex column">
+                    <label>Representative Type</label>
+                    <select name="system.governorType">
+                        {{#select system.governorType}}
+                            <option value="administrative">{{localize "COLONY.GOV.ADMINISTRATIVE"}}</option>
+                            <option value="faithful">{{localize "COLONY.GOV.FAITHFUL"}}</option>
+                            <option value="lawful">{{localize "COLONY.GOV.LAWFUL"}}</option>
+                            <option value="accounting">{{localize "COLONY.GOV.ACCOUNTING"}}</option>
+                            <option value="local">{{localize "COLONY.GOV.LOCAL"}}</option>
+                            <option value="relaxed">{{localize "COLONY.GOV.RELAXED"}}</option>
+                            <option value="warlike">{{localize "COLONY.GOV.WARLIKE"}}</option>
+                        {{/select}}
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="flex column wrap">
+    </div>
+    <div class="flex wrap space5 full-row">
+        <h1 class="space5">Operations</h1>
+        <div class="flex wrap half-column">
             <div class="flex row">
                 <label>Colony Size</label>
                 <input class="total" name="system.stats.size" type="number" value="{{system.stats.size}}" data-dtype="Number" />
                 <input name="colony-size" type="text" value="{{localizeColonySize actor.colonySize}}" disabled />
+            </div>
+            <div class="flex row">
+                <label>Generated Profit Factor</label>
+                <input class="total" name="profit-factor" type="number" value="{{actor.colonyProfitFactor}}" data-dtype="Number" disabled />
+            </div>
+            <div class="flex row">
+                <label>Required Growth</label>
+                <input class="total" name="required-growth" type="number" value="{{actor.colonyRequiredGrowth}}" data-dtype="Number" disabled />
+            </div>
+        </div>
+        <div class="flex half-column wrap">
+            <div class="flex row">
+                <label>Current Loyalty</label>
+                <input class="total" name="system.stats.loyalty" type="number" value="{{system.stats.loyalty}}" data-dtype="Number" />
+            </div>
+            <div class="flex row">
+                <label>Current Prosperity</label>
+                <input class="total" name="system.stats.prosperity" type="number" value="{{system.stats.prosperity}}" data-dtype="Number" />
+            </div>
+            <div class="flex row">
+                <label>Current Security</label>
+                <input class="total" name="system.stats.security" type="number" value="{{system.stats.security}}" data-dtype="Number" />
             </div>
         </div>
     </div>
