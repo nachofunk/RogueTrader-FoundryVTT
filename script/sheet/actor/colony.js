@@ -6,7 +6,7 @@ export class ColonySheet extends RogueTraderSheet {
     return mergeObject(super.defaultOptions, {
       classes: ["rogue-trader", "sheet", "actor"],
       template: "systems/rogue-trader/template/sheet/actor/colony.html",
-      width: 720,
+      width: 750,
       height: 881,
       resizable: true,
       tabs: [
@@ -48,17 +48,20 @@ export class ColonySheet extends RogueTraderSheet {
   async _onDropActor(event, data) {
     const actorData = await this.getData();
     const droppedActor = game.actors.get(data.uuid.split(".")[1]);
-    switch (event.target.dataset.crewrole) {
-      case "governor":
-        {
-          actorData.system.governor = data.uuid.split(".")[1];
+    if (droppedActor)
+    {
+      switch (event.target.dataset.crewrole) {
+        case "governor":
+          {
+            actorData.system.governor.actor = droppedActor.id;
+            break;
+          }
+        default:
+          console.log(event.target.dataset.crewRole);
           break;
-        }
-      default:
-        console.log(event.target.dataset.crewRole);
-        break;
+      }
+      this._updateObject(event, actorData);
     }
-    this._updateObject(event, actorData);
   }
 
   rollColonyFortune(event) {

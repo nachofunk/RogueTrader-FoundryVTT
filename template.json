@@ -1140,8 +1140,11 @@
       "notes": ""
     },
     "colony": {
-      "governor": "",
-      "governorType": "",
+      "governor": {
+        "actor": "",
+        "governorType": "",
+        "skillBonus": 0
+      },
       "colonyType": "",
       "initialCost": 0,
       "stats": {
@@ -1149,12 +1152,10 @@
         "loyalty": 0,
         "prosperity": 0,
         "security": 0,
-        "profitFactor": 0
-      },
-      "yearlyGains": {
-        "yearlyLoyalty": 0,
-        "yearlyProsperity": 0,
-        "yearlySecurity": 0
+        "profitFactor": 0,
+        "loyaltyGain": 0,
+        "prosperityGain": 0,
+        "securityGain": 0
       },
       "bio": {
         "starSystem": "",

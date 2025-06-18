@@ -1,11 +1,11 @@
 <div class="flex wrap border row colony-core">
     <div class="flex wrap space5 full-row">
         <h1 class="space5">Governance</h1>
-        <div class="flex full-row justify-space-around">
-            <div class="governor flex half-column">
+        <div class="flex row justify-space-around">
+            <div class="governor-avatar flex column">
                 <div class="stat border" data-crewRole="governor">
                     <div class="avatar" data-crewRole="governor">
-                        {{#if system.governor}}
+                        {{#if system.governor.actor}}
                             <img class="crew-img-governor" src="{{actor.governor.img}}" title="{{actor.governor.name}}" data-crewRole="governor">
                         {{else}}
                             <img class="crew-img-governor" src="icons/svg/mystery-man.svg" title="Governor" data-crewRole="governor">
@@ -14,25 +14,49 @@
                     <label>{{localize "COLONY.GOVERNOR"}}</label>
                 </div>
             </div>
-            <div class="flex half-column">
+            <div class="governor item-list justify-space-around">
+                <div class="flex row justify-space-between item-align-center">
+                    <div class="flex">
+                        <label>Representative Type</label>
+                    </div>
+                    <div class="flex">
+                        <select name="system.governor.governorType">
+                            {{#select system.governor.governorType}}
+                                <option value="administrative">{{localize "COLONY.GOV.ADMINISTRATIVE"}}</option>
+                                <option value="faithful">{{localize "COLONY.GOV.FAITHFUL"}}</option>
+                                <option value="lawful">{{localize "COLONY.GOV.LAWFUL"}}</option>
+                                <option value="accounting">{{localize "COLONY.GOV.ACCOUNTING"}}</option>
+                                <option value="local">{{localize "COLONY.GOV.LOCAL"}}</option>
+                                <option value="relaxed">{{localize "COLONY.GOV.RELAXED"}}</option>
+                                <option value="warlike">{{localize "COLONY.GOV.WARLIKE"}}</option>
+                            {{/select}}
+                        </select>
+                    </div>
+                </div>
+                <div class="flex row justify-space-between">
+                    <div class="flex">
+                        <label>Representative Skill</label>
+                    </div>
+                    <div class="flex">
+                        <input name="governor-skill" type="number" value="{{actor.governorSkill}}" data-dtype="Number" disabled/>
+                    </div>
+                </div>
+            </div>
+            <div class="governot item-list justify-space-around">
                 <div class="flex column">
-                    <label>Representative Type</label>
-                    <select name="system.governorType">
-                        {{#select system.governorType}}
-                            <option value="administrative">{{localize "COLONY.GOV.ADMINISTRATIVE"}}</option>
-                            <option value="faithful">{{localize "COLONY.GOV.FAITHFUL"}}</option>
-                            <option value="lawful">{{localize "COLONY.GOV.LAWFUL"}}</option>
-                            <option value="accounting">{{localize "COLONY.GOV.ACCOUNTING"}}</option>
-                            <option value="local">{{localize "COLONY.GOV.LOCAL"}}</option>
-                            <option value="relaxed">{{localize "COLONY.GOV.RELAXED"}}</option>
-                            <option value="warlike">{{localize "COLONY.GOV.WARLIKE"}}</option>
-                        {{/select}}
-                    </select>
+                    <div class="flex column">
+                        <label>Bonus</label>
+                        <label class="header">Foo</label>
+                    </div>
+                    <div class="flex column">
+                        <label>Side Effect</label>
+                        <label class="header">Bar</label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="flex wrap space5 full-row">
+    <div class="flex wrap space5 full-column">
         <h1 class="space5">Operations</h1>
         <div class="flex wrap half-column">
             <div class="flex row">
@@ -49,18 +73,48 @@
                 <input class="total" name="required-growth" type="number" value="{{actor.colonyRequiredGrowth}}" data-dtype="Number" disabled />
             </div>
         </div>
-        <div class="flex half-column wrap">
+        <div class="flex wrap half-column">
+            <h2>Growth</h2>
             <div class="flex row">
-                <label>Current Loyalty</label>
-                <input class="total" name="system.stats.loyalty" type="number" value="{{system.stats.loyalty}}" data-dtype="Number" />
-            </div>
-            <div class="flex row">
-                <label>Current Prosperity</label>
-                <input class="total" name="system.stats.prosperity" type="number" value="{{system.stats.prosperity}}" data-dtype="Number" />
-            </div>
-            <div class="flex row">
-                <label>Current Security</label>
-                <input class="total" name="system.stats.security" type="number" value="{{system.stats.security}}" data-dtype="Number" />
+                <div class="colony-stat-column item-list border">
+                    <div class="flex header">
+                        <b>Loyalty</b>
+                    </div>
+                    <div class="flex row colony-stat justify-space-between">
+                        <label>Current</label>
+                        <input class="total" name="system.stats.loyalty" type="number" value="{{system.stats.loyalty}}" data-dtype="Number" />
+                    </div>
+                    <div class="flex row colony-stat justify-space-between">
+                        <label>Yearly Gain</label>
+                        <input class="total" name="system.stats.loyaltyGain" type="number" value="{{system.stats.loyaltyGain}}" data-dtype="Number" disabled />
+                    </div>
+                </div>
+                <div class="item-list colony-stat-column border">
+                    <div class="flex header">
+                        <b>Prosperity</b>
+                    </div>
+                    <div class="flex row colony-stat justify-space-between">
+                        <label>Current</label>
+                        <input class="total" name="system.stats.prosperity" type="number" value="{{system.stats.prosperity}}" data-dtype="Number" />
+                    </div>
+                    <div class="flex row colony-stat justify-space-between">
+                        <label>Yearly Gain</label>
+                        <input class="total" name="system.stats.prosperityGain" type="number" value="{{system.stats.prosperityGain}}" data-dtype="Number" disabled />
+                    </div>
+                </div>
+                <div class="colony-stat-column item-list border">
+                    <div class="flex header">
+                        <b>Security</b>
+                    </div>
+                    <div class="flex row colony-stat justify-space-between">
+                        <label>Current</label>
+                        <input class="total" name="system.stats.security" type="number" value="{{system.stats.security}}" data-dtype="Number" />
+                    </div>
+                    <div class="flex row colony-stat justify-space-between">
+                        <label>Yearly Gain</label>
+                        <input class="total" name="system.stats.securityGain" type="number" value="{{system.stats.securityGain}}" data-dtype="Number" disabled />
+                    </div>
+                </div>
             </div>
         </div>
     </div>

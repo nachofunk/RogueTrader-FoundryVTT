@@ -85,8 +85,20 @@
   justify-content: space-around;
 }
 
+.rogue-trader .justify-space-between {
+  justify-content: space-between;
+}
+.rogue-trader .item-align-start {
+  align-items: flex-start;
+}
+.rogue-trader .item-align-center {
+  align-items: center;
+}
 .rogue-trader .align-center {
   align-content: center;
+}
+.rogue-trader .colony-stat {
+  margin: 5px;
 }
 /* TAB COLORS */
 #sidebar-tabs > .item {
@@ -2116,6 +2128,36 @@ li.folder.collapsed > .folder-header {
   width: 3em;
 }
 
+.rogue-trader .colony-stat label {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  margin-right: 10px;
+}
+.rogue-trader .colony-stat input {
+  flex-basis: 10%;
+}
+.rogue-trader .colony-stat-column {
+  margin-right: 1px;
+  margin-left: 1px;
+}
+
+.rogue-trader .governor-avatar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 125px;
+  justify-content: space-evenly;
+  margin-right: 10px;
+}
+.rogue-trader .governor label {
+  width: 200px;
+  text-align: start;
+}
+.rogue-trader .governor input {
+  text-align: center;
+}
+ 
 /* Compatibility fix for Monk's Enhanced Journal*/
 .placename .header-name .flexrow {
   height: auto;
@@ -2147,14 +2189,6 @@ li.folder.collapsed > .folder-header {
   flex-direction: row;
   flex-wrap: wrap;
   flex-basis: 100%;
-  justify-content: space-evenly;
-}
-
-.rogue-trader .governor {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  max-width: 125px;
   justify-content: space-evenly;
 }
 

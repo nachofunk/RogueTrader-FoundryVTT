@@ -73,9 +73,9 @@ export class RogueTraderActor extends Actor {
         yearlySecurity: totals.yearlySecurity + (item.system.yearlySecurity || 0),
       };
     }, { yearlyLoyalty: 0, yearlyProsperity: 0, yearlySecurity: 0 });
-    this.system.yearlyGains.yearlyLoyalty = yearlyGains.yearlyLoyalty;
-    this.system.yearlyGains.yearlyProsperity = yearlyGains.yearlyProsperity;
-    this.system.yearlyGains.yearlySecurity = yearlyGains.yearlySecurity;
+    this.system.stats.loyaltyGain = yearlyGains.yearlyLoyalty;
+    this.system.stats.prosperityGain = yearlyGains.yearlyProsperity;
+    this.system.stats.securityGain = yearlyGains.yearlySecurity;
   }
 
   _computePower() {
@@ -683,10 +683,42 @@ export class RogueTraderActor extends Actor {
     }
   }
 
+  get governorSkill() {
+    const colonySize = this.colonySize;
+    let result = 0;
+    switch (colonySize) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        result = 35;
+        break;
+      case 4:
+      case 5:
+        result = 40;
+        break;
+      case 6:
+      case 7:
+        result = 45;
+        break;
+      case 8:
+        result = 50;
+        break;
+      case 9:
+        result = 55;
+        break;
+      case 10:
+      default:
+        result = 60;
+        break;
+    }
+    return result;
+  }
+
   get colonyProfitFactor() { return this.system.stats.profitFactor || 0; }
 
   get governor() {
-    return game.actors.get(this.system.governor);
+    return game.actors.get(this.system.governor.actor);
   }
 
   get colonySize() {
