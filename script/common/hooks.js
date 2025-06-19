@@ -24,6 +24,7 @@ import { AptitudeSheet } from "../sheet/aptitude.js";
 import { ShipSheet} from "../sheet/actor/ship.js";
 import { ShipWeaponSheet } from "../sheet/shipWeapon.js";
 import { ShipComponentSheet } from "../sheet/shipComponent.js";
+import { PlanetaryResourceSheet } from "../sheet/planetaryResource.js";
 import { initializeHandlebars } from "./handlebars.js";
 import { migrateWorld } from "./migration.js";
 import { prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll, showAddCharacteristicModifierDialog } from "./dialog.js";
@@ -78,6 +79,7 @@ Hooks.once("init", () => {
   Items.registerSheet("rogue-trader", AptitudeSheet, { types: ["aptitude"], makeDefault: true });
   Items.registerSheet("rogue-trader", ShipWeaponSheet, { types: ["shipWeapon"], makeDefault: true });
   Items.registerSheet("rogue-trader", ShipComponentSheet, { types: ["shipComponent"], makeDefault: true });
+  Items.registerSheet("rogue-trader", PlanetaryResourceSheet, { types: ["planetaryResource"], makeDefault: true });
   initializeHandlebars();
   registerSettings();
 });
@@ -110,6 +112,7 @@ Hooks.on("hotbarDrop", (bar, data, slot) => {
 
 function registerSettings() {
   registerWorldVersion();
+  registerColonyGrowthModifier();
   registerColonyGrowthTable();
   registerColonyCalamityTable();
   registerColonyFortuneTable();
@@ -120,6 +123,17 @@ function registerWorldVersion() {
   game.settings.register("rogue-trader", "worldSchemaVersion", {
     name: "World Version",
     hint: "Used to automatically upgrade worlds data when the system is upgraded.",
+    scope: "world",
+    config: true,
+    default: 0,
+    type: Number
+  });
+}
+
+function registerColonyGrowthModifier() {
+  game.settings.register("rogue-trader", "colonyGrowthModifier", {
+    name: "Colony Growth Modifier",
+    hint: "Adjusts growth point requirements for colony to increase in size.",
     scope: "world",
     config: true,
     default: 0,

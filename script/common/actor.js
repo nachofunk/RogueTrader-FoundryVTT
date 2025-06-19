@@ -37,6 +37,7 @@ export class RogueTraderActor extends Actor {
     else if (this.type === 'colony') {
       this._computeProfitFactor();
       this._computeYearlyGains();
+      this._computeColonyResources();
     }
     else {
       this._computeCharacteristics();
@@ -62,6 +63,12 @@ export class RogueTraderActor extends Actor {
     } else {
       this.system.stats.profitFactor = 18 + ((colonySize - 10) * 2);
     }
+  }
+
+  _computeColonyResources() {
+    const items = this.items;
+    const resources = items.filter(item => item.type === "planetaryResource");
+    this.system.resources = resources;
   }
 
   _computeYearlyGains() {
@@ -662,24 +669,26 @@ export class RogueTraderActor extends Actor {
 
   get colonyRequiredGrowth() {
     const colonySize = this.colonySize;
+    const colonyGrowthModifier = game.settings.get("rogue-trader", "colonyGrowthModifier") || 0;
+    const growthBase = colonySize + colonyGrowthModifier;
     switch (colonySize) {
       case 0:
       case 1:
       case 2:
       case 3:
-        return colonySize;
+        return growthBase;
       case 4:
       case 5:
-        return colonySize + 1;
+        return growthBase + 1;
       case 6:
       case 7:
-        return colonySize + 2;
+        return growthBase + 2;
       case 8:
       case 9:
-        return colonySize + 3;
+        return growthBase + 3;
       case 10:
       default:
-        return colonySize + 4;
+        return growthBase + 4;
     }
   }
 
@@ -721,8 +730,63 @@ export class RogueTraderActor extends Actor {
     return game.actors.get(this.system.governor.actor);
   }
 
+  get governorTypeBonus() {
+    const i18n = game?.i18n; // Cache the reference to game.i18n
+    if (!i18n) return "Localization unavailable"; // Fallback if i18n is undefined
+
+    const governorType = this.system.governor.governorType || "default";
+    switch (governorType) {
+      case "administrative":
+        return i18n.localize("COLONY.GOV_BONUS.ADMINISTRATIVE");
+      case "faithful":
+        return i18n.localize("COLONY.GOV_BONUS.FAITHFUL");
+      case "lawful":
+        return i18n.localize("COLONY.GOV_BONUS.LAWFUL");
+      case "accounting":
+        return i18n.localize("COLONY.GOV_BONUS.ACCOUNTING");
+      case "local":
+        return i18n.localize("COLONY.GOV_BONUS.LOCAL");
+      case "relaxed":
+        return i18n.localize("COLONY.GOV_BONUS.RELAXED");
+      case "warlike":
+        return i18n.localize("COLONY.GOV_BONUS.WARLIKE");
+      default:
+        return "ERROR!";
+    }
+  }
+
+  get governorTypeSideEffect() {
+    const i18n = game?.i18n; // Cache the reference to game.i18n
+    if (!i18n) return "Localization unavailable"; // Fallback if i18n is undefined
+
+    const governorType = this.system.governor.governorType || "default";
+    switch (governorType) {
+      case "administrative":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.ADMINISTRATIVE");
+      case "faithful":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.FAITHFUL");
+      case "lawful":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.LAWFUL");
+      case "accounting":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.ACCOUNTING");
+      case "local":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.LOCAL");
+      case "relaxed":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.RELAXED");
+      case "warlike":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.WARLIKE");
+      default:
+        return "ERROR!";
+    }
+  }
+
   get colonySize() {
     return this.system.stats.size || 0;
+  }
+
+  get colonyResources() {
+    console.log(this.system.resources);
+    return this.system.resources || [];
   }
 
   get attributeBoni() {

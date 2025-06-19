@@ -1142,11 +1142,12 @@
     "colony": {
       "governor": {
         "actor": "",
-        "governorType": "",
+        "governorType": "administrative",
         "skillBonus": 0
       },
       "colonyType": "",
       "initialCost": 0,
+      "resources": [],
       "stats": {
         "size": 1,
         "loyalty": 0,
@@ -1193,7 +1194,8 @@
       "shipWeapon",
       "shipComponent",
       "colonyUpgrade",
-      "colonyEvent"
+      "colonyEvent",
+      "planetaryResource"
     ],
     "templates": {
       "equipment": {
@@ -1377,6 +1379,10 @@
       "description": "",
       "themes": "",
       "effect": ""
+    },
+    "planetaryResource" : {
+      "source": "Local",
+      "amount": 0
     }
   }
 }
