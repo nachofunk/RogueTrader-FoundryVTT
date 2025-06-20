@@ -274,5 +274,34 @@ function registerHandlebarsHelpers() {
     }
     return result;
   });
+
+  Handlebars.registerHelper('localizeColonyType', function(colonyType) {
+    let result = "";
+    let i18n = game.i18n;
+    switch (colonyType) {
+      case "research":
+        result = i18n.localize("COLONY.TYPE.RESEARCH");
+        break;
+      case "mining":
+        result = i18n.localize("COLONY.TYPE.MINING");
+        break;
+      case "ecclesiastical":
+        result = i18n.localize("COLONY.TYPE.ECCLESIASTICAL");
+        break;
+      case "agricultural":
+        result = i18n.localize("COLONY.TYPE.AGRICULTURAL");
+        break;
+      case "pleasure":
+        result = i18n.localize("COLONY.TYPE.PLEASURE");
+        break;
+      case "war":
+        result = i18n.localize("COLONY.TYPE.WAR");
+        break;
+      default:
+        result = "Unknown Colony Type";
+        break;
+    }
+    return result;
+  });
 }
 

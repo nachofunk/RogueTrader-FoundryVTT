@@ -711,5 +711,33 @@
   "COLONY.GOV_SIDE_EFFECT.WARLIKE": "War is costly. Whenever increasing Prosperity with Positive Events, roll 1d10. On 6+ the Prosperity is not increased, taken to pay for the war effort.",
   "COLONY.RESOURCE.HEADER": "Resource",
   "COLONY.RESOURCE.SOURCE": "Source",
-  "COLONY.RESOURCE.AMOUNT": "Amount"
+  "COLONY.RESOURCE.AMOUNT": "Amount",
+
+  "COLONY.TYPE.RESEARCH": "Research",
+  "COLONY.TYPE.MINING": "Mining and Industry",
+  "COLONY.TYPE.ECCLESIASTICAL": "Ecclesiastical",
+  "COLONY.TYPE.AGRICULTURAL": "Agricultural",
+  "COLONY.TYPE.PLEASURE": "Pleasure",
+  "COLONY.TYPE.WAR": "War",
+
+  "COLONY.UPGRADE_BONUS.RESEARCH": "Infrastructure and Void Upgrades have +10 bonus to Acquisition",
+  "COLONY.UPGRADE_BONUS.MINING": "Industrial Upgrades have +10 bonus to Acquisition",
+  "COLONY.UPGRADE_BONUS.ECCLESIASTICAL": "Faith Upgrades have +10 bonus to Acquisition",
+  "COLONY.UPGRADE_BONUS.AGRICULTURAL": "Agricultural Upgrades have +10 bonus to Acquisition",
+  "COLONY.UPGRADE_BONUS.PLEASURE": "Leisure Upgrades have +10 bonus to Acquisition",
+  "COLONY.UPGRADE_BONUS.WAR": "Military Upgrades have +10 bonus to Acquisition",
+
+  "COLONY.SIDE_EFFECT.RESEARCH": "Decrease the total yearly Loyalty gain by 1.",
+  "COLONY.SIDE_EFFECT.MINING": "Decrease the total yearly Security gain by 1.",
+  "COLONY.SIDE_EFFECT.ECCLESIASTICAL": "Decrease the total yearly Prosperity gain by 1.",
+  "COLONY.SIDE_EFFECT.AGRICULTURAL": "Decrease the total yearly Security gain by 1.",
+  "COLONY.SIDE_EFFECT.PLEASURE": "Decrease the total yearly Security gain by 1.",
+  "COLONY.SIDE_EFFECT.WAR": "Decrease the total yearly Prosperity gain by 1.",
+
+  "COLONY.BONUS.RESEARCH": "Whenever on the Colony, the Explorers gain +10 to all Lore tests.",
+  "COLONY.BONUS.MINING": "When making Acquisition tests on the Colony, the Dynasty increases their Profit Factor modifier by Colony Size.",
+  "COLONY.BONUS.ECCLESIASTICAL": "When the Dynasty would lose Legitimacy due to faith-related actions, decrease the lost by 1.",
+  "COLONY.BONUS.AGRICULTURAL": "When the Dynasty stops their voidships at the Colony, their food reserves increase from 1 year to 3 years.",
+  "COLONY.BONUS.PLEASURE": "Voidship Crew resting on the Colony regain Morale in one week instead of three weeks.",
+  "COLONY.BONUS.WAR": "Whenever under attack, the defenders gain +10 to all strategy and tactics tests to repel the attackers."
 }

@@ -43,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="governot item-list justify-space-around space-right-10">
+                <div class="governor item-list justify-space-around space-right-10">
                     <div class="flex column">
                         <div class="flex column space5">
                             <label style="text-align: left; margin-bottom: 2px;">Bonus</label>
@@ -88,6 +88,49 @@
     </div>
     <div class="flex wrap column operations">
         <h1 class="space5">Operations</h1>
+        <div class="flex column colony-type border">
+            <h2>Colony Type</h2>
+            <div class="flex wrap row">
+                <div class="flex column justify-space-around align-center item-list">
+                    <div class="flex row type-info">
+                        <label class="flex name">Type</label>
+                        <div class="flex colony-stat">
+                            <select name="system.colonyType">
+                                {{#select system.colonyType}}
+                                    {{#each actor.colonyTypes as |colonyType|}}
+                                        <option value="{{colonyType}}">{{localizeColonyType colonyType}}</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex column type-info border">
+                        <div class="flex header name">
+                            <b>Dynasty Bonus</b>
+                        </div>
+                        <div class="flex row colony-stat">
+                            <label>{{actor.colonyTypeExplorerBonus}}</label>
+                        </div>
+                    </div>
+                    <div class="flex column type-info border">
+                        <div class="flex header name">
+                            <b>Upgrade Bonus</b>
+                        </div>
+                        <div class="flex row colony-stat">
+                            <label>{{actor.colonyTypeUpgradeBonus}}</label>
+                        </div>
+                    </div>
+                    <div class="flex column type-info border">
+                        <div class="flex header name">
+                            <b>Side Effect</b>
+                        </div>
+                        <div class="flex row colony-stat">
+                            <label>{{actor.colonyTypeSideEffect}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="flex row">
             <div class="growth flex wrap column border">
                 <h2>Growth</h2>
@@ -139,16 +182,35 @@
                     </div>
                 </div>
             </div>
-            <div class="flex wrap column development border">
+            <div class="flex column development border">
                 <h2>Development</h2>
-                <div class="flex row">
-                    <label>Colony Size</label>
-                    <input class="total" name="system.stats.size" type="number" value="{{system.stats.size}}" data-dtype="Number" />
-                    <input name="colony-size" type="text" value="{{localizeColonySize actor.colonySize}}" disabled />
+                <div class="flex row property">
+                    <label class="name">Colony Size</label>
+                    <div class="flex row data">
+                        <input name="system.stats.size" type="number" value="{{actor.currentColonySize}}" data-dtype="Number" />
+                        <input name="colony-size" type="text" value="{{localizeColonySize actor.currentColonySize}}" disabled />
+                    </div>
                 </div>
-                <div class="flex row">
-                    <label>Generated Profit Factor</label>
-                    <input class="total" name="profit-factor" type="number" value="{{actor.colonyProfitFactor}}" data-dtype="Number" disabled />
+                <div class="flex row property">
+                    <label class="name">Generated Profit Factor</label>
+                    <div class="flex row data">
+                        <input name="profit-factor" type="number" value="{{actor.colonyProfitFactor}}" data-dtype="Number" disabled />
+                    </div>
+                </div>
+                <h3>Planetary Slots</h3>
+                <div class="flex row property">
+                    <label class="name">Planet Base Slots</label>
+                    <div class="flex row data">
+                        <input name="system.development.baseSlots" type="number" value="{{system.development.baseSlots}}" data-dtype="Number" />
+                    </div>
+                </div>
+                <div class="flex row property">
+                    <label class="name">Available Slots</label>
+                    <div class="flex row data">
+                        <input name="system.development.occupiedSlots" type="number" value="{{actor.colonyOccupiedSlots}}" disabled/>
+                        /
+                        <input name="system.development.slotsTotal" type="number" value="{{actor.colonyTotalSlots}}" disabled />
+                    </div>
                 </div>
             </div>
         </div>

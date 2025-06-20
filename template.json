@@ -1148,6 +1148,7 @@
       "colonyType": "",
       "initialCost": 0,
       "resources": [],
+      "upgrades": [],
       "stats": {
         "size": 1,
         "loyalty": 0,
@@ -1164,9 +1165,11 @@
         "establishmentDate": "",
         "notes": ""
       }, 
-      "establishmentData": {
+      "development": {
         "initialCost": 0,
         "baseSlots": 0,
+        "slotsTotal": 0,
+        "occupiedSlots": 0,
         "acquisitionModifier": 0
       }
     }
@@ -1371,6 +1374,8 @@
       "yearlyProsperity": 0,
       "yearlySecurity": 0,
       "usesUpgradeSlot": true,
+      "bonusSlots": 0,
+      "governorSkillBonus": 0,
       "prerequisite": "",
       "availability": "common",
       "description": ""

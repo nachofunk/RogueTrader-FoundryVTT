@@ -35,9 +35,12 @@ export class RogueTraderActor extends Actor {
       this._computeShipInitiative();
     }
     else if (this.type === 'colony') {
+      this._computeColonyUpgrades();
+      this._computeColonyResources();
       this._computeProfitFactor();
       this._computeYearlyGains();
-      this._computeColonyResources();
+      this._computePlanetarySlots();
+      console.log(this);
     }
     else {
       this._computeCharacteristics();
@@ -53,7 +56,7 @@ export class RogueTraderActor extends Actor {
   }
 
   _computeProfitFactor() {
-    const colonySize = this.colonySize;
+    const colonySize = this.currentColonySize || 0;
     if (colonySize < 0) {
       this.system.stats.profitFactor = 0;
       return;
@@ -71,9 +74,15 @@ export class RogueTraderActor extends Actor {
     this.system.resources = resources;
   }
 
-  _computeYearlyGains() {
+  _computeColonyUpgrades() {
     const items = this.items;
-    const yearlyGains = items.reduce((totals, item) => {
+    const upgrades = items.filter(item => item.type === "colonyUpgrade");
+    this.system.upgrades = upgrades;
+  }
+
+  _computeYearlyGains() {
+    const upgrades = this.system.upgrades || [];
+    const yearlyGains = upgrades.reduce((totals, item) => {
       return {
         yearlyLoyalty: totals.yearlyLoyalty + (item.system.yearlyLoyalty || 0),
         yearlyProsperity: totals.yearlyProsperity + (item.system.yearlyProsperity || 0),
@@ -83,6 +92,15 @@ export class RogueTraderActor extends Actor {
     this.system.stats.loyaltyGain = yearlyGains.yearlyLoyalty;
     this.system.stats.prosperityGain = yearlyGains.yearlyProsperity;
     this.system.stats.securityGain = yearlyGains.yearlySecurity;
+  }
+
+  _computePlanetarySlots() {
+    const baseSlots = this.system.development.baseSlots || 0;
+    const maxSlots = baseSlots;
+    const upgrades = this.system.upgrades || [];
+    const occupiedSlots = upgrades.filter(upgrade => upgrade.system.usesUpgradeSlot).length;
+    this.system.development.slotsTotal = maxSlots;
+    this.system.development.occupiedSlots = occupiedSlots;
   }
 
   _computePower() {
@@ -112,9 +130,6 @@ export class RogueTraderActor extends Actor {
       base: "1d10",
       bonus: this.system.detection / 10
     };
-    console.log(this);
-    // this.initiative.base = "1d10";
-    // this.initiative.bonus = this.detection / 10;
   }
 
   _computeCharacteristics() {
@@ -667,8 +682,28 @@ export class RogueTraderActor extends Actor {
     }
   }
 
+  get colonyUpgrades() {
+    return this.system.upgrades || [];
+  }
+
+  get currentColonySize() {
+    return this.system.stats.size || 0;
+  }
+
+  get colonyBaseSlots() {
+    return this.system.development.baseSlots || 0;
+  }
+
+  get colonyTotalSlots() {
+    return this.system.development.slotsTotal || 0; 
+  }
+
+  get colonyOccupiedSlots() {
+    return this.system.development.occupiedSlots || 0;
+  }
+
   get colonyRequiredGrowth() {
-    const colonySize = this.colonySize;
+    const colonySize = this.currentColonySize;
     const colonyGrowthModifier = game.settings.get("rogue-trader", "colonyGrowthModifier") || 0;
     const growthBase = colonySize + colonyGrowthModifier;
     switch (colonySize) {
@@ -780,13 +815,78 @@ export class RogueTraderActor extends Actor {
     }
   }
 
-  get colonySize() {
-    return this.system.stats.size || 0;
+  get colonyTypes() {
+    return [
+      "research",
+      "mining",
+      "ecclesiastical",
+      "agricultural",
+      "pleasure",
+      "war"
+    ];
   }
 
-  get colonyResources() {
-    console.log(this.system.resources);
-    return this.system.resources || [];
+  get colonyTypeUpgradeBonus() {
+    const colonyType = this.system.colonyType;
+    const i18n = game.i18n;
+    switch (colonyType) {
+      case "research":
+        return i18n.localize("COLONY.UPGRADE_BONUS.RESEARCH");
+      case "mining":
+        return i18n.localize("COLONY.UPGRADE_BONUS.MINING");
+      case "ecclesiastical":
+        return i18n.localize("COLONY.UPGRADE_BONUS.ECCLESIASTICAL");
+      case "agricultural":
+        return i18n.localize("COLONY.UPGRADE_BONUS.AGRICULTURAL");
+      case "pleasure":
+        return i18n.localize("COLONY.UPGRADE_BONUS.PLEASURE");
+      case "war":
+        return i18n.localize("COLONY.UPGRADE_BONUS.WAR");
+      default:
+        return "";
+    }
+  }
+
+  get colonyTypeSideEffect() {
+    const colonyType = this.system.colonyType;
+    const i18n = game.i18n;
+    switch (colonyType) {
+      case "research":
+        return i18n.localize("COLONY.SIDE_EFFECT.RESEARCH");
+      case "mining":
+        return i18n.localize("COLONY.SIDE_EFFECT.MINING");
+      case "ecclesiastical":
+        return i18n.localize("COLONY.SIDE_EFFECT.ECCLESIASTICAL");
+      case "agricultural":
+        return i18n.localize("COLONY.SIDE_EFFECT.AGRICULTURAL");
+      case "pleasure":
+        return i18n.localize("COLONY.SIDE_EFFECT.PLEASURE");
+      case "war":
+        return i18n.localize("COLONY.SIDE_EFFECT.WAR");
+      default:
+        return "";
+    }
+  }
+
+  get colonyTypeExplorerBonus() {
+    const colonyType = this.system.colonyType;
+    const i18n = game.i18n;
+    switch (colonyType) {
+      case "research":
+        return i18n.localize("COLONY.BONUS.RESEARCH");
+      case "mining":
+        return i18n.localize("COLONY.BONUS.MINING");
+      case "ecclesiastical":
+        return i18n.localize("COLONY.BONUS.ECCLESIASTICAL");
+      case "agricultural":
+        return i18n.localize("COLONY.BONUS.AGRICULTURAL");
+      case "pleasure":
+        return i18n.localize("COLONY.BONUS.PLEASURE");
+      case "war":
+        return i18n.localize("COLONY.BONUS.WAR");
+      default:
+        return "";
+    }
   }
 
   get attributeBoni() {

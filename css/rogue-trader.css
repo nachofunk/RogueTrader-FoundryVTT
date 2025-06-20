@@ -2157,14 +2157,14 @@ li.folder.collapsed > .folder-header {
 .rogue-trader .colony-governor {
   display: flex;
   flex-direction: column;
-  flex-basis: min-content;
+  flex-basis: 50%;
 }
 
 .rogue-trader .colony-core .top-section {
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-bottom: 10px;
 }
 
@@ -2221,10 +2221,39 @@ li.folder.collapsed > .folder-header {
   flex-basis: 5%;
   text-align: center;
 }
-.rogue-trader .colony .operations .growth,
-.rogue-trader .colony .operations .development {
-  flex-basis: 50%;
+.rogue-trader .colony .operations .growth {
+  flex-basis: 55%;
   margin: 3px
+}
+.rogue-trader .colony .operations .development {
+  flex-basis: 45%;
+  margin: 3px
+}
+.rogue-trader .colony .operations .development .property {
+  justify-content: space-between;
+  padding: 4px;
+}
+
+.rogue-trader .colony .operations .development .property .name {
+  flex-basis: 50%;
+  text-align: left;
+  font-weight: bold;
+}
+.rogue-trader .colony .operations .development .property .data input {
+  margin: 0 5px;
+}
+.rogue-trader .colony .operations .development h3 {
+  text-align: left;
+  font-size: 15px;
+}
+.rogue-trader .colony .operations .development .property .data {
+  flex-basis: 50%;
+  align-items: center;
+  justify-content: center;
+}
+.rogue-trader .colony .operations .colony-type {
+  width: 50%;
+  margin: 4px;
 }
 
 .rogue-trader .governor-avatar {
