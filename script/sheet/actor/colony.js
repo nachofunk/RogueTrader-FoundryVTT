@@ -1,3 +1,5 @@
+import { rollColonyEvents, rollColonyGrowth } from "../../common/roll.js";
+import RogueTraderUtil from "../../common/util.js";
 import { RogueTraderSheet } from "./actor.js";
 
 export class ColonySheet extends RogueTraderSheet {
@@ -22,6 +24,7 @@ export class ColonySheet extends RogueTraderSheet {
   activateListeners(html) {
     super.activateListeners(html);
     html.find(".roll-growth").click(ev => this._onRollColonyGrowth(ev));
+    html.find(".roll-events").click(ev => this._onRollColonyEvents(ev));
   }
 
   /** @override */
@@ -32,11 +35,56 @@ export class ColonySheet extends RogueTraderSheet {
 
   async _onRollColonyGrowth(ev) {
     ev.preventDefault();
-    const growthTableID = game.settings.get("rogue-trader", "colonyGrowth");
-    await this.rollTableWithID(growthTableID);
+    const actorData = await this.getData();
+    const growthData = this._updateGrowthPoints(actorData);
+    await rollColonyGrowth(RogueTraderUtil.prepareColonyRollData(this.actor, growthData));
+    this._updateObject(ev, actorData);
   }
 
-  async rollTableWithID(tableID) {
+  _updateGrowthPoints(actorData) {
+    const actorStats = actorData.system.stats;
+    const startLoyalty = actorStats.loyalty;
+    const startProsperity = actorStats.prosperity;
+    const startSecurity = actorStats.security;
+    actorStats.loyalty += actorStats.loyaltyGain;
+    actorStats.prosperity += actorStats.prosperityGain;
+    actorStats.security += actorStats.securityGain;
+    switch (actorData.system.governor.governorType) {
+      case "accounting":
+        actorStats.prosperity = Math.max(actorStats.prosperity, 0);
+        break;
+      case "local":
+        actorStats.loyalty = Math.max(actorStats.loyalty, 0);
+        break;
+      case "warlike":
+        actorStats.security = Math.max(actorStats.security, 0);
+        break;
+    }
+    return {
+      loyalty: {
+        start: startLoyalty,
+        updated: actorStats.loyalty,
+        difference: actorStats.loyalty - startLoyalty
+      },
+      prosperity: {
+        start: startProsperity,
+        updated: actorStats.prosperity,
+        difference: actorStats.prosperity - startProsperity
+      },
+      security: {
+        start: startSecurity,
+        updated: actorStats.security,
+        difference: actorStats.security - startSecurity
+      }
+    }
+  }
+
+  async _onRollColonyEvents(ev) {
+    ev.preventDefault();
+    await rollColonyEvents(RogueTraderUtil.prepareColonyRollData(this.actor));
+  }
+
+  async _rollTableWithID(tableID) {
     let colonyTable = game.tables.get(tableID);
     if (colonyTable) {
       await colonyTable.draw(); // Perform the roll
@@ -62,13 +110,5 @@ export class ColonySheet extends RogueTraderSheet {
       }
       this._updateObject(event, actorData);
     }
-  }
-
-  rollColonyFortune(event) {
-    event.preventDefault();
-    const growthTableID = game.settings.get("rogue-trader", "colonyGrowth");
-    let growthTable = game.tables.get(growthTableID);
-    console.log(growthTable);
-    growthTable.roll();
   }
 }

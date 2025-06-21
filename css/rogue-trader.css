@@ -97,9 +97,6 @@
 .rogue-trader .align-center {
   align-content: center;
 }
-.rogue-trader .colony-stat {
-  margin: 5px;
-}
 /* TAB COLORS */
 #sidebar-tabs > .item {
   line-height: 31px;
@@ -2252,8 +2249,15 @@ li.folder.collapsed > .folder-header {
   justify-content: center;
 }
 .rogue-trader .colony .operations .colony-type {
-  width: 50%;
-  margin: 4px;
+  margin: 3px;
+}
+.rogue-trader .colony .operations .colony-type .type-info {
+  justify-content: space-around;
+  align-items: center;
+  margin: 2px;
+}
+.rogue-trader .colony-stat {
+  margin: 1px;
 }
 
 .rogue-trader .governor-avatar {

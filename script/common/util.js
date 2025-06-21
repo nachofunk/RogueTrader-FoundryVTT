@@ -1,4 +1,24 @@
 export default class RogueTraderUtil {
+
+  static prepareColonyRollData(actor) {
+    return {
+      positiveEventTarget: 7,
+      negativeEventTarget: 3,
+    };
+  }
+
+  static prepareColonyGrowthRollData(actor, growthData) {
+    growthData.requiredGrowth = actor.system.stats.requiredGrowth;
+    growthData.shouldGrow = this.hasEnoughGrowth(actor, growthData);
+    return growthData;
+  }
+
+  hasEnoughGrowth(actor, growthData) {
+    const actorStats = actor.system.stats;
+    return (actorStats.loyalty.updated >= growthData.requiredGrowth &&
+            actorStats.prosperity.updated >= growthData.requiredGrowth &&
+            actorStats.security.updated >= growthData.requiredGrowth);
+  }
   
   static createCommonAttackRollData(actor, item) {
       return {

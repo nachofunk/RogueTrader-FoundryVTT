@@ -1157,7 +1157,8 @@
         "profitFactor": 0,
         "loyaltyGain": 0,
         "prosperityGain": 0,
-        "securityGain": 0
+        "securityGain": 0,
+        "requiredGrowth": 0
       },
       "bio": {
         "starSystem": "",

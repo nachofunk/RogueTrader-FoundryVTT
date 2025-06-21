@@ -8,6 +8,31 @@ export async function commonRoll(rollData) {
   await _sendToChat(rollData);
 }
 
+export async function rollColonyEvents(rollData) {
+  let roll = new Roll("1d10", {});
+  roll.evaluate({ async: false });
+  if (roll.total >= rollData.positiveEventTarget) {
+    await _rollTableWithID(game.settings.get("rogue-trader", "colonyFortune"));
+  } else if (roll.total <= rollData.negativeEventTarget) {
+    await _rollTableWithID(game.settings.get("rogue-trader", "colonyCalamity"));
+  } else {
+    await _sendNoEventToChat();
+  }
+}
+
+async function _rollTableWithID(tableID) {
+  let colonyTable = game.tables.get(tableID);
+  if (colonyTable) {
+    await colonyTable.draw(); // Perform the roll
+  } else {
+    console.error(`Table with ID ${tableID} not found.`);
+  }
+}
+
+export async function rollColonyGrowth(rollData) {
+  await _sendGrowthToChat(rollData);  
+}
+
 /**
  * Roll a combat roll, and post the result to chat.
  * @param {object} rollData
@@ -639,6 +664,49 @@ async function _sendToChat(rollData) {
   }
 
   const html = await renderTemplate("systems/rogue-trader/template/chat/roll.html", rollData);
+  chatData.content = html;
+
+  if (["gmroll", "blindroll"].includes(chatData.rollMode)) {
+    chatData.whisper = ChatMessage.getWhisperRecipients("GM");
+  } else if (chatData.rollMode === "selfroll") {
+    chatData.whisper = [game.user];
+  }
+
+  ChatMessage.create(chatData);
+}
+
+async function _sendNoEventToChat() {
+  let speaker = ChatMessage.getSpeaker();
+  let chatData = {
+    user: game.user.id,
+    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+    rollMode: game.settings.get("core", "rollMode"),
+    speaker: speaker
+  };
+  const html = await renderTemplate("systems/rogue-trader/template/chat/colony-no-event.html");
+  chatData.content = html;
+
+  if (["gmroll", "blindroll"].includes(chatData.rollMode)) {
+    chatData.whisper = ChatMessage.getWhisperRecipients("GM");
+  } else if (chatData.rollMode === "selfroll") {
+    chatData.whisper = [game.user];
+  }
+  ChatMessage.create(chatData);
+}
+
+async function _sendGrowthToChat(rollData) {
+  let speaker = ChatMessage.getSpeaker();
+  let chatData = {
+    user: game.user.id,
+    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+    rollMode: game.settings.get("core", "rollMode"),
+    speaker: speaker,
+    flags: {
+      "rogue-trader.rollData": rollData
+    }
+  };
+
+  const html = await renderTemplate("systems/rogue-trader/template/chat/colony-growth.html", rollData);
   chatData.content = html;
 
   if (["gmroll", "blindroll"].includes(chatData.rollMode)) {

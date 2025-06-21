@@ -35,6 +35,7 @@ export class RogueTraderActor extends Actor {
       this._computeShipInitiative();
     }
     else if (this.type === 'colony') {
+      this._computeRequiredGrowth();
       this._computeColonyUpgrades();
       this._computeColonyResources();
       this._computeProfitFactor();
@@ -101,6 +102,38 @@ export class RogueTraderActor extends Actor {
     const occupiedSlots = upgrades.filter(upgrade => upgrade.system.usesUpgradeSlot).length;
     this.system.development.slotsTotal = maxSlots;
     this.system.development.occupiedSlots = occupiedSlots;
+  }
+
+  _computeRequiredGrowth() {
+    const colonySize = this.currentColonySize;
+    const colonyGrowthModifier = game.settings.get("rogue-trader", "colonyGrowthModifier") || 0;
+    const growthBase = colonySize + colonyGrowthModifier;
+    let requiredGrowth = 0;
+    switch (colonySize) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        requiredGrowth = growthBase;
+        break;
+      case 4:
+      case 5:
+        requiredGrowth = growthBase + 1;
+        break;
+      case 6:
+      case 7:
+        requiredGrowth = growthBase + 2;
+        break;
+      case 8:
+      case 9:
+        requiredGrowth = growthBase + 3;
+        break;
+      case 10:
+      default:
+        requiredGrowth = growthBase + 4;
+        break;
+    }
+    this.system.stats.requiredGrowth = requiredGrowth;
   }
 
   _computePower() {
@@ -700,31 +733,6 @@ export class RogueTraderActor extends Actor {
 
   get colonyOccupiedSlots() {
     return this.system.development.occupiedSlots || 0;
-  }
-
-  get colonyRequiredGrowth() {
-    const colonySize = this.currentColonySize;
-    const colonyGrowthModifier = game.settings.get("rogue-trader", "colonyGrowthModifier") || 0;
-    const growthBase = colonySize + colonyGrowthModifier;
-    switch (colonySize) {
-      case 0:
-      case 1:
-      case 2:
-      case 3:
-        return growthBase;
-      case 4:
-      case 5:
-        return growthBase + 1;
-      case 6:
-      case 7:
-        return growthBase + 2;
-      case 8:
-      case 9:
-        return growthBase + 3;
-      case 10:
-      default:
-        return growthBase + 4;
-    }
   }
 
   get governorSkill() {

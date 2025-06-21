@@ -34,6 +34,7 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/sheet/actor/tab/ship-notes.html",
     "systems/rogue-trader/template/sheet/actor/tab/ship-weapons.html",
     "systems/rogue-trader/template/sheet/actor/tab/colony-core.html",
+    "systems/rogue-trader/template/sheet/actor/tab/colony-upgrades.html",
 
     "systems/rogue-trader/template/sheet/mental-disorder.html",
     "systems/rogue-trader/template/sheet/aptitude.html",
@@ -61,6 +62,8 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/chat/item.html",
     "systems/rogue-trader/template/chat/roll.html",
     "systems/rogue-trader/template/chat/critical.html",
+    "systems/rogue-trader/template/chat/colony-growth.html",
+    "systems/rogue-trader/template/chat/colony-no-event.html",
     "systems/rogue-trader/template/dialog/common-roll.html",
     "systems/rogue-trader/template/dialog/combat-roll.html",
     "systems/rogue-trader/template/dialog/add-characteristic-modifier.html",
@@ -68,7 +71,6 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/dialog/psychic-power-roll.html",
     "systems/rogue-trader/template/sheet/shipWeapon.html",
     "systems/rogue-trader/template/sheet/shipComponent.html",
-
     "systems/rogue-trader/template/sheet/utility/modifiers.html"
   ];
   return loadTemplates(templatePaths);

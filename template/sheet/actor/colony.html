@@ -26,11 +26,15 @@
 
         <div class="sheet-tabs tabs flex row" data-group="primary">
             <b class="item" data-tab="core">{{localize "TAB.CORE"}}</b>
+            <b class="item" data-tab="upgrades">{{localize "TAB.UPGRADES"}}</b>
         </div>
 
         <div class="sheet-body">
             <div class="tab" data-group="primary" data-tab="core">
                 {{> systems/rogue-trader/template/sheet/actor/tab/colony-core.html}}
+            </div>
+            <div class="tab" data-group="primary" data-tab="upgrades">
+                {{> systems/rogue-trader/template/sheet/actor/tab/colony-upgrades.html}}
             </div>
         </div>
     </div>

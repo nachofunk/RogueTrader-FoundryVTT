@@ -1,0 +1,19 @@
+<div class="flex wrap border column colony-upgrades">
+    <div class="flex column">
+        <h1>Planetary Slots</h1>
+        <div class="flex row property">
+            <label class="name">Planet Base Slots</label>
+            <div class="flex row data">
+                <input name="system.development.baseSlots" type="number" value="{{system.development.baseSlots}}" data-dtype="Number" />
+            </div>
+        </div>
+        <div class="flex row property">
+            <label class="name">Available Slots</label>
+            <div class="flex row data">
+                <input name="system.development.occupiedSlots" type="number" value="{{actor.colonyOccupiedSlots}}" disabled/>
+                /
+                <input name="system.development.slotsTotal" type="number" value="{{actor.colonyTotalSlots}}" disabled />
+            </div>
+        </div>
+    </div>
+</div>
