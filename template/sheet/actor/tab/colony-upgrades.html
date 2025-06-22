@@ -1,18 +1,39 @@
 <div class="flex wrap border column colony-upgrades">
-    <div class="flex column">
-        <h1>Planetary Slots</h1>
-        <div class="flex row property">
-            <label class="name">Planet Base Slots</label>
-            <div class="flex row data">
-                <input name="system.development.baseSlots" type="number" value="{{system.development.baseSlots}}" data-dtype="Number" />
+    <div class="flex column justify-space-around">
+        <div class="flex column planetary-slots">
+            <h1>Planetary Slots</h1>
+            <div class="flex row border justify-space-around">
+                <div class="flex row property">
+                    <label class="name">Planet Base Slots</label>
+                    <div class="flex row data">
+                        <input name="system.development.baseSlots" type="number" value="{{system.development.baseSlots}}" data-dtype="Number" />
+                    </div>
+                </div>
+                <div class="flex row property">
+                    <label class="name">Available Slots</label>
+                    <div class="flex row data">
+                        <input name="system.development.occupiedSlots" type="number" value="{{actor.colonyOccupiedSlots}}" disabled/>
+                        /
+                        <input name="system.development.slotsTotal" type="number" value="{{actor.colonyTotalSlots}}" disabled />
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="flex row property">
-            <label class="name">Available Slots</label>
-            <div class="flex row data">
-                <input name="system.development.occupiedSlots" type="number" value="{{actor.colonyOccupiedSlots}}" disabled/>
-                /
-                <input name="system.development.slotsTotal" type="number" value="{{actor.colonyTotalSlots}}" disabled />
+        <div class="flex column upgrade-list">
+            <h1>Upgrades</h1>
+            <div class="item-list border">
+                <div class="flex header justify-space-between">
+                    <b class="name">{{localize "COLONY.UPGRADE.HEADER"}}</b>
+                    <b class="loyalty">{{localize "COLONY.UPGRADE.YEARLY_LOYALTY"}}</b>
+                    <b class="prosperity">{{localize "COLONY.UPGRADE.YEARLY_PROSPERITY"}}</b>
+                    <b class="security">{{localize "COLONY.UPGRADE.YEARLY_SECURITY"}}</b>
+                    <b class="security">{{localize "COLONY.UPGRADE.BONUS_SLOTS"}}</b>
+                    <b class="security">{{localize "COLONY.UPGRADE.GOVERNOR_SKILL"}}</b>
+                    <a class="button item-create" title="Add Upgrade" data-type="colonyUpgrade"><i class="fas fa-plus"></i></a>
+                </div>
+                {{#each actor.colonyUpgrades as |upgrade|}}
+                    foo
+                {{/each}}
             </div>
         </div>
     </div>

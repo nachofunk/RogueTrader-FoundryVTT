@@ -39,7 +39,7 @@
                             <label>Representative Skill</label>
                         </div>
                         <div class="flex">
-                            <input name="governor-skill" type="number" value="{{actor.governorSkill}}" data-dtype="Number" disabled/>
+                            <input name="governor-skill" type="number" value="{{system.governor.skillBonus}}" data-dtype="Number" disabled/>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     <a class="button item-create" title="Add Resource" data-type="planetaryResource"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="resources items">
-                    {{#each actor.colonyResources as |resource|}}
+                    {{#each system.resources as |resource|}}
                     <div class="resource item flex row" data-item-id="{{resource.id}}">
                         <div class="flex name item-edit">
                             <div class="image-container">
@@ -88,8 +88,8 @@
     </div>
     <div class="flex wrap column operations">
         <h1 class="space5">Operations</h1>
-        <div class="flex row colony-rolls">
-            <div class="flex row roll-button">
+        <div class="colony-rolls">
+            <div class="flex row header roll-button">
                 <a class="button roll-growth" type="roll" data-roll="colonyGrowth" title="Roll Yearly Growth">
                     <i class="fas fa-dice"></i>
                     <span>{{localize "COLONY.ROLL.COLONY_GROWTH"}}</span>
@@ -99,6 +99,18 @@
                 <a class="button roll-events" type="roll" title="Roll Colony Events">
                     <i class="fas fa-dice"></i>
                     <span>{{localize "COLONY.ROLL.COLONY_EVENTS"}}</span>
+                </a>
+            </div>
+            <div class="flex row roll-button">
+                <a class="button roll-resources" type="roll" title="Roll Consume Resources">
+                    <i class="fas fa-dice"></i>
+                    <span>{{localize "COLONY.ROLL.CONSUME_RESOURCES"}}</span>
+                </a>
+            </div>
+            <div class="flex row roll-button">
+                <a class="button roll-governor" type="roll" title="Roll Governor Skill">
+                    <i class="fas fa-dice"></i>
+                    <span>{{localize "COLONY.ROLL.GOVERNOR_SKILL"}}</span>
                 </a>
             </div>
         </div>

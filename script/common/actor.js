@@ -41,6 +41,7 @@ export class RogueTraderActor extends Actor {
       this._computeProfitFactor();
       this._computeYearlyGains();
       this._computePlanetarySlots();
+      this._computeGovernorSkill()
       console.log(this);
     }
     else {
@@ -81,6 +82,41 @@ export class RogueTraderActor extends Actor {
     this.system.upgrades = upgrades;
   }
 
+  _computeGovernorSkill() {
+    const upgrades = this.system.upgrades || [];
+    const colonySize = this.system.stats.size;
+    let result = 0;
+    switch (colonySize) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        result = 35;
+        break;
+      case 4:
+      case 5:
+        result = 40;
+        break;
+      case 6:
+      case 7:
+        result = 45;
+        break;
+      case 8:
+        result = 50;
+        break;
+      case 9:
+        result = 55;
+        break;
+      case 10:
+      default:
+        result = 60;
+        break;
+    }
+    if (upgrades.length > 0)
+      result += upgrades.reduce((total, upgrade) => { total += upgrade.governorSkillBonus; });
+    this.system.governor.skillBonus = result; 
+  }
+
   _computeYearlyGains() {
     const upgrades = this.system.upgrades || [];
     const yearlyGains = upgrades.reduce((totals, item) => {
@@ -90,9 +126,35 @@ export class RogueTraderActor extends Actor {
         yearlySecurity: totals.yearlySecurity + (item.system.yearlySecurity || 0),
       };
     }, { yearlyLoyalty: 0, yearlyProsperity: 0, yearlySecurity: 0 });
+    this._adjustYearlyGainsByColonyType(yearlyGains);
     this.system.stats.loyaltyGain = yearlyGains.yearlyLoyalty;
     this.system.stats.prosperityGain = yearlyGains.yearlyProsperity;
     this.system.stats.securityGain = yearlyGains.yearlySecurity;
+  }
+  
+  _adjustYearlyGainsByColonyType(yearlyGains) {
+    switch (this.system.colonyType) {
+      case "research":
+        yearlyGains.yearlyLoyalty -= 1;
+        break;
+      case "mining":
+        yearlyGains.yearlySecurity -= 1;
+        break;
+      case "ecclesiastical":
+        yearlyGains.yearlyProsperity -= 1;
+        break;
+      case "agricultural":
+        yearlyGains.yearlySecurity -= 1;
+        break;
+      case "pleasure":
+        yearlyGains.yearlySecurity -= 1;
+        break;
+      case "war":
+        yearlyGains.yearlyProsperity -= 1;
+        break;
+      default:
+        break;
+    }
   }
 
   _computePlanetarySlots() {
@@ -735,38 +797,6 @@ export class RogueTraderActor extends Actor {
     return this.system.development.occupiedSlots || 0;
   }
 
-  get governorSkill() {
-    const colonySize = this.colonySize;
-    let result = 0;
-    switch (colonySize) {
-      case 0:
-      case 1:
-      case 2:
-      case 3:
-        result = 35;
-        break;
-      case 4:
-      case 5:
-        result = 40;
-        break;
-      case 6:
-      case 7:
-        result = 45;
-        break;
-      case 8:
-        result = 50;
-        break;
-      case 9:
-        result = 55;
-        break;
-      case 10:
-      default:
-        result = 60;
-        break;
-    }
-    return result;
-  }
-
   get colonyProfitFactor() { return this.system.stats.profitFactor || 0; }
 
   get governor() {
@@ -802,7 +832,7 @@ export class RogueTraderActor extends Actor {
     const i18n = game?.i18n; // Cache the reference to game.i18n
     if (!i18n) return "Localization unavailable"; // Fallback if i18n is undefined
 
-    const governorType = this.system.governor.governorType || "default";
+    const governorType = this.system.governor.governorType || "administrative";
     switch (governorType) {
       case "administrative":
         return i18n.localize("COLONY.GOV_SIDE_EFFECT.ADMINISTRATIVE");

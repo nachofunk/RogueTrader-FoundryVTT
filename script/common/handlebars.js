@@ -235,7 +235,6 @@ function registerHandlebarsHelpers() {
   Handlebars.registerHelper('localizeColonySize', function(colonySize) {
     let result = "";
     let localizer = game.i18n;
-    console.log("Colony Size: " + colonySize);
     switch (colonySize) {
       case 0:
         result = localizer.localize("COLONY.SIZE.GHOST_TOWN");

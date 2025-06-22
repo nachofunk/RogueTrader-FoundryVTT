@@ -37,7 +37,7 @@ export class ColonySheet extends RogueTraderSheet {
     ev.preventDefault();
     const actorData = await this.getData();
     const growthData = this._updateGrowthPoints(actorData);
-    await rollColonyGrowth(RogueTraderUtil.prepareColonyRollData(this.actor, growthData));
+    await rollColonyGrowth(RogueTraderUtil.prepareColonyGrowthRollData(this.actor, growthData));
     this._updateObject(ev, actorData);
   }
 

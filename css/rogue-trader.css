@@ -2126,7 +2126,7 @@ li.folder.collapsed > .folder-header {
 }
 
 .rogue-trader.planetary-resource .stats.border {
-  height: 100%;;
+  height: 100%;
 }
 
 .rogue-trader .min-content {
@@ -2197,9 +2197,18 @@ li.folder.collapsed > .folder-header {
   justify-content: space-between;
 }
 .rogue-trader .colony-resources .item-list .header .name {
-  text-align: center;
+  padding-left: 24px;
 }
 .rogue-trader .colony-resources .item-list .name {
+  flex-basis: 45%;
+  text-align: left;
+  align-items: center;
+  font-weight: bold;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .header .name {
+  padding-left: 24px;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .name {
   flex-basis: 45%;
   text-align: left;
   align-items: center;
@@ -2258,6 +2267,29 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .colony-stat {
   margin: 1px;
+}
+.rogue-trader .colony .operations .colony-rolls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.rogue-trader .colony .operations .colony-rolls .roll-button {
+  display: flex;
+  background: #5d2f149e;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+.rogue-trader .colony .operations .colony-rolls .roll-button span {
+  color: white;
+}
+
+.rogue-trader.chat.colony-growth .size-update {
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+}
+.rogue-trader.chat.colony-growth .size-update h2{
+  border-bottom: 0px;
 }
 
 .rogue-trader .governor-avatar {

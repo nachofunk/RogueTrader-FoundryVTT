@@ -9,15 +9,28 @@ export default class RogueTraderUtil {
 
   static prepareColonyGrowthRollData(actor, growthData) {
     growthData.requiredGrowth = actor.system.stats.requiredGrowth;
-    growthData.shouldGrow = this.hasEnoughGrowth(actor, growthData);
+    growthData.shouldGrow = this._hasEnoughGrowth(actor, growthData);
+    growthData.shouldDecreaseSize = this._shouldDecreaseSize(actor, growthData);
+    growthData.actor = actor;
+    console.log(growthData);
     return growthData;
   }
 
-  hasEnoughGrowth(actor, growthData) {
-    const actorStats = actor.system.stats;
-    return (actorStats.loyalty.updated >= growthData.requiredGrowth &&
-            actorStats.prosperity.updated >= growthData.requiredGrowth &&
-            actorStats.security.updated >= growthData.requiredGrowth);
+  static _hasEnoughGrowth(actor, growthData) {
+    return (growthData.loyalty.updated >= growthData.requiredGrowth &&
+            growthData.prosperity.updated >= growthData.requiredGrowth &&
+            growthData.security.updated >= growthData.requiredGrowth);
+  }
+
+  static _shouldDecreaseSize(actor, growthData) {
+    let negativeStatsCount = 0;
+    if (growthData.loyalty.updated < 0)
+      negativeStatsCount += 1;
+    if (growthData.prosperity.updated < 0)
+      negativeStatsCount += 1;
+    if (growthData.security.updated < 0)
+      negativeStatsCount += 1;
+    return negativeStatsCount >= 2;
   }
   
   static createCommonAttackRollData(actor, item) {

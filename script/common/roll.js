@@ -714,7 +714,6 @@ async function _sendGrowthToChat(rollData) {
   } else if (chatData.rollMode === "selfroll") {
     chatData.whisper = [game.user];
   }
-
   ChatMessage.create(chatData);
 }
 

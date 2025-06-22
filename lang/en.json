@@ -739,5 +739,22 @@
   "COLONY.BONUS.ECCLESIASTICAL": "When the Dynasty would lose Legitimacy due to faith-related actions, decrease the lost by 1.",
   "COLONY.BONUS.AGRICULTURAL": "When the Dynasty stops their voidships at the Colony, their food reserves increase from 1 year to 3 years.",
   "COLONY.BONUS.PLEASURE": "Voidship Crew resting on the Colony regain Morale in one week instead of three weeks.",
-  "COLONY.BONUS.WAR": "Whenever under attack, the defenders gain +10 to all strategy and tactics tests to repel the attackers."
+  "COLONY.BONUS.WAR": "Whenever under attack, the defenders gain +10 to all strategy and tactics tests to repel the attackers.",
+
+  "COLONY.ROLL.COLONY_GROWTH": "Add Yearly Growth",
+  "COLONY.ROLL.COLONY_EVENTS": "Roll Events",
+  "COLONY.ROLL.CONSUME_RESOURCES": "Consume Resources",
+  "COLONY.ROLL.GOVERNOR_SKILL": "Governor Skill Roll",
+
+  "COLONY.NO_EVENT.TITLE": "No Event",
+  "COLONY.NO_EVENT.MESSAGE": "Nothing worth your notice has happend on the colony.",
+
+  "COLONY.CHAT.GROWTH_REPORT": "Growth Report",
+
+  "COLONY.UPGRADE.HEADER": "Name",
+  "COLONY.UPGRADE.YEARLY_LOYALTY": "Loyalty",
+  "COLONY.UPGRADE.YEARLY_PROSPERITY": "Prosperity",
+  "COLONY.UPGRADE.YEARLY_SECURITY": "Security",
+  "COLONY.UPGRADE.BONUS_SLOTS": "Bonus Slots",
+  "COLONY.UPGRADE.GOVERNOR_SKILL": "Governor Skill"
 }
