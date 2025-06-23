@@ -2145,6 +2145,13 @@ li.folder.collapsed > .folder-header {
   margin-right: 20px;
 }
 
+.rogue-trader .colony {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
 .rogue-trader .colony-resources {
   display: flex;
   flex-direction: column;
@@ -2205,14 +2212,38 @@ li.folder.collapsed > .folder-header {
   align-items: center;
   font-weight: bold;
 }
+.rogue-trader .colony-upgrades .planetary-slots {
+  margin-bottom: 10px;
+}
+.rogue-trader .colony-upgrades .planetary-slots h1 {
+  margin-bottom: 5px;
+}
+.rogue-trader .colony-upgrades .upgrade-list h1 {
+  margin-bottom: 5px;
+}
 .rogue-trader .colony-upgrades .upgrade-list .item-list .header .name {
   padding-left: 24px;
 }
 .rogue-trader .colony-upgrades .upgrade-list .item-list .name {
-  flex-basis: 45%;
   text-align: left;
   align-items: center;
   font-weight: bold;
+  flex-basis: 20%;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .loyalty {
+  flex-basis: 8%;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .prosperity {
+  flex-basis: 8%;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .security {
+  flex-basis: 8%;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .bonus-slots {
+  flex-basis: 10%;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .special {
+  flex-basis: 30%;
 }
 .rogue-trader .colony-resources .item-list .source {
   flex-basis: 35%;
@@ -2247,6 +2278,14 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .colony .operations .development .property .data input {
   margin: 0 5px;
+}
+.rogue-trader .colony .planetary-slots .property {
+  flex-basis: 25%;
+  justify-content: space-between;
+}
+.rogue-trader .colony .planetary-slots .property .data input {
+  margin: 0 5px;
+  width: 2em;
 }
 .rogue-trader .colony .operations .development h3 {
   text-align: left;
@@ -2306,6 +2345,22 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .governor input {
   text-align: center;
+}
+.rogue-trader.colony-upgrade .stats .stats-row .stat.short-description {
+  flex-basis: 100%;
+}
+.rogue-trader .colony .notes-tab .notes-editor {
+  height: 99%;
+}
+.rogue-trader .colony-upgrade-item .stats-row .number {
+  width: 2em;
+}
+.rogue-trader .colony-upgrade-item .stats-row .prerequisites {
+  flex-basis: 80%;
+}
+
+.rogue-trader .flex-full {
+  flex: 1;
 }
  
 /* Compatibility fix for Monk's Enhanced Journal*/

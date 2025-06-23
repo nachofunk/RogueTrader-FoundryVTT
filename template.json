@@ -1143,10 +1143,10 @@
       "governor": {
         "actor": "",
         "governorType": "administrative",
-        "skillBonus": 0
+        "skillBonus": 0,
+        "advancedTraining": false
       },
       "colonyType": "",
-      "initialCost": 0,
       "resources": [],
       "upgrades": [],
       "stats": {
@@ -1158,16 +1158,17 @@
         "loyaltyGain": 0,
         "prosperityGain": 0,
         "securityGain": 0,
-        "requiredGrowth": 0
+        "requiredGrowth": 0,
+        "conservativeLastTick": false
       },
       "bio": {
         "starSystem": "",
         "planet": "",
-        "establishmentDate": "",
+        "foundingDate": "",
+        "foundingCost": 0,
         "notes": ""
       }, 
       "development": {
-        "initialCost": 0,
         "baseSlots": 0,
         "slotsTotal": 0,
         "occupiedSlots": 0,
@@ -1374,10 +1375,10 @@
       "yearlyLoyalty": 0,
       "yearlyProsperity": 0,
       "yearlySecurity": 0,
-      "usesUpgradeSlot": true,
+      "usesUpgradeSlot": false,
       "bonusSlots": 0,
-      "governorSkillBonus": 0,
-      "prerequisite": "",
+      "special": "",
+      "prerequisites": "",
       "availability": "common",
       "description": ""
     },
@@ -1388,6 +1389,7 @@
     },
     "planetaryResource" : {
       "source": "Local",
+      "isOrganic": false,
       "amount": 0
     }
   }

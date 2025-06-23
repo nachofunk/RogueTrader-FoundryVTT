@@ -33,6 +33,16 @@ export async function rollColonyGrowth(rollData) {
   await _sendGrowthToChat(rollData);  
 }
 
+export async function consumeResourceRoll(rollData) {
+  console.log(rollData);
+  console.log(rollData.selectedResource);
+  const resource = rollData.selectedResource;
+  resource.update({
+    "system.amount": 10
+  });
+  console.log(rollData);
+}
+
 /**
  * Roll a combat roll, and post the result to chat.
  * @param {object} rollData

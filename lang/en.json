@@ -200,6 +200,12 @@
   "DIALOG.PUSH": "Push Power",
   "DIALOG.ARTILLERIST": "Gunner",
   "DIALOG.CREW": "Crew",
+  "DIALOG.GOVERNOR_SKILL_ROLL": "Governor Skill",
+  "DIALOG.CONSUME_RESOURCES_ROLL": "Consume Resources",
+  "DIALOG.USE_RESOURCE": "Resource",
+  "DIALOG.ROLL_FORMULA": "Roll",
+  "DIALOG.RESOURCE.REQUIRED": "Required",
+  "DIALOG.RESOURCE.AVAILABLE": "Available",
 
   "DRUG.HEADER": "Drug",
   "DRUG.NAME": "Name",
@@ -482,8 +488,9 @@
   "TAB.WEAPONS": "WEAPONS",
   "TAB.COMPLICATIONS": "COMPLICATIONS",
   "TAB.CREW": "CREW",
-  "TAB.MODIFIERS": "Modifiers",
-  "TAB.CORE": "Core",
+  "TAB.MODIFIERS": "MODIFIERS",
+  "TAB.CORE": "CORE",
+  "TAB.UPGRADES": "UPGRADES",
 
   "TALENT.NAME": "Name",
   "TALENT.BENEFIT": "Benefit",
@@ -663,6 +670,10 @@
   "SHIP.SIDE.PROW": "Prow",
   "SHIP.SIDE.DORSAL": "Dorsal",
   "SHIP.SIDE.KEEL": "Keel",
+  "COLONY_UPGRADE.BONUS_SLOTS": "Bonus Slots",
+  "COLONY_UPGRADE.LOYALTY": "Loyalty",
+  "COLONY_UPGRADE.PROSPERITY": "Prosperity",
+  "COLONY_UPGRADE.SECURITY": "Security",
 
   "DIALOG.NEW_MODIFIER": "Add New Modifier",
   "DIALOG.ADD_CHARACTERISTIC_MODIFIER": "New Characteristic Modifier",
@@ -676,6 +687,8 @@
 
   "COLONY.STAR_SYSTEM": "Star System",
   "COLONY.PLANET": "Planet",
+  "COLONY.FOUNDING_DATE": "Founding Date",
+  "COLONY.FOUNDING_COST": "Founding Cost",
   "COLONY.GOVERNOR": "Governor",
   "COLONY.SIZE.GHOST_TOWN": "Ghost Town",
   "COLONY.SIZE.SETTLEMENT": "Settlement",
@@ -712,6 +725,7 @@
   "COLONY.RESOURCE.HEADER": "Resource",
   "COLONY.RESOURCE.SOURCE": "Source",
   "COLONY.RESOURCE.AMOUNT": "Amount",
+  "COLONY.RESOURCE.IS_ORGANIC": "Organic Resource",
 
   "COLONY.TYPE.RESEARCH": "Research",
   "COLONY.TYPE.MINING": "Mining and Industry",
@@ -756,5 +770,5 @@
   "COLONY.UPGRADE.YEARLY_PROSPERITY": "Prosperity",
   "COLONY.UPGRADE.YEARLY_SECURITY": "Security",
   "COLONY.UPGRADE.BONUS_SLOTS": "Bonus Slots",
-  "COLONY.UPGRADE.GOVERNOR_SKILL": "Governor Skill"
+  "COLONY.UPGRADE.SPECIAL": "Special Bonus"
 }

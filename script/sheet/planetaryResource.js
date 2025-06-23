@@ -6,7 +6,7 @@ export class PlanetaryResourceSheet extends RogueTraderItemSheet {
       classes: ["rogue-trader", "sheet", "planetary-resource"],
       template: "systems/rogue-trader/template/sheet/planetaryResource.html",
       width: 400,
-      height: 300,
+      height: 325,
       resizable: true,
       tabs: [
         {

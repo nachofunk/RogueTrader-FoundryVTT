@@ -396,7 +396,9 @@ export class RogueTraderItem extends Item {
 
   get reload() { return this.system.reload;}
 
-  get special() { return this.system.special;}
+  get special() { 
+    return this.system.special?.trim() ? this.system.special : 'None';
+  }
 
   get attack() { return this.system.attack;}
 
@@ -435,4 +437,20 @@ export class RogueTraderItem extends Item {
   get skillModifiers() { return this.statModifiers.skill; }
 
   get otherModifiers() { return this.statModifiers.other; }
+
+  get yearlyLoyalty() {
+    return this.system.yearlyLoyalty || 0;
+  }
+
+  get yearlyProsperity() {
+    return this.system.yearlyProsperity || 0;
+  }
+
+  get yearlySecurity() { 
+    return this.system.yearlySecurity || 0;
+  }
+
+  get bonusSlots() {
+    return this.system.bonusSlots || 0;
+  }
 }

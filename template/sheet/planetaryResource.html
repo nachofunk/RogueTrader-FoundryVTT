@@ -23,13 +23,19 @@
             <div class="stats border">
                 <h1>{{localize "TITLE.RESOURCE_DATA"}}</h1>
                 <div class="stats-row">
-                    <div class="stat benefit">
+                    <div class="stat benefit" style="flex: 1;">
                         <label>{{localize "COLONY.RESOURCE.SOURCE"}}</label>
                         <input name="system.source" type="text" value="{{system.source}}" dtype="Text" />
                     </div>
+                </div>
+                <div class="stats-row">
                     <div class="stat benefit">
                         <label>{{localize "COLONY.RESOURCE.AMOUNT"}}</label>
                         <input name="system.amount" type="number" value="{{system.amount}}" dtype="Number" />
+                    </div>
+                    <div class="stat benefit">
+                        <label>{{localize "COLONY.RESOURCE.IS_ORGANIC"}}</label>
+                        <input type="checkbox" id="toggle" name="system.isOrganic" {{#if system.isOrganic}}checked{{/if}}>
                     </div>
                 </div>
             </div>

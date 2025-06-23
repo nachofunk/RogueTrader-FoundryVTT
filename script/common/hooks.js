@@ -25,6 +25,7 @@ import { ShipSheet} from "../sheet/actor/ship.js";
 import { ShipWeaponSheet } from "../sheet/shipWeapon.js";
 import { ShipComponentSheet } from "../sheet/shipComponent.js";
 import { PlanetaryResourceSheet } from "../sheet/planetaryResource.js";
+import { ColonyUpgradeSheet } from "../sheet/colonyUpgrade.js";
 import { initializeHandlebars } from "./handlebars.js";
 import { migrateWorld } from "./migration.js";
 import { prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll, showAddCharacteristicModifierDialog } from "./dialog.js";
@@ -80,6 +81,7 @@ Hooks.once("init", () => {
   Items.registerSheet("rogue-trader", ShipWeaponSheet, { types: ["shipWeapon"], makeDefault: true });
   Items.registerSheet("rogue-trader", ShipComponentSheet, { types: ["shipComponent"], makeDefault: true });
   Items.registerSheet("rogue-trader", PlanetaryResourceSheet, { types: ["planetaryResource"], makeDefault: true });
+  Items.registerSheet("rogue-trader", ColonyUpgradeSheet, {types: ["colonyUpgrade"], makeDefault: true});
   initializeHandlebars();
   registerSettings();
 });

@@ -1,4 +1,4 @@
-import { commonRoll, combatRoll, shipCombatRoll, forceFieldRoll, reportEmptyClip } from "./roll.js";
+import { commonRoll, combatRoll, shipCombatRoll, forceFieldRoll, reportEmptyClip, consumeResourceRoll } from "./roll.js";
 
 /**
  * Show a generic roll dialog.
@@ -41,6 +41,115 @@ export async function prepareCommonRoll(rollData) {
     }
   }, {
     width: 200
+  });
+  dialog.render(true);
+}
+
+export async function prepareConsumeResourcesRoll(rollData, actorRef) {
+  const html = await renderTemplate("systems/rogue-trader/template/dialog/colony-resource-burn.html", rollData);
+  let dialog = new Dialog({
+    title: game.i18n.localize(rollData.name),
+    content: html,
+    buttons: {
+      roll: {
+        icon: '<i class="fas fa-check"></i>',
+        label: game.i18n.localize("BUTTON.ROLL"),
+        callback: async html => {
+          const availableResource = html.find("#available-resource")[0].value;
+          if (availableResource < rollData.requiredResources) {
+            ui.notifications.error(`Not enough resources! You need resource with at least ${rollData.requiredResources} amount!`);
+            dialog.render(true);
+          } else {
+            rollData.name = game.i18n.localize(rollData.name);
+            const selectedResourceID = html.find("#selected-resource")[0].value;
+            rollData.selectedResource = rollData.resources.find(resource => resource.id === selectedResourceID);
+            rollData.rollFormula = html.find("#roll-formula")[0].value;
+            rollData.conserveResources = html.find("#conserve-resource-toggle")[0].checked;
+            rollData.burnResources = html.find("#burn-toggle")[0].checked;
+            await consumeResourceRoll(rollData);
+          }
+        }
+      },
+      cancel: {
+        icon: '<i class="fas fa-times"></i>',
+        label: game.i18n.localize("BUTTON.CANCEL"),
+        callback: () => {}
+      }
+    },
+    default: "roll",
+    close: () => {},
+    render: html => {
+      const burnToggle = html.find("#burn-toggle")[0];
+      const conserveToggle = html.find("#conserve-resource-toggle")[0];
+      const conserveWrapper = html.find("#conserve-wrapper")[0];
+      const burnWrapper = html.find("#burn-wrapper")[0];
+      const rollFormula = html.find("#roll-formula")[0];
+      const selectedResource = html.find("#selected-resource")[0];
+      const availableResource = html.find("#available-resource")[0];
+
+      // Function to update the roll formula based on the checkbox state
+      const updateRollData = () => {
+        if (burnToggle.checked) {
+          rollFormula.value = rollData.burnedAmount;
+        } else {
+          rollFormula.value = rollData.consumedAmount;
+        }
+      };
+
+      // Function to update visibility of conserve-wrapper based on selected resource
+      const updateConserveWrapper = () => {
+        const selectedOption = rollData.resources.find(resource => resource.id === selectedResource.value);
+        if (selectedOption?.system.isOrganic) {
+          conserveWrapper.style.display = "flex";
+        } else {
+          conserveWrapper.style.display = "none";
+          conserveToggle.checked = false;
+        }
+        updateRollData(); // Ensure rollFormula is updated
+      };
+
+      // Function to update visibility of burn-wrapper based on conserve-toggle
+      const onConserveToggle = () => {
+        if (conserveToggle.checked) {
+          burnWrapper.style.display = "none";
+          burnToggle.checked = false;
+        } else {
+          burnWrapper.style.display = "flex";
+        }
+        updateRollData(); // Ensure rollFormula is updated
+      };
+
+      // Function to update visibility of conserve-wrapper based on burn-toggle
+      const onBurnToggle = () => {
+        if (burnToggle.checked) {
+          conserveWrapper.style.display = "none";
+          conserveToggle.checked = false;
+        } else {
+          updateConserveWrapper(); // Recheck conserve-wrapper visibility based on selected resource
+        }
+        updateRollData(); // Ensure rollFormula is updated
+      };
+
+      // Function to update the available resource based on the selected resource
+      const onSelectResource = () => {
+        const selectedOption = rollData.resources.find(resource => resource.id === selectedResource.value);
+        availableResource.value = selectedOption ? selectedOption.system.amount : 0;
+        updateConserveWrapper(); // Ensure conserve-wrapper visibility is updated
+      };
+
+      // Add event listeners
+      selectedResource.addEventListener("change", onSelectResource);
+      conserveToggle.addEventListener("change", onConserveToggle);
+      burnToggle.addEventListener("change", onBurnToggle);
+
+      // Initial invocation to set visibility and roll formula based on initial state
+      onSelectResource();
+      onBurnToggle();
+      onConserveToggle();
+      updateRollData();
+    }
+  }, {
+    width: 210,
   });
   dialog.render(true);
 }

@@ -1,3 +1,4 @@
+import { prepareCommonRoll, prepareConsumeResourcesRoll } from "../../common/dialog.js";
 import { rollColonyEvents, rollColonyGrowth } from "../../common/roll.js";
 import RogueTraderUtil from "../../common/util.js";
 import { RogueTraderSheet } from "./actor.js";
@@ -9,7 +10,7 @@ export class ColonySheet extends RogueTraderSheet {
       classes: ["rogue-trader", "sheet", "actor"],
       template: "systems/rogue-trader/template/sheet/actor/colony.html",
       width: 750,
-      height: 881,
+      height: 890,
       resizable: true,
       tabs: [
         {
@@ -23,8 +24,10 @@ export class ColonySheet extends RogueTraderSheet {
 
   activateListeners(html) {
     super.activateListeners(html);
-    html.find(".roll-growth").click(ev => this._onRollColonyGrowth(ev));
-    html.find(".roll-events").click(ev => this._onRollColonyEvents(ev));
+    html.find(".roll-growth").click(async ev => await this._onRollColonyGrowth(ev));
+    html.find(".roll-events").click(async ev => await this._onRollColonyEvents(ev));
+    html.find(".roll-governor").click(async ev => await this._onRollGovernorSkill(ev));
+    html.find(".roll-resources").click(async ev => await this._onRollConsumeResources(ev));
   }
 
   /** @override */
@@ -84,13 +87,25 @@ export class ColonySheet extends RogueTraderSheet {
     await rollColonyEvents(RogueTraderUtil.prepareColonyRollData(this.actor));
   }
 
-  async _rollTableWithID(tableID) {
-    let colonyTable = game.tables.get(tableID);
-    if (colonyTable) {
-      await colonyTable.draw(); // Perform the roll
-    } else {
-      console.error(`Table with ID ${tableID} not found.`);
-    }
+  async _onRollConsumeResources(ev) {
+    ev.preventDefault();
+    await prepareConsumeResourcesRoll(RogueTraderUtil.prepareResourceRollData(this.actor), this.actor);
+  }
+
+  async _onRollGovernorSkill(ev) {
+    ev.preventDefault();
+    await this._prepareGovernorRoll();
+  }
+
+  async _prepareGovernorRoll() {
+    const actorData = await this.getData();
+    const rollData = {
+      name: "DIALOG.GOVERNOR_SKILL_ROLL",
+      baseTarget: actorData.system.governor.skillBonus,
+      modifier: 0,
+      ownerId: actorData.system.governor.actor
+    };
+    await prepareCommonRoll(rollData);
   }
 
   async _onDropActor(event, data) {

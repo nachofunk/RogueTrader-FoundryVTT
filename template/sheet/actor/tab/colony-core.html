@@ -44,6 +44,10 @@
                     </div>
                 </div>
                 <div class="governor item-list justify-space-around space-right-10">
+                    <div class="flex row item-align-center">
+                        <input type="checkbox" id="toggle" name="system.governor.advancedTraining" {{#if system.governor.advancedTraining}}checked{{/if}}>
+                        <label for="toggle">Advanced Governor Training</label>
+                    </div>
                     <div class="flex column">
                         <div class="flex column space5">
                             <label style="text-align: left; margin-bottom: 2px;">Bonus</label>
@@ -224,6 +228,12 @@
                         <label class="name">Generated Profit Factor</label>
                         <div class="flex row data">
                             <input name="profit-factor" type="number" value="{{actor.colonyProfitFactor}}" data-dtype="Number" disabled />
+                        </div>
+                    </div>
+                    <div class="flex row property">
+                        <label class="name">Upgrade Acquisition Cost</label>
+                        <div class="flex row data">
+                            <input name="system.development.acquisitionModifier" type="number" value="{{system.development.acquisitionModifier}}" data-dtype="Number" />
                         </div>
                     </div>
                 </div>

@@ -32,6 +32,24 @@ export default class RogueTraderUtil {
       negativeStatsCount += 1;
     return negativeStatsCount >= 2;
   }
+
+  static prepareResourceRollData(actor) {
+    const actorData = actor.system;
+    const colonySize = actorData.stats.size;
+    const rollData = {
+      name: "DIALOG.CONSUME_RESOURCES_ROLL",
+      ownerId: actor.uuid.split('.')[1],    
+      resources: actorData.resources,
+      actor: actor,
+      requiredResources: colonySize + 1,
+      consumedAmount: `1d10 + ${colonySize}`,
+      burnedAmount: `${colonySize}d10 + ${5 * colonySize}`,
+      selectedResource: actorData.resources?.length > 0 ? actorData.resources[0] : null,
+      burnResources: false,
+      conserveResources: false
+    };
+    return rollData;
+  }
   
   static createCommonAttackRollData(actor, item) {
       return {

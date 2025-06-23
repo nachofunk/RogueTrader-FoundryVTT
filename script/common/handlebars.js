@@ -35,6 +35,7 @@ function preloadHandlebarsTemplates() {
     "systems/rogue-trader/template/sheet/actor/tab/ship-weapons.html",
     "systems/rogue-trader/template/sheet/actor/tab/colony-core.html",
     "systems/rogue-trader/template/sheet/actor/tab/colony-upgrades.html",
+    "systems/rogue-trader/template/sheet/actor/tab/colony-notes.html",
 
     "systems/rogue-trader/template/sheet/mental-disorder.html",
     "systems/rogue-trader/template/sheet/aptitude.html",

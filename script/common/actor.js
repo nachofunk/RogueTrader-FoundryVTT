@@ -59,14 +59,15 @@ export class RogueTraderActor extends Actor {
 
   _computeProfitFactor() {
     const colonySize = this.currentColonySize || 0;
+    const conserveResourcesPenalty = this.system.stats.conservativeLastTick ? -2 : 0;
     if (colonySize < 0) {
       this.system.stats.profitFactor = 0;
       return;
     }
     if (colonySize < 10) {
-      this.system.stats.profitFactor = Math.min(colonySize, 4) + (Math.max(0, colonySize - 4) * 2);
+      this.system.stats.profitFactor = Math.min(colonySize, 4) + (Math.max(0, colonySize - 4) * 2) + conserveResourcesPenalty;
     } else {
-      this.system.stats.profitFactor = 18 + ((colonySize - 10) * 2);
+      this.system.stats.profitFactor = 18 + ((colonySize - 10) * 2) + conserveResourcesPenalty;
     }
   }
 
@@ -83,7 +84,6 @@ export class RogueTraderActor extends Actor {
   }
 
   _computeGovernorSkill() {
-    const upgrades = this.system.upgrades || [];
     const colonySize = this.system.stats.size;
     let result = 0;
     switch (colonySize) {
@@ -112,8 +112,7 @@ export class RogueTraderActor extends Actor {
         result = 60;
         break;
     }
-    if (upgrades.length > 0)
-      result += upgrades.reduce((total, upgrade) => { total += upgrade.governorSkillBonus; });
+    result += this.system.governor.advancedTraining ? 10 : 0;
     this.system.governor.skillBonus = result; 
   }
 
@@ -159,8 +158,8 @@ export class RogueTraderActor extends Actor {
 
   _computePlanetarySlots() {
     const baseSlots = this.system.development.baseSlots || 0;
-    const maxSlots = baseSlots;
     const upgrades = this.system.upgrades || [];
+    const maxSlots = baseSlots + upgrades.reduce((total, upgrade) => total += upgrade.bonusSlots, 0);
     const occupiedSlots = upgrades.filter(upgrade => upgrade.system.usesUpgradeSlot).length;
     this.system.development.slotsTotal = maxSlots;
     this.system.development.occupiedSlots = occupiedSlots;
