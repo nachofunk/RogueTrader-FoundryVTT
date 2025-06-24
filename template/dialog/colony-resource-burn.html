@@ -5,7 +5,7 @@
             <label>{{localize "DIALOG.USE_RESOURCE"}}</label>
             <select id="selected-resource" name="resource">
                 {{#each resources as |resource|}}
-                    <option value="{{resource.id}}"{{#if selected}} selected{{/if}}>{{resource.name}}</option>
+                    <option value="{{resource.id}}" {{#if selected}} selected {{/if}}>{{resource.name}}</option>
                 {{/each}}
             </select>
         </div>
@@ -18,17 +18,24 @@
             <input id="available-resource" name="available-resource" type="number" value="999" disabled />
         </div>
         <div class="separator"></div>
-        <div id="conserve-wrapper" class="wrapper">
-            <label for="conserve-resource-toggle">Conserve Resources</label>
-            <input type="checkbox" id="conserve-resource-toggle" name="system.conserveResources" {{#if conserveResources}}checked{{/if}}>
+        <div class="wrapper">
+            <label>{{localize "DIALOG.ROLL_FORMULA"}}</label>
+            <input id="roll-formula" name="roll-formula" type="text" value="{{consumedAmount}}" />
         </div>
         <div id="burn-wrapper" class="wrapper">
             <label for="burn-toggle">Burn</label>
             <input type="checkbox" id="burn-toggle" name="system.burnResources" {{#if burnResources}}checked{{/if}}>
         </div>
-        <div class="wrapper">
-            <label>{{localize "DIALOG.ROLL_FORMULA"}}</label>
-            <input id="roll-formula" name="roll-formula" type="text" value="{{consumedAmount}}" />
+        <div id="conserve-wrapper" class="wrapper">
+            <label for="conserve-resource-toggle">Conserve Resources</label>
+            <input type="checkbox" id="conserve-resource-toggle" name="system.conserveResources" {{#if conserveResources}}checked{{/if}}>
+        </div>
+        <div id="burn-type-wrapper" class="wrapper">
+            <label>Burn Type</label>
+            <select id="burn-type" name="burnData.burnType">
+                <option value="profitFactor" selected>Profit Factor</option>
+                <option value="growthPoints" >Growth Points</option>
+            </select>
         </div>
     </div>
 </div>

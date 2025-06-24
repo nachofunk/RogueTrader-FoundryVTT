@@ -66,6 +66,7 @@ export async function prepareConsumeResourcesRoll(rollData, actorRef) {
             rollData.rollFormula = html.find("#roll-formula")[0].value;
             rollData.conserveResources = html.find("#conserve-resource-toggle")[0].checked;
             rollData.burnResources = html.find("#burn-toggle")[0].checked;
+            rollData.burnData.burnType = html.find("#burn-type")[0].value;
             await consumeResourceRoll(rollData);
           }
         }
@@ -86,6 +87,7 @@ export async function prepareConsumeResourcesRoll(rollData, actorRef) {
       const rollFormula = html.find("#roll-formula")[0];
       const selectedResource = html.find("#selected-resource")[0];
       const availableResource = html.find("#available-resource")[0];
+      const burnTypeWrapper = html.find("#burn-type-wrapper")[0];
 
       // Function to update the roll formula based on the checkbox state
       const updateRollData = () => {
@@ -99,7 +101,7 @@ export async function prepareConsumeResourcesRoll(rollData, actorRef) {
       // Function to update visibility of conserve-wrapper based on selected resource
       const updateConserveWrapper = () => {
         const selectedOption = rollData.resources.find(resource => resource.id === selectedResource.value);
-        if (selectedOption?.system.isOrganic) {
+        if (selectedOption?.system.isOrganic && !burnToggle.checked) {
           conserveWrapper.style.display = "flex";
         } else {
           conserveWrapper.style.display = "none";
@@ -112,6 +114,7 @@ export async function prepareConsumeResourcesRoll(rollData, actorRef) {
       const onConserveToggle = () => {
         if (conserveToggle.checked) {
           burnWrapper.style.display = "none";
+          burnTypeWrapper.style.display = "none";
           burnToggle.checked = false;
         } else {
           burnWrapper.style.display = "flex";
@@ -123,8 +126,10 @@ export async function prepareConsumeResourcesRoll(rollData, actorRef) {
       const onBurnToggle = () => {
         if (burnToggle.checked) {
           conserveWrapper.style.display = "none";
+          burnTypeWrapper.style.display = "flex";
           conserveToggle.checked = false;
         } else {
+          burnTypeWrapper.style.display = "none";
           updateConserveWrapper(); // Recheck conserve-wrapper visibility based on selected resource
         }
         updateRollData(); // Ensure rollFormula is updated
@@ -136,7 +141,6 @@ export async function prepareConsumeResourcesRoll(rollData, actorRef) {
         availableResource.value = selectedOption ? selectedOption.system.amount : 0;
         updateConserveWrapper(); // Ensure conserve-wrapper visibility is updated
       };
-
       // Add event listeners
       selectedResource.addEventListener("change", onSelectResource);
       conserveToggle.addEventListener("change", onConserveToggle);

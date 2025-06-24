@@ -1,10 +1,21 @@
 export default class RogueTraderUtil {
 
   static prepareColonyRollData(actor) {
-    return {
-      positiveEventTarget: 7,
+    const rollData = {
+      positiveEventTarget: 9,
       negativeEventTarget: 3,
     };
+    const representative = actor.system.governor.governorType;
+    switch (representative) {
+      case "administrative":
+        rollData.negativeEventTarget = 1;
+        break;
+      case "faithful":
+        rollData.negativeEventTarget = 2;
+        rollData.positiveEventTarget = 8;
+        break;
+    }
+    return rollData;
   }
 
   static prepareColonyGrowthRollData(actor, growthData) {
@@ -36,17 +47,25 @@ export default class RogueTraderUtil {
   static prepareResourceRollData(actor) {
     const actorData = actor.system;
     const colonySize = actorData.stats.size;
+    let governorResourcePenalty = 0;
+    if (actorData.governor.governorType === "relaxed") {
+      governorResourcePenalty = Math.min(5, Math.ceil(colonySize / 3));
+    }
     const rollData = {
       name: "DIALOG.CONSUME_RESOURCES_ROLL",
       ownerId: actor.uuid.split('.')[1],    
       resources: actorData.resources,
       actor: actor,
       requiredResources: colonySize + 1,
-      consumedAmount: `1d10 + ${colonySize}`,
-      burnedAmount: `${colonySize}d10 + ${5 * colonySize}`,
+      consumedAmount: `1d10 + ${colonySize + governorResourcePenalty}`,
+      burnedAmount: `${colonySize}d10 + ${5 * colonySize} + ${governorResourcePenalty}`,
       selectedResource: actorData.resources?.length > 0 ? actorData.resources[0] : null,
       burnResources: false,
-      conserveResources: false
+      conserveResources: false,
+      burnData: {
+        burnType: "profitFactor",
+        generated: 0
+      }
     };
     return rollData;
   }

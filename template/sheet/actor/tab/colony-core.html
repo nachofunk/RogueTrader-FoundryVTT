@@ -236,6 +236,12 @@
                             <input name="system.development.acquisitionModifier" type="number" value="{{system.development.acquisitionModifier}}" data-dtype="Number" />
                         </div>
                     </div>
+                    <div class="flex row property">
+                        <label class="name">Conserved Resources</label>
+                        <div class="flex row data">
+                            <input type="checkbox" name="system.governor.conservativeLastTick" {{#if system.stats.conservativeLastTick}}checked{{/if}} disabled>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

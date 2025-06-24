@@ -770,5 +770,11 @@
   "COLONY.UPGRADE.YEARLY_PROSPERITY": "Prosperity",
   "COLONY.UPGRADE.YEARLY_SECURITY": "Security",
   "COLONY.UPGRADE.BONUS_SLOTS": "Bonus Slots",
-  "COLONY.UPGRADE.SPECIAL": "Special Bonus"
+  "COLONY.UPGRADE.SPECIAL": "Special Bonus",
+
+  "COLONY.CHAT.BURN_TYPE.PROFIT": "Profit Factor",
+  "COLONY.CHAT.BURN_TYPE.GROWTH": "Growth Points",
+  
+  "EVENT.THEMES": "Themes",
+  "EVENT.DESCRIPTION": "Description"
 }

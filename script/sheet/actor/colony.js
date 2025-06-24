@@ -10,7 +10,7 @@ export class ColonySheet extends RogueTraderSheet {
       classes: ["rogue-trader", "sheet", "actor"],
       template: "systems/rogue-trader/template/sheet/actor/colony.html",
       width: 750,
-      height: 890,
+      height: 920,
       resizable: true,
       tabs: [
         {

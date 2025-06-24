@@ -305,5 +305,22 @@ function registerHandlebarsHelpers() {
     }
     return result;
   });
+
+  Handlebars.registerHelper('localizeBurnType', function(burnType) {
+    let result = "";
+    let i18n = game.i18n;
+    switch (burnType) {
+      case "profitFactor":
+        result = i18n.localize("COLONY.CHAT.BURN_TYPE.PROFIT");
+        break;
+      case "growthPoints":
+        result = i18n.localize("COLONY.CHAT.BURN_TYPE.GROWTH");
+        break;
+      default:
+        result = "INVALID BURN TYPE!";
+        break;
+    }
+    return result;
+  });
 }
 

@@ -34,13 +34,38 @@ export async function rollColonyGrowth(rollData) {
 }
 
 export async function consumeResourceRoll(rollData) {
-  console.log(rollData);
-  console.log(rollData.selectedResource);
   const resource = rollData.selectedResource;
+  rollData.preRollResourceAmount = rollData.selectedResource.system.amount;
+  let consumeRoll = new Roll(rollData.rollFormula, {});
+  consumeRoll.evaluate({ async: false });
+  rollData.consumeRollObject = consumeRoll;
+  rollData.conservationModifier = 0;
+  if (rollData.conserveResources) {
+    let conserveRoll = new Roll("1d10 + 2", {});
+    conserveRoll.evaluate({ async: false });
+    rollData.conservationModifier = conserveRoll.total;
+    rollData.conserveRollObject = conserveRoll;
+  }
+  const resourceAdjustment = Math.max(0, consumeRoll.total - rollData.conservationModifier);
+  rollData.consumedResourceAmount = resourceAdjustment;
+  if (rollData.burnResources) {
+    switch (rollData.burnData.burnType) {
+      case "profitFactor":
+        rollData.burnData.generated =  1 + Math.floor(resourceAdjustment / 50);
+        break;
+      case "growthPoints":
+        rollData.burnData.generated = Math.ceil(resourceAdjustment / 5);
+        break;
+    }
+  }
+  let adjustedResourceValue = Math.max(resource.system.amount - resourceAdjustment, 0);
   resource.update({
-    "system.amount": 10
+    "system.amount": adjustedResourceValue
   });
-  console.log(rollData);
+  rollData.actor.update({
+    "system.stats.conservativeLastTick": rollData.conserveResources
+  });
+  await _sendResourceBurnToChat(rollData);
 }
 
 /**
@@ -674,6 +699,44 @@ async function _sendToChat(rollData) {
   }
 
   const html = await renderTemplate("systems/rogue-trader/template/chat/roll.html", rollData);
+  chatData.content = html;
+
+  if (["gmroll", "blindroll"].includes(chatData.rollMode)) {
+    chatData.whisper = ChatMessage.getWhisperRecipients("GM");
+  } else if (chatData.rollMode === "selfroll") {
+    chatData.whisper = [game.user];
+  }
+
+  ChatMessage.create(chatData);
+}
+
+async function _sendResourceBurnToChat(rollData) {
+  let speaker = ChatMessage.getSpeaker();
+  let chatData = {
+    user: game.user.id,
+    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+    rollMode: game.settings.get("core", "rollMode"),
+    speaker: speaker,
+    flags: {
+      "rogue-trader.rollData": rollData
+    }
+  };
+  if(speaker.token) {
+    rollData.tokenId = speaker.token;
+  }
+  console.log(rollData);
+  if (rollData.conserveResources) {
+    const consumeRender = await rollData.consumeRollObject.render();
+    const conserveRender = await rollData.conserveRollObject.render();
+    rollData.renders = [consumeRender, conserveRender];
+    chatData.rolls = [rollData.consumeRollObject, rollData.conserveRollObject];
+  } else {
+    const consumeRender = await rollData.consumeRollObject.render();
+    rollData.renders = [consumeRender];
+    chatData.rolls = [rollData.consumeRollObject];
+  }
+
+  const html = await renderTemplate("systems/rogue-trader/template/chat/consume-resources.html", rollData);
   chatData.content = html;
 
   if (["gmroll", "blindroll"].includes(chatData.rollMode)) {
