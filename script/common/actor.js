@@ -1,32 +1,50 @@
 export class RogueTraderActor extends Actor {
 
   async _preCreate(data, options, user) {
-    
-    let initData = {
-      "prototypeToken.bar1": { attribute: "wounds" },
-      "prototypeToken.bar2": { attribute: "fate" },
-      "prototypeToken.name": data.name,
-      "prototypeToken.displayName" : CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
-      "prototypeToken.displayBars" : CONST.TOKEN_DISPLAY_MODES.OWNER_HOVER,
-            
-    };
-    if (this.type === "explorer") {
-      initData["prototypeToken.actorLink"] = true;      
-      initData["prototypeToken.disposition"] = CONST.TOKEN_DISPOSITIONS.FRIENDLY
+    let initData;
+    if (this.type === 'ship') {
+      initData = {
+        "prototypeToken.bar1": { attribute: "hullIntegrity" },
+        "prototypeToken.bar2": { attribute: "crewCount" },
+        "prototypeToken.name": data.name,
+        "prototypeToken.displayName": CONST.TOKEN_DISPLAY_MODES.ALWAYS,
+        "prototypeToken.displayBars": CONST.TOKEN_DISPLAY_MODES.ALWAYS,
+      };
+    } else {
+      initData = {
+        "prototypeToken.bar1": { attribute: "wounds" },
+        "prototypeToken.bar2": { attribute: "fatigue" },
+        "prototypeToken.name": data.name,
+        "prototypeToken.displayName": CONST.TOKEN_DISPLAY_MODES.HOVER,
+        "prototypeToken.displayBars": CONST.TOKEN_DISPLAY_MODES.HOVER,
+      };
+      if (this.type === "explorer") {
+        initData["prototypeToken.actorLink"] = true;
+        initData["prototypeToken.disposition"] = CONST.TOKEN_DISPOSITIONS.FRIENDLY
+      }
     }
     this.updateSource(initData);
   }
 
   prepareData() {
     super.prepareData();
-    if (this.type === 'ship') 
-    {
+    if (this.type === 'ship') {
       this._computePower();
       this._computeSpace();
       this._computePoints();
-    } 
-    else 
-    {
+      this._computeShipInitiative();
+    }
+    else if (this.type === 'colony') {
+      this._computeRequiredGrowth();
+      this._computeColonyUpgrades();
+      this._computeColonyResources();
+      this._computeProfitFactor();
+      this._computeYearlyGains();
+      this._computePlanetarySlots();
+      this._computeGovernorSkill()
+      console.log(this);
+    }
+    else {
       this._computeCharacteristics();
       this._computeSkills();
       this._computeItems();
@@ -37,7 +55,146 @@ export class RogueTraderActor extends Actor {
       this._computeArmour();
       this._computeMovement();
     }
-    console.log(this);
+  }
+
+  _computeProfitFactor() {
+    const colonySize = this.currentColonySize || 0;
+    const conserveResourcesPenalty = this.system.stats.conservativeLastTick ? -2 : 0;
+    if (colonySize < 0) {
+      this.system.stats.profitFactor = 0;
+      return;
+    }
+    if (colonySize < 10) {
+      this.system.stats.profitFactor = Math.min(colonySize, 4) + (Math.max(0, colonySize - 4) * 2) + conserveResourcesPenalty;
+    } else {
+      this.system.stats.profitFactor = 18 + ((colonySize - 10) * 2) + conserveResourcesPenalty;
+    }
+  }
+
+  _computeColonyResources() {
+    const items = this.items;
+    const resources = items.filter(item => item.type === "planetaryResource");
+    this.system.resources = resources;
+  }
+
+  _computeColonyUpgrades() {
+    const items = this.items;
+    const upgrades = items.filter(item => item.type === "colonyUpgrade");
+    this.system.upgrades = upgrades;
+  }
+
+  _computeGovernorSkill() {
+    const colonySize = this.system.stats.size;
+    let result = 0;
+    switch (colonySize) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        result = 35;
+        break;
+      case 4:
+      case 5:
+        result = 40;
+        break;
+      case 6:
+      case 7:
+        result = 45;
+        break;
+      case 8:
+        result = 50;
+        break;
+      case 9:
+        result = 55;
+        break;
+      case 10:
+      default:
+        result = 60;
+        break;
+    }
+    result += this.system.governor.advancedTraining ? 10 : 0;
+    this.system.governor.skillBonus = result; 
+  }
+
+  _computeYearlyGains() {
+    const upgrades = this.system.upgrades || [];
+    const yearlyGains = upgrades.reduce((totals, item) => {
+      return {
+        yearlyLoyalty: totals.yearlyLoyalty + (item.system.yearlyLoyalty || 0),
+        yearlyProsperity: totals.yearlyProsperity + (item.system.yearlyProsperity || 0),
+        yearlySecurity: totals.yearlySecurity + (item.system.yearlySecurity || 0),
+      };
+    }, { yearlyLoyalty: 0, yearlyProsperity: 0, yearlySecurity: 0 });
+    this._adjustYearlyGainsByColonyType(yearlyGains);
+    this.system.stats.loyaltyGain = yearlyGains.yearlyLoyalty;
+    this.system.stats.prosperityGain = yearlyGains.yearlyProsperity;
+    this.system.stats.securityGain = yearlyGains.yearlySecurity;
+  }
+  
+  _adjustYearlyGainsByColonyType(yearlyGains) {
+    switch (this.system.colonyType) {
+      case "research":
+        yearlyGains.yearlyLoyalty -= 1;
+        break;
+      case "mining":
+        yearlyGains.yearlySecurity -= 1;
+        break;
+      case "ecclesiastical":
+        yearlyGains.yearlyProsperity -= 1;
+        break;
+      case "agricultural":
+        yearlyGains.yearlySecurity -= 1;
+        break;
+      case "pleasure":
+        yearlyGains.yearlySecurity -= 1;
+        break;
+      case "war":
+        yearlyGains.yearlyProsperity -= 1;
+        break;
+      default:
+        break;
+    }
+  }
+
+  _computePlanetarySlots() {
+    const baseSlots = this.system.development.baseSlots || 0;
+    const upgrades = this.system.upgrades || [];
+    const maxSlots = baseSlots + upgrades.reduce((total, upgrade) => total += upgrade.bonusSlots, 0);
+    const occupiedSlots = upgrades.filter(upgrade => upgrade.system.usesUpgradeSlot).length;
+    this.system.development.slotsTotal = maxSlots;
+    this.system.development.occupiedSlots = occupiedSlots;
+  }
+
+  _computeRequiredGrowth() {
+    const colonySize = this.currentColonySize;
+    const colonyGrowthModifier = game.settings.get("rogue-trader", "colonyGrowthModifier") || 0;
+    const growthBase = colonySize + colonyGrowthModifier;
+    let requiredGrowth = 0;
+    switch (colonySize) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        requiredGrowth = growthBase;
+        break;
+      case 4:
+      case 5:
+        requiredGrowth = growthBase + 1;
+        break;
+      case 6:
+      case 7:
+        requiredGrowth = growthBase + 2;
+        break;
+      case 8:
+      case 9:
+        requiredGrowth = growthBase + 3;
+        break;
+      case 10:
+      default:
+        requiredGrowth = growthBase + 4;
+        break;
+    }
+    this.system.stats.requiredGrowth = requiredGrowth;
   }
 
   _computePower() {
@@ -62,61 +219,135 @@ export class RogueTraderActor extends Actor {
     this.system.points.total = componentsValue + this.system.points.base;
   }
 
+  _computeShipInitiative() {
+    this.initiative = {
+      base: "1d10",
+      bonus: this.system.detection / 10
+    };
+  }
+
   _computeCharacteristics() {
     let middle = Object.values(this.characteristics).length / 2;
     let i = 0;
-    for (let characteristic of Object.values(this.characteristics)) {
-      characteristic.total = characteristic.base + characteristic.advance;
-      characteristic.bonus = Math.floor(characteristic.total / 10) * (characteristic.unnatural > 0 ? characteristic.unnatural : 1);
+    for (const key in this.characteristics) {
+      const characteristic = this.characteristics[key];
+      const characteristicBonuses = this._getCharacteristicsBonuses(key);
+      characteristic.total = characteristic.base + characteristic.advance + characteristicBonuses.characteristicModifier;
+      characteristic.bonus = Math.floor(characteristic.total / 10) + characteristic.unnatural + characteristicBonuses.unnaturalModifier;
       if (this.fatigue.value > characteristic.bonus) {
         characteristic.total = Math.ceil(characteristic.total / 2);
-        characteristic.bonus = Math.floor(characteristic.total / 10) * (characteristic.unnatural > 0 ? characteristic.unnatural : 1);
+        characteristic.bonus = Math.floor(characteristic.total / 10) + characteristic.unnatural + characteristicBonuses.unnaturalModifier;
       }
       characteristic.isLeft = i < middle;
       characteristic.isRight = i >= middle;
       characteristic.advanceCharacteristic = this._getAdvanceCharacteristic(characteristic.advance);
       i++;
-    }
+    };
     this.system.insanityBonus = Math.floor(this.insanity / 10);
     this.system.corruptionBonus = Math.floor(this.corruption / 10);
     this.psy.currentRating = this.psy.rating - this.psy.sustained;
     this.initiative.bonus = this.characteristics[this.initiative.characteristic].bonus;
     // Done as variables to make it easier to read & understand
     let tb = Math.floor(
-      ( this.characteristics.toughness.base
-            + this.characteristics.toughness.advance) / 10);
+      (this.characteristics.toughness.base
+        + this.characteristics.toughness.advance) / 10);
 
     let wb = Math.floor(
-      ( this.characteristics.willpower.base
-            + this.characteristics.willpower.advance) / 10);
+      (this.characteristics.willpower.base
+        + this.characteristics.willpower.advance) / 10);
 
     // The only thing not affected by itself
     this.fatigue.max = tb + wb;
 
   }
 
+  _getCharacteristicsBonuses(characteristic) {
+    const items = this.items;
+    const result = {
+      characteristicModifier: 0,
+      unnaturalModifier: 0,
+    };
+    items.forEach((value, key) => {
+      const charMods = value.characteristicModifiers;
+      if (charMods !== null && charMods !== undefined) {
+        if (charMods.hasOwnProperty(characteristic)) {
+          const mod = charMods[characteristic];
+          result.characteristicModifier += mod.characteristicModifier;
+          result.unnaturalModifier += mod.unnaturalModifier;
+        }
+      }
+    });
+    console.log(`Modifier ${characteristic}: ${JSON.stringify(result)}`);
+    return result;
+  }
+
   _computeSkills() {
-    for (let skill of Object.values(this.skills)) {
+    const skillMods = this._getSkillBonuses();
+    for (const key in this.skills) {
+      const skill = this.skills[key];
       let short = skill.characteristics[0];
       let characteristic = this._findCharacteristic(short);
+      const skillMod = skillMods[key];
       if (skill.advance === -20) {
-        skill.total = Math.floor(characteristic.total / 2);
+        skill.total = Math.floor(characteristic.total / 2) + (skill.isSpecialist ? 0 : skillMod.skillModifier);
       } else {
-        skill.total = characteristic.total + skill.advance;
+        skill.total = characteristic.total + skill.advance + (skill.isSpecialist ? 0 : skillMod.skillModifier);
       }
       skill.advanceSkill = this._getAdvanceSkill(skill.advance);
       if (skill.isSpecialist) {
-        for (let speciality of Object.values(skill.specialities)) {
+        for (const specKey of Object.keys(skill.specialities)) {
+          const speciality = skill.specialities[specKey];
+          const specMod = skillMods[key][specKey];
           if (speciality.advance === -20) {
-            speciality.total = Math.floor(characteristic.total / 2);
+            speciality.total = Math.floor(characteristic.total / 2) + specMod.skillModifier;
           } else {
-            speciality.total = characteristic.total + speciality.advance;
+            speciality.total = characteristic.total + speciality.advance + specMod.skillModifier;
           }
           speciality.isKnown = speciality.advance >= 0;
           speciality.advanceSpec = this._getAdvanceSkill(speciality.advance);
         }
       }
     }
+  }
+
+  _getSkillBonuses() {
+    const skillSchema = game.system.model.Actor.explorer.skills;
+    const result = {};
+    for (const entry in skillSchema) {
+      if (skillSchema.hasOwnProperty(entry)) {
+        const entryObject = skillSchema[entry];
+        if (entryObject.isSpecialist) {
+          result[entry] = {};
+          const specialities = skillSchema[entry].specialities;
+          for (const specialty in specialities) {
+            if (specialities.hasOwnProperty(specialty)) {
+              result[entry][specialty] = {
+                skillModifier: 0
+              };
+            }
+          }
+        } else {
+          result[entry] = {
+            skillModifier: 0
+          };
+        }
+      }
+    }
+    const items = this.items;
+    items.forEach((value, key) => {
+      const skillMods = value.skillModifiers;
+      if (skillMods !== null && skillMods !== undefined) {
+        for (const skillMod in skillMods) {
+          const split = skillMod.split(":");
+          if (split.length > 1)
+            result[split[0]][split[1]].skillModifier += skillMods[skillMod].skillModifier;
+          else
+            result[split[0]].skillModifier += skillMods[skillMod].skillModifier;
+        }
+      }
+    });
+    console.log(result);
+    return result;
   }
 
   _computeItems() {
@@ -196,15 +427,15 @@ export class RogueTraderActor extends Actor {
     let toughness = this.characteristics.toughness;
 
     this.system.armour = locations
-              .reduce((accumulator, location) =>
-                Object.assign(accumulator,
-                  {
-                    [location]: {
-                      total: toughness.bonus,
-                      toughnessBonus: toughness.bonus,
-                      value: 0
-                    }
-                  }), {});
+      .reduce((accumulator, location) =>
+        Object.assign(accumulator,
+          {
+            [location]: {
+              total: toughness.bonus,
+              toughnessBonus: toughness.bonus,
+              value: 0
+            }
+          }), {});
 
     // Object for storing the max armour
     let maxArmour = locations
@@ -216,22 +447,22 @@ export class RogueTraderActor extends Actor {
       .filter(item => item.isArmour && !item.isAdditive)
       .reduce((acc, armour) => {
         locations.forEach(location => {
-            let armourVal = armour.part[location] || 0;
-            if (armourVal > acc[location]) {
-              acc[location] = armourVal;
-            }
-          });
+          let armourVal = armour.part[location] || 0;
+          if (armourVal > acc[location]) {
+            acc[location] = armourVal;
+          }
+        });
         return acc;
       }, maxArmour);
 
     this.items
       .filter(item => item.isArmour && item.isAdditive)
       .forEach(armour => {
-         locations.forEach(location =>{
-            let armourVal = armour.part[location] || 0;
-            maxArmour[location] += armourVal;
-         });
-      });  
+        locations.forEach(location => {
+          let armourVal = armour.part[location] || 0;
+          maxArmour[location] += armourVal;
+        });
+      });
 
     this.armour.head.value = maxArmour.head;
     this.armour.leftArm.value = maxArmour.leftArm;
@@ -345,8 +576,7 @@ export class RogueTraderActor extends Actor {
   }
 
 
-  _getAdvanceCharacteristic(characteristic)
-  {
+  _getAdvanceCharacteristic(characteristic) {
     switch (characteristic || 0) {
       case 0:
         return "N";
@@ -365,8 +595,7 @@ export class RogueTraderActor extends Actor {
     }
   }
 
-  _getAdvanceSkill(skill)
-  {
+  _getAdvanceSkill(skill) {
     switch (skill || 0) {
       case -20:
         return "U";
@@ -522,57 +751,233 @@ export class RogueTraderActor extends Actor {
     });
     ChatMessage.create({ content: html });
   }
-  
+
+  get growthAcquisitionBase() {
+    const colonySize = this.system.stats.size;
+    switch (colonySize) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        return 20;
+      case 4:
+      case 5:
+        return 0;
+      case 6:
+      case 7:
+        return -10;
+      case 8:
+        return -20;
+      case 9:
+        return -40;
+      case 10:
+      default:
+        return -60;
+    }
+  }
+
+  get colonyUpgrades() {
+    return this.system.upgrades || [];
+  }
+
+  get currentColonySize() {
+    return this.system.stats.size || 0;
+  }
+
+  get colonyBaseSlots() {
+    return this.system.development.baseSlots || 0;
+  }
+
+  get colonyTotalSlots() {
+    return this.system.development.slotsTotal || 0; 
+  }
+
+  get colonyOccupiedSlots() {
+    return this.system.development.occupiedSlots || 0;
+  }
+
+  get colonyProfitFactor() { return this.system.stats.profitFactor || 0; }
+
+  get governor() {
+    return game.actors.get(this.system.governor.actor);
+  }
+
+  get governorTypeBonus() {
+    const i18n = game?.i18n; // Cache the reference to game.i18n
+    if (!i18n) return "Localization unavailable"; // Fallback if i18n is undefined
+
+    const governorType = this.system.governor.governorType || "default";
+    switch (governorType) {
+      case "administrative":
+        return i18n.localize("COLONY.GOV_BONUS.ADMINISTRATIVE");
+      case "faithful":
+        return i18n.localize("COLONY.GOV_BONUS.FAITHFUL");
+      case "lawful":
+        return i18n.localize("COLONY.GOV_BONUS.LAWFUL");
+      case "accounting":
+        return i18n.localize("COLONY.GOV_BONUS.ACCOUNTING");
+      case "local":
+        return i18n.localize("COLONY.GOV_BONUS.LOCAL");
+      case "relaxed":
+        return i18n.localize("COLONY.GOV_BONUS.RELAXED");
+      case "warlike":
+        return i18n.localize("COLONY.GOV_BONUS.WARLIKE");
+      default:
+        return "ERROR!";
+    }
+  }
+
+  get governorTypeSideEffect() {
+    const i18n = game?.i18n; // Cache the reference to game.i18n
+    if (!i18n) return "Localization unavailable"; // Fallback if i18n is undefined
+
+    const governorType = this.system.governor.governorType || "administrative";
+    switch (governorType) {
+      case "administrative":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.ADMINISTRATIVE");
+      case "faithful":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.FAITHFUL");
+      case "lawful":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.LAWFUL");
+      case "accounting":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.ACCOUNTING");
+      case "local":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.LOCAL");
+      case "relaxed":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.RELAXED");
+      case "warlike":
+        return i18n.localize("COLONY.GOV_SIDE_EFFECT.WARLIKE");
+      default:
+        return "ERROR!";
+    }
+  }
+
+  get colonyTypes() {
+    return [
+      "research",
+      "mining",
+      "ecclesiastical",
+      "agricultural",
+      "pleasure",
+      "war"
+    ];
+  }
+
+  get colonyTypeUpgradeBonus() {
+    const colonyType = this.system.colonyType;
+    const i18n = game.i18n;
+    switch (colonyType) {
+      case "research":
+        return i18n.localize("COLONY.UPGRADE_BONUS.RESEARCH");
+      case "mining":
+        return i18n.localize("COLONY.UPGRADE_BONUS.MINING");
+      case "ecclesiastical":
+        return i18n.localize("COLONY.UPGRADE_BONUS.ECCLESIASTICAL");
+      case "agricultural":
+        return i18n.localize("COLONY.UPGRADE_BONUS.AGRICULTURAL");
+      case "pleasure":
+        return i18n.localize("COLONY.UPGRADE_BONUS.PLEASURE");
+      case "war":
+        return i18n.localize("COLONY.UPGRADE_BONUS.WAR");
+      default:
+        return "";
+    }
+  }
+
+  get colonyTypeSideEffect() {
+    const colonyType = this.system.colonyType;
+    const i18n = game.i18n;
+    switch (colonyType) {
+      case "research":
+        return i18n.localize("COLONY.SIDE_EFFECT.RESEARCH");
+      case "mining":
+        return i18n.localize("COLONY.SIDE_EFFECT.MINING");
+      case "ecclesiastical":
+        return i18n.localize("COLONY.SIDE_EFFECT.ECCLESIASTICAL");
+      case "agricultural":
+        return i18n.localize("COLONY.SIDE_EFFECT.AGRICULTURAL");
+      case "pleasure":
+        return i18n.localize("COLONY.SIDE_EFFECT.PLEASURE");
+      case "war":
+        return i18n.localize("COLONY.SIDE_EFFECT.WAR");
+      default:
+        return "";
+    }
+  }
+
+  get colonyTypeExplorerBonus() {
+    const colonyType = this.system.colonyType;
+    const i18n = game.i18n;
+    switch (colonyType) {
+      case "research":
+        return i18n.localize("COLONY.BONUS.RESEARCH");
+      case "mining":
+        return i18n.localize("COLONY.BONUS.MINING");
+      case "ecclesiastical":
+        return i18n.localize("COLONY.BONUS.ECCLESIASTICAL");
+      case "agricultural":
+        return i18n.localize("COLONY.BONUS.AGRICULTURAL");
+      case "pleasure":
+        return i18n.localize("COLONY.BONUS.PLEASURE");
+      case "war":
+        return i18n.localize("COLONY.BONUS.WAR");
+      default:
+        return "";
+    }
+  }
+
   get attributeBoni() {
     let boni = [];
     for (let characteristic of Object.values(this.characteristics)) {
-      boni.push( {regex: new RegExp(`${characteristic.short}B`, "gi"), value: characteristic.bonus} );
+      boni.push({ regex: new RegExp(`${characteristic.short}B`, "gi"), value: characteristic.bonus });
     }
     return boni;
   }
 
-  get characteristics() {return this.system.characteristics;}
+  get characteristics() { return this.system.characteristics; }
 
-  get skills() {return this.system.skills;}
+  get skills() { return this.system.skills; }
 
-  get initiative() {return this.system.initiative;}
+  get initiative() { return this.system.initiative; }
 
-  get wounds() {return this.system.wounds;}
+  set initiative(value) { this.system.initiative = value; }
 
-  get fatigue() {return this.system.fatigue;}
+  get wounds() { return this.system.wounds; }
 
-  get fate() {return this.system.fate;}
+  get fatigue() { return this.system.fatigue; }
 
-  get psy() {return this.system.psy;}
+  get fate() { return this.system.fate; }
 
-  get bio() {return this.system.bio;}
+  get psy() { return this.system.psy; }
 
-  get experience() {return this.system.experience;}
+  get bio() { return this.system.bio; }
 
-  get insanity() {return this.system.insanity;}
+  get experience() { return this.system.experience; }
 
-  get corruption() {return this.system.corruption;}
+  get insanity() { return this.system.insanity; }
 
-  get aptitudes() {return this.system.aptitudes;}
+  get corruption() { return this.system.corruption; }
 
-  get size() {return this.system.size;}
+  get aptitudes() { return this.system.aptitudes; }
 
-  get faction() {return this.system.faction;}
+  get size() { return this.system.size; }
 
-  get subfaction() {return this.system.subfaction;}
+  get faction() { return this.system.faction; }
 
-  get subtype() {return this.system.type;}
+  get subfaction() { return this.system.subfaction; }
 
-  get threatLevel() {return this.system.threatLevel;}
+  get subtype() { return this.system.type; }
 
-  get armour() {return this.system.armour;}
+  get threatLevel() { return this.system.threatLevel; }
 
-  get encumbrance() {return this.system.encumbrance;}
+  get armour() { return this.system.armour; }
 
-  get movement() {return this.system.movement;}
+  get encumbrance() { return this.system.encumbrance; }
+
+  get movement() { return this.system.movement; }
 
   get crewSkillValue() {
-    switch(this.system.crewSkill) {
+    switch (this.system.crewSkill) {
       case "incompetent":
         return 20;
       case "competent":
@@ -678,5 +1083,18 @@ export class RogueTraderActor extends Actor {
 
   get steward() {
     return game.actors.get(this.system.namedCrew.steward);
+  }
+
+  get namedCrewMembers() {
+    let shipCrewObject = this.system.namedCrew;
+    let crewRoster = {};
+    let crewId = "";
+    for (let crewMember in shipCrewObject) {
+      crewId = shipCrewObject[crewMember];
+      if (crewId !== "") {
+        crewRoster[crewMember] = game.actors.get(crewId);
+      }
+    }
+    return crewRoster;
   }
 }

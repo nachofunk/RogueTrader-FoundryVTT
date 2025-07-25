@@ -2,8 +2,6 @@ import {prepareCommonRoll, prepareShipCombatRoll, preparePsychicPowerRoll} from 
 import RogueTraderUtil from "../../common/util.js";
 import { RogueTraderSheet } from "./actor.js";
 
-let selectedToken = null;
-
 export class ShipSheet extends RogueTraderSheet {
   side = "";
 
@@ -29,34 +27,61 @@ export class ShipSheet extends RogueTraderSheet {
     html.find(".roll-shipweapon").click(async ev => await this._prepareRollShipWeapon(ev));
   }
 
+  /** @override */
+  async getData(options) {
+    const data = await super.getData(options);
+    data.system.pastHistoryHTML = await TextEditor.enrichHTML(
+      data.system.pastHistory,
+      {
+        secrets: data.actor.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.actor,
+      }
+    );
+    data.system.complicationsHTML = await TextEditor.enrichHTML(
+      data.system.complications,
+      {
+        secrets: data.actor.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.actor,
+      }
+    );
+    data.system.notesHTML = await TextEditor.enrichHTML(
+      data.system.notes,
+      {
+        secrets: data.actor.isOwner,
+        rollData: data.rollData,
+        async: true,
+        relativeTo: this.actor,
+      }
+    );
+    return data;
+  }
+
   async _prepareRollShipWeapon(event) {
     event.preventDefault();
-    await this.selectTargetToken();
-    if (this.selectedToken) {
-      const div = $(event.currentTarget).parents(".item");
-      const weapon = this.actor.items.get(div.data("itemId"));
-      await prepareShipCombatRoll(
-        RogueTraderUtil.createShipWeaponRollData(this.actor, weapon), 
-        this.actor,
-        this.selectedToken
-      );
-    }
+    // await this.selectTargetToken();
+    const div = $(event.currentTarget).parents(".item");
+    const weapon = this.actor.items.get(div.data("itemId"));
+    await prepareShipCombatRoll(
+      RogueTraderUtil.createShipWeaponRollData(this.actor, weapon), 
+      this.actor
+    );
   }
 
   async selectTargetToken() {
-    // Minimize currently open character card
     this.minimize();
     this.selectedToken = null;
     ui.notifications.info("Choose a target on the board.");
-    // Listen for the "mousedown" event on the board layer
-    canvas.stage.on("mousedown", this.onCanvasClick.bind(this));
-    // Wait for your destination to be selected
+    Hooks.on("targetToken", this.onTokenSelected.bind(this));
     while (!this.selectedToken) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
-    // Stop listening for the "mousedown" event after selecting a target
-    canvas.stage.off("mousedown", this.onCanvasClick);
-    // Bring back character cards and make a roll
+    Hooks.off("targetToken", this.onTokenSelected);
+    console.log("selected token");
+    console.log(this.selectedToken);
     this.maximize();
     if (!this.selectedToken) {
       ui.notifications.error("No target selected on the board.");
@@ -64,15 +89,9 @@ export class ShipSheet extends RogueTraderSheet {
   }
 
   // Method to handle clicking on the board
-  onCanvasClick(event) {
-    // Get the clicked token (if any)
-    const clickedToken = event.target;
-    // Check that the clicked token does not belong to the player (ignore then)
-    if (clickedToken && clickedToken.actor && clickedToken.actor.hasPlayerOwner) {
-      return;
-    }
-    // Stop selecting a target if a token is clicked
-    this.selectedToken = clickedToken;
+  onTokenSelected(user, token, targeted) {
+    if (targeted)
+      this.selectedToken = token;
   }
 
   async _onDrop(event)
@@ -83,11 +102,7 @@ export class ShipSheet extends RogueTraderSheet {
 
   async _onDropActor(event, data)
   {
-    console.log(event);
-    console.log(data);
-    console.log(this);
     const actorData = await this.getData();
-    console.log(actorData);
     const droppedActor = game.actors.get(data.uuid.split(".")[1]);
     switch (event.target.dataset.crewrole) {
       case "captain":
@@ -100,51 +115,51 @@ export class ShipSheet extends RogueTraderSheet {
           actorData.system.namedCrew.firstOfficer = data.uuid.split(".")[1];
           break;
         }
-      case "enginseerPrime":
+      case "enginseerPrime": 
         {
           actorData.system.namedCrew.enginseerPrime = data.uuid.split(".")[1];
           break;
         }
-      case "highFactotum":
+      case "highFactotum": 
         {
           actorData.system.namedCrew.highFactotum = data.uuid.split(".")[1];
           break;
         }
-      case "masterArms":
+      case "masterArms": 
         {
           actorData.system.namedCrew.masterArms = data.uuid.split(".")[1];
           break;
-        }  
-      case "masterHelmsman":
+        }
+      case "masterHelmsman": 
         {
           actorData.system.namedCrew.masterHelmsman = data.uuid.split(".")[1];
           break;
-        }   
+        }
       case "masterOrdnance":
         {
           actorData.system.namedCrew.masterOrdnance = data.uuid.split(".")[1];
           break;
-        }   
-      case "masterEtherics":
+        }
+      case "masterEtherics": 
         {
           actorData.system.namedCrew.masterEtherics = data.uuid.split(".")[1];
           break;
-        }   
+        }
       case "masterChirurgeon":
         {
           actorData.system.namedCrew.masterChirurgeon = data.uuid.split(".")[1];
           break;
-        }  
-      case "masterWhispers":
+        }
+      case "masterWhispers": 
         {
           actorData.system.namedCrew.masterWhispers = data.uuid.split(".")[1];
           break;
-        }   
+        }
       case "masterTelepathica":
         {
           actorData.system.namedCrew.masterTelepathica = data.uuid.split(".")[1];
           break;
-        }   
+        }
       case "masterWarp":
         {
           actorData.system.namedCrew.masterWarp = data.uuid.split(".")[1];
@@ -159,7 +174,7 @@ export class ShipSheet extends RogueTraderSheet {
         {
           actorData.system.namedCrew.drivesmaster = data.uuid.split(".")[1];
           break;
-        } 
+        }
       case "congregator":
         {
           actorData.system.namedCrew.congregator = data.uuid.split(".")[1];
@@ -169,7 +184,7 @@ export class ShipSheet extends RogueTraderSheet {
         {
           actorData.system.namedCrew.bosun = data.uuid.split(".")[1];
           break;
-        } 
+        }
       case "infernus":
         {
           actorData.system.namedCrew.infernus = data.uuid.split(".")[1];
@@ -179,7 +194,7 @@ export class ShipSheet extends RogueTraderSheet {
         {
           actorData.system.namedCrew.twistcatcher = data.uuid.split(".")[1];
           break;
-        } 
+        }
       case "voxmaster":
         {
           actorData.system.namedCrew.voxmaster = data.uuid.split(".")[1];
@@ -189,7 +204,7 @@ export class ShipSheet extends RogueTraderSheet {
         {
           actorData.system.namedCrew.purser = data.uuid.split(".")[1];
           break;
-        } 
+        }
       case "cartographer":
         {
           actorData.system.namedCrew.cartographer = data.uuid.split(".")[1];
@@ -199,13 +214,12 @@ export class ShipSheet extends RogueTraderSheet {
         {
           actorData.system.namedCrew.steward = data.uuid.split(".")[1];
           break;
-        } 
+        }
       default:
         console.log(event.target.dataset.crewRole);
         break;
     }
     this._updateObject(event, actorData);
-    console.log(droppedActor);
   }
 
   async _onDropItemCreate(itemData) {

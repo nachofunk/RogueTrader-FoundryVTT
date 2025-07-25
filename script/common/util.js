@@ -1,4 +1,74 @@
 export default class RogueTraderUtil {
+
+  static prepareColonyRollData(actor) {
+    const rollData = {
+      positiveEventTarget: 9,
+      negativeEventTarget: 3,
+    };
+    const representative = actor.system.governor.governorType;
+    switch (representative) {
+      case "administrative":
+        rollData.negativeEventTarget = 1;
+        break;
+      case "faithful":
+        rollData.negativeEventTarget = 2;
+        rollData.positiveEventTarget = 8;
+        break;
+    }
+    return rollData;
+  }
+
+  static prepareColonyGrowthRollData(actor, growthData) {
+    growthData.requiredGrowth = actor.system.stats.requiredGrowth;
+    growthData.shouldGrow = this._hasEnoughGrowth(actor, growthData);
+    growthData.shouldDecreaseSize = this._shouldDecreaseSize(actor, growthData);
+    growthData.actor = actor;
+    console.log(growthData);
+    return growthData;
+  }
+
+  static _hasEnoughGrowth(actor, growthData) {
+    return (growthData.loyalty.updated >= growthData.requiredGrowth &&
+            growthData.prosperity.updated >= growthData.requiredGrowth &&
+            growthData.security.updated >= growthData.requiredGrowth);
+  }
+
+  static _shouldDecreaseSize(actor, growthData) {
+    let negativeStatsCount = 0;
+    if (growthData.loyalty.updated < 0)
+      negativeStatsCount += 1;
+    if (growthData.prosperity.updated < 0)
+      negativeStatsCount += 1;
+    if (growthData.security.updated < 0)
+      negativeStatsCount += 1;
+    return negativeStatsCount >= 2;
+  }
+
+  static prepareResourceRollData(actor) {
+    const actorData = actor.system;
+    const colonySize = actorData.stats.size;
+    let governorResourcePenalty = 0;
+    if (actorData.governor.governorType === "relaxed") {
+      governorResourcePenalty = Math.min(5, Math.ceil(colonySize / 3));
+    }
+    const rollData = {
+      name: "DIALOG.CONSUME_RESOURCES_ROLL",
+      ownerId: actor.uuid.split('.')[1],    
+      resources: actorData.resources,
+      actor: actor,
+      requiredResources: colonySize + 1,
+      consumedAmount: `1d10 + ${colonySize + governorResourcePenalty}`,
+      burnedAmount: `${colonySize}d10 + ${5 * colonySize} + ${governorResourcePenalty}`,
+      selectedResource: actorData.resources?.length > 0 ? actorData.resources[0] : null,
+      burnResources: false,
+      conserveResources: false,
+      burnData: {
+        burnType: "profitFactor",
+        generated: 0
+      }
+    };
+    return rollData;
+  }
   
   static createCommonAttackRollData(actor, item) {
       return {
@@ -7,7 +77,8 @@ export default class RogueTraderUtil {
         ownerId: actor.id,
         itemId: item.id,      
         damageBonus: 0,
-        damageType: item.damageType,      
+        damageType: item.damageType,
+        unnatural: 0,      
     };
   }
   
@@ -23,16 +94,33 @@ export default class RogueTraderUtil {
     
     let rollData = this.createCommonAttackRollData(actor, weapon);
     rollData.baseTarget= characteristic.total + weapon.attack,
+    rollData.unnatural = characteristic.unnatural;
     rollData.modifier= 0,
     rollData.isMelee= isMelee;
     rollData.isRange= !isMelee;
     rollData.clip= weapon.clip;
     rollData.rateOfFire= rateOfFire;
-    rollData.damageFormula= weapon.damage + (isMelee && !weapon.damage.match(/SB/gi) ? "+SB" : "");
-    rollData.penetrationFormula= weapon.penetration;
-    rollData.weaponTraits= this.extractWeaponTraits(weapon.special);    
+    rollData.weaponSpecial = weapon.special;
+    rollData.weaponTraits = this.extractWeaponTraits(weapon.special);  
+    rollData.damageFormula = weapon.damage + (isMelee && !weapon.damage.match(/SB/gi) ? "+SB" : "") + (rollData.weaponTraits.force ? "+PR" : "");
+    if (rollData.weaponTraits.warp)
+      rollData.penetrationFormula = "Ignores armor.";
+    else
+      rollData.penetrationFormula = parseInt(weapon.penetration, 10) + parseInt(rollData.weaponTraits.force ? actor.psy.rating : 0, 10);  
     rollData.special= weapon.special;
     rollData.psy= { value: actor.psy.rating, display: false};
+    return rollData;
+  }
+
+  static createForceFieldRollData(actor, forceField) {
+    let rollData = {
+      name: forceField.name, 
+      ownerId: actor.id,
+      itemId: forceField.id,    
+      protectionRating: parseInt(forceField.protectionRating),
+      overloadChance: parseInt(forceField.overloadChance),
+      description: forceField.description,
+    }
     return rollData;
   }
 
@@ -44,9 +132,8 @@ export default class RogueTraderUtil {
     };
   }
 
-  static createShipWeaponRollData(actor, weapon, target) {
+  static createShipWeaponRollData(actor, weapon) {
     let rollData = this.createCommonShipRollData(actor, weapon)
-    rollData.attackTarget = target;
     if (actor.masterOrdnance)
       rollData.baseTarget = actor.masterOrdnance.characteristics.ballisticSkill;
     else
@@ -61,6 +148,7 @@ export default class RogueTraderUtil {
     rollData.side = weapon.side;
     rollData.ignoreArmor = weapon.ignoreArmor;
     rollData.ignoreShields = weapon.ignoreShields;
+    rollData.dosPerHit = weapon.dosPerHit;
     return rollData;
   }
   
@@ -78,8 +166,11 @@ export default class RogueTraderUtil {
     rollData.psy = {
         value: actor.psy.rating,
         rating: actor.psy.rating,
-        max: this.getMaxPsyRating(actor),
+        psyStrength: "fettered",
+        push: 1,
+        maxPush: this.getMaxPsyRating(actor) - actor.psy.rating,
         warpConduit: false,
+        disciplineMastery: false,
         display: true
     };
     return rollData;
@@ -89,12 +180,18 @@ export default class RogueTraderUtil {
     // These weapon traits never go above 9 or below 2
     return {
       accurate: this.hasNamedTrait(/Accurate/gi, traits),
-      rfFace: this.extractNumberedTrait(/Vengeful.*\(\d\)/gi, traits), // The alternativ die face Righteous Fury is triggered on
-      proven: this.extractNumberedTrait(/Proven.*\(\d\)/gi, traits),
-      primitive: this.extractNumberedTrait(/Primitive.*\(\d\)/gi, traits),
+      rfFace: this.extractNumberedTrait(/Vengeful\s*\(?\s*\d+\s*\)?/gi, traits), // The alternativ die face Righteous Fury is triggered on
+      proven: this.extractNumberedTrait(/Proven\s*\(?\s*\d+\s*\)?/gi, traits),
+      primitive: this.extractNumberedTrait(/Primitive\s*\(?\s*\d+\s*\)?/gi, traits),
       razorSharp: this.hasNamedTrait(/Razor *Sharp/gi, traits),
       skipAttackRoll: this.hasNamedTrait(/Spray/gi, traits),
-      tearing: this.hasNamedTrait(/Tearing/gi, traits)
+      tearing: this.hasNamedTrait(/Tearing/gi, traits),
+      force: this.hasNamedTrait(/Force/gi, traits),
+      warp: this.hasNamedTrait(/Warp/gi, traits),
+      scatter: this.hasNamedTrait(/Scatter/gi, traits),
+      melta: this.hasNamedTrait(/Melta/gi, traits),
+      maximal: this.hasNamedTrait(/Maximal/gi, traits),
+      storm: this.hasNamedTrait(/Storm/gi, traits),
     };
   }
 
@@ -102,11 +199,11 @@ export default class RogueTraderUtil {
     let base = actor.psy.rating;
     switch (actor.psy.class) {
       case "bound":
-        return base + 2;
+        return base + 3;
       case "unbound":
         return base + 4;
       case "daemonic":
-        return base + 3;
+        return base + 4;
     }
   }
 
@@ -120,12 +217,7 @@ export default class RogueTraderUtil {
   }
 
   static hasNamedTrait(regex, traits) {
-    let rfMatch = traits.match(regex);
-    if (rfMatch) {
-      return true;
-    } else {
-      return false;
-    }
+    return traits.match(regex);
   }
   
   static getWeaponCharacteristic(actor, weapon) {

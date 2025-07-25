@@ -15,21 +15,16 @@
         </div>
         <div class="item-list">
             <div class="flex header">
-                <b class="name">{{localize "WOUND.CRITICAL_INJURIES"}}</b>
-                <a class="button item-create" title="Add Critical Injury" data-type="criticalInjury"><i class="fas fa-plus"></i></a>
+                <b class="name">{{localize "Force Fields"}}</b>
+                <!-- <a class="button item-create" title="Add Critical Injury" data-type="criticalInjury"><i class="fas fa-plus"></i></a> -->
             </div>
             <div class="items">
-                {{#each items.criticalInjuries as |item|}}
-                    <div class="wound item flex row" data-item-id="{{item.id}}">
-                        <div class="flex wound-row item-edit">
-                            <div class="image-container">
-                                <div class="image" style="background-image: url('{{item.img}}')"></div>
-                            </div>
-                            <div class="name">{{item.name}}</div>
+                {{#each items.forceFields as |item|}}
+                    <div class="weapon item flex row" data-item-id="{{item.id}}">
+                        <div class="image-container">
+                            <div class="image" style="background-image: url('{{item.img}}')"></div>
                         </div>
-                        <div class="button">
-                            <a class="item-control item-delete" title="Delete Critical Injury"><i class="fas fa-trash"></i></a>
-                        </div>
+                        <a class="button roll-forceField">{{item.name}}</a>
                     </div>
                 {{/each}}
             </div>
@@ -151,7 +146,7 @@
                             <button class="roll-weapon" type="button">{{item.name}}</button>
                         </div>
                         <div class="class">{{item.WeaponClass}}</div>
-                        <div class="range">{{item.range}}</div>
+                        <div class="range">{{item.explorerRangeBrackets}}</div>
                         <div class="rate-of-fire">{{item.RateOfFire}}</div>
                         <div class="damage">{{item.damage}}</div>
                         <div class="type">{{item.DamageTypeShort}}</div>

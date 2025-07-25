@@ -7,6 +7,9 @@
                 <b class="class">{{localize "WEAPON.CLASS"}}</b>
                 <b class="range">{{localize "WEAPON.RANGE"}}</b>
                 <b class="damage">{{localize "WEAPON.DAMAGE"}}</b>
+                <b class="critical">{{localize "SHIP_WEAPON.CRIT_RATING"}}</b>
+                <b class="strength">{{localize "SHIP_WEAPON.STRENGTH"}}</b>
+                <b class="side">{{localize "SHIP_WEAPON.SIDE"}}</b>
             </div>
             <div class="items">
                 {{#each items.shipWeapons as |item|}}                    
@@ -18,8 +21,11 @@
                             <button class="roll-shipweapon" type="button">{{item.name}}</button>
                         </div>
                         <div class="class">{{item.ShipWeaponClass}}</div>
-                        <div class="range">{{item.range}}</div>
+                        <div class="range">{{getShipRangeBrackets item.range}}</div>
                         <div class="damage">{{item.damage}}</div>
+                        <div class="critical">{{item.critRating}}</div>
+                        <div class="strength">{{item.strength}}</div>
+                        <div class="side">{{localizeShipSide item.side}}</div>
                     </div>                    
                 {{/each}}
             </div>

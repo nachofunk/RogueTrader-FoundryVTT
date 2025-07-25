@@ -1,6 +1,7 @@
 import { RogueTraderActor } from "./actor.js";
 import { RogueTraderItem } from "./item.js";
 import { ExplorerSheet } from "../sheet/actor/explorer.js";
+import { ColonySheet } from "../sheet/actor/colony.js";
 import { NpcSheet } from "../sheet/actor/npc.js";
 import { WeaponSheet } from "../sheet/weapon.js";
 import { AmmunitionSheet } from "../sheet/ammunition.js";
@@ -23,9 +24,12 @@ import { AptitudeSheet } from "../sheet/aptitude.js";
 import { ShipSheet} from "../sheet/actor/ship.js";
 import { ShipWeaponSheet } from "../sheet/shipWeapon.js";
 import { ShipComponentSheet } from "../sheet/shipComponent.js";
+import { PlanetaryResourceSheet } from "../sheet/planetaryResource.js";
+import { ColonyUpgradeSheet } from "../sheet/colonyUpgrade.js";
+import { ColonyEventSheet } from "../sheet/colonyEvent.js";
 import { initializeHandlebars } from "./handlebars.js";
 import { migrateWorld } from "./migration.js";
-import { prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll } from "./dialog.js";
+import { prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll, showAddCharacteristicModifierDialog } from "./dialog.js";
 import { commonRoll, combatRoll } from "./roll.js";
 import RtMacroUtil from "./macro.js";
 
@@ -34,6 +38,7 @@ import * as chat from "./chat.js";
 
 Hooks.once("init", () => {
   CONFIG.Combat.initiative = { formula: "@initiative.base + @initiative.bonus", decimals: 0 };
+  console.log(CONFIG);
   CONFIG.Actor.documentClass = RogueTraderActor;
   CONFIG.Item.documentClass = RogueTraderItem;
   CONFIG.fontDefinitions["Caslon Antique"] = {editor: true, fonts: []};
@@ -42,6 +47,7 @@ Hooks.once("init", () => {
       prepareCommonRoll,
       prepareCombatRoll,
       preparePsychicPowerRoll,
+      showAddCharacteristicModifierDialog,
     },
     tests:{
       commonRoll,
@@ -53,6 +59,7 @@ Hooks.once("init", () => {
   Actors.registerSheet("rogue-trader", ExplorerSheet, { types: ["explorer"], makeDefault: true });
   Actors.registerSheet("rogue-trader", NpcSheet, { types: ["npc"], makeDefault: true });
   Actors.registerSheet("rogue-trader", ShipSheet, {types: ["ship"], makeDefault: true});
+  Actors.registerSheet("rogue-trader", ColonySheet, { types: ["colony"], makeDefault: true})
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("rogue-trader", WeaponSheet, { types: ["weapon"], makeDefault: true });
   Items.registerSheet("rogue-trader", AmmunitionSheet, { types: ["ammunition"], makeDefault: true });
@@ -74,15 +81,11 @@ Hooks.once("init", () => {
   Items.registerSheet("rogue-trader", AptitudeSheet, { types: ["aptitude"], makeDefault: true });
   Items.registerSheet("rogue-trader", ShipWeaponSheet, { types: ["shipWeapon"], makeDefault: true });
   Items.registerSheet("rogue-trader", ShipComponentSheet, { types: ["shipComponent"], makeDefault: true });
+  Items.registerSheet("rogue-trader", PlanetaryResourceSheet, { types: ["planetaryResource"], makeDefault: true });
+  Items.registerSheet("rogue-trader", ColonyUpgradeSheet, {types: ["colonyUpgrade"], makeDefault: true});
+  Items.registerSheet("rogue-trader", ColonyEventSheet, {types: ["colonyEvent"], makeDefault: true});
   initializeHandlebars();
-  game.settings.register("rogue-trader", "worldSchemaVersion", {
-    name: "World Version",
-    hint: "Used to automatically upgrade worlds data when the system is upgraded.",
-    scope: "world",
-    config: true,
-    default: 0,
-    type: Number
-  });
+  registerSettings();
 });
 
 Hooks.once("ready", () => {
@@ -110,3 +113,54 @@ Hooks.on("hotbarDrop", (bar, data, slot) => {
       return false
   }
 });
+
+function registerSettings() {
+  registerWorldVersion();
+  registerColonyGrowthModifier();
+  registerColonyCalamityTable();
+  registerColonyFortuneTable();
+}
+
+function registerWorldVersion() {
+  game.settings.register("rogue-trader", "worldSchemaVersion", {
+    name: "World Version",
+    hint: "Used to automatically upgrade worlds data when the system is upgraded.",
+    scope: "world",
+    config: true,
+    default: 0,
+    type: Number
+  });
+}
+
+function registerColonyGrowthModifier() {
+  game.settings.register("rogue-trader", "colonyGrowthModifier", {
+    name: "Colony Growth Modifier",
+    hint: "Adjusts growth point requirements for colony to increase in size.",
+    scope: "world",
+    config: true,
+    default: 0,
+    type: Number
+  });
+}
+
+function registerColonyCalamityTable() {
+  game.settings.register("rogue-trader", "colonyCalamity", {
+    name: "Colony Calamity Table",
+    hint: "Used by colony sheet to handle Calamity events.",
+    scope: "world",
+    config: true,
+    default: "",
+    type: String
+  });
+}
+
+function registerColonyFortuneTable() {
+  game.settings.register("rogue-trader", "colonyFortune", {
+    name: "Colony Fortune Table",
+    hint: "Used by colony sheet to handle Fortune events.",
+    scope: "world",
+    config: true,
+    default: "",
+    type: String
+  });
+}

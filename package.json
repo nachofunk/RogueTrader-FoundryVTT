@@ -17,6 +17,7 @@
     "gulp-if": "^3.0.0",
     "gulp-less": "^5.0.0",
     "merge-stream": "^2.0.0",
+    "typescript": "^5.8.2",
     "yargs": "^17.5.1"
   }
 }

@@ -29,14 +29,40 @@
   --color-failure: red;
   --font-text: "Caslon Antique", serif;
 }
+.editable {
+  display: flex;
+  flex-direction: column;
+}
+.rogue-trader .space10 {
+  margin-bottom: 10px;
+}
+.rogue-trader .space5 {
+  margin-bottom: 5px;
+}
 .rogue-trader .flex {
   display: flex;
 }
 .rogue-trader .row {
   flex-direction: row;
 }
+.rogue-trader .full-row {
+  flex-direction: row;
+  width: 100%;
+}
+.rogue-trader .half-row {
+  flex-direction: row;
+  width: 50%;
+}
 .rogue-trader .column {
   flex-direction: column;
+}
+.rogue-trader .full-column {
+  flex-direction: column;
+  width: 100%;
+}
+.rogue-trader .half-column {
+  flex-direction: column;
+  width: 50%;
 }
 .rogue-trader .border {
   border: 2px solid var(--color-border);
@@ -49,9 +75,27 @@
 }
 .rogue-trader .wrap {
   flex-wrap: wrap;
+  height: 100%;
 }
 .rogue-trader .justify-center {
   justify-content: center;
+}
+
+.rogue-trader .justify-space-around {
+  justify-content: space-around;
+}
+
+.rogue-trader .justify-space-between {
+  justify-content: space-between;
+}
+.rogue-trader .item-align-start {
+  align-items: flex-start;
+}
+.rogue-trader .item-align-center {
+  align-items: center;
+}
+.rogue-trader .align-center {
+  align-content: center;
 }
 /* TAB COLORS */
 #sidebar-tabs > .item {
@@ -175,7 +219,7 @@ li.folder > .folder-header {
   font-size: 1.5em;
   color: #FFF;
   text-shadow: 1px 1px 3px #000, 1px -1px 3px #000, -1px 1px 3px #000;
-  line-height: 100px;
+  /* line-height: 100px; */
   padding-left: 0px;
 }
 #scenes .subdirectory {
@@ -377,6 +421,7 @@ li.folder.collapsed > .folder-header {
   flex-wrap: wrap;
   flex-basis: 100%;
   justify-content: center;
+  align-content: flex-start;
 }
 .rogue-trader .stats .stats-row {
   display: flex;
@@ -401,22 +446,6 @@ li.folder.collapsed > .folder-header {
 .rogue-trader .stats .stats-row .stat select {
   margin-left: 8px;
 }
-.rogue-trader.mental-disorder .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
-.rogue-trader.malignancy .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
-.rogue-trader.mutation .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
-.rogue-trader.talent .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
 .rogue-trader.talent .stats {
   height: 165px;
   align-content: baseline;
@@ -434,10 +463,6 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.talent .stats .stats-row .stat.benefit input {
   width: 428px;
 }
-.rogue-trader.trait .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
 .rogue-trader.trait .stats {
   height: 165px;
   align-content: baseline;
@@ -445,20 +470,12 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.trait .stats .stats-row .stat.benefit input {
   width: 428px;
 }
-.rogue-trader.special-ability .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
 .rogue-trader.special-ability .stats {
   height: 165px;
   align-content: baseline;
 }
 .rogue-trader.special-ability .stats .stats-row .stat.benefit input {
   width: 428px;
-}
-.rogue-trader.psychic-power .notes-editor {
-  height: 193px;
-  max-height: 193px;
 }
 .rogue-trader.psychic-power .stats .stats-row .stat.prerequisite input {
   width: 10em;
@@ -513,10 +530,6 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.psychic-power .stats .stats-row .stat.short-description input {
   width: 372px;
 }
-.rogue-trader.critical-injury .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
 .rogue-trader.critical-injury .header .part,
 .rogue-trader.critical-injury .header .type {
   flex-basis: 50%;
@@ -524,10 +537,6 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.critical-injury .header .part select,
 .rogue-trader.critical-injury .header .type select {
   margin: 0 8px;
-}
-.rogue-trader.weapon .notes-editor {
-  height: 165px;
-  max-height: 165px;
 }
 .rogue-trader.weapon .stats .stats-row .stat.class select {
   width: 5em;
@@ -582,10 +591,6 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.weapon .stats .stats-row .stat.special input {
   width: 29em;
 }
-.rogue-trader.armour .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
 .rogue-trader.armour .stats .stats-row .stat.type input {
   width: 8em;
 }
@@ -607,10 +612,6 @@ li.folder.collapsed > .folder-header {
   width: 2em;
   text-align: center;
 }
-.rogue-trader.gear .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
 .rogue-trader.gear .stats {
   height: 165px;
   align-content: baseline;
@@ -627,10 +628,6 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader.gear .stats .stats-row .stat.short-description input {
   width: 31em;
-}
-.rogue-trader.drug .notes-editor {
-  height: 165px;
-  max-height: 165px;
 }
 .rogue-trader.drug .stats {
   height: 165px;
@@ -649,10 +646,6 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.drug .stats .stats-row .stat.short-description input {
   width: 31em;
 }
-.rogue-trader.tool .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
 .rogue-trader.tool .stats {
   height: 165px;
   align-content: baseline;
@@ -670,10 +663,6 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.tool .stats .stats-row .stat.short-description input {
   width: 31em;
 }
-.rogue-trader.cybernetic .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
 .rogue-trader.cybernetic .stats {
   height: 165px;
   align-content: baseline;
@@ -687,10 +676,6 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.cybernetic .stats .stats-row .stat.weight input {
   width: 2em;
   text-align: center;
-}
-.rogue-trader.weapon-modification .notes-editor {
-  height: 165px;
-  max-height: 165px;
 }
 .rogue-trader.weapon-modification .stats {
   height: 165px;
@@ -708,10 +693,6 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader.weapon-modification .stats .stats-row .stat.upgrades input {
   width: 330px;
-}
-.rogue-trader.ammunition .notes-editor {
-  height: 165px;
-  max-height: 165px;
 }
 .rogue-trader.ammunition .stats .stats-row .stat.weapon input {
   width: 26em;
@@ -749,10 +730,6 @@ li.folder.collapsed > .folder-header {
 .rogue-trader.ammunition .stats .stats-row .stat.special input {
   width: 427px;
 }
-.rogue-trader.force-field .notes-editor {
-  height: 165px;
-  max-height: 165px;
-}
 .rogue-trader.force-field .stats {
   height: 165px;
   align-content: baseline;
@@ -789,6 +766,10 @@ li.folder.collapsed > .folder-header {
 .rogue-trader .sheet-body {
   overflow: hidden;
   flex-grow: 1;
+  display: flex;
+}
+.item-form {
+  display: flex;  flex-direction: column;
 }
 .rogue-trader .editor,
 .rogue-trader .editor-content {
@@ -798,6 +779,7 @@ li.folder.collapsed > .folder-header {
   height: 100%;
   width: 100%;
   text-align: initial;
+  min-height: 75px;
 }
 .rogue-trader .sheet-tabs {
   border-radius: 3px;
@@ -817,7 +799,7 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader h1 {
   width: 100%;
-  height: auto;
+  height: 25px;
   border: 0 none;
   border-radius: 3px;
   font-family: var(--font-text);
@@ -976,6 +958,15 @@ li.folder.collapsed > .folder-header {
   flex-direction: row;
   flex-wrap: wrap;
   flex-basis: 100%;
+  height: 100%;
+  min-height: 100px;
+}
+.rogue-trader.sheet .complications-editor {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 50%;
+  min-height: 100px;
 }
 .rogue-trader .explorer {
   display: flex;
@@ -984,7 +975,9 @@ li.folder.collapsed > .folder-header {
   width: 100%;
 }
 .rogue-trader .explorer .header .career,
-.rogue-trader .explorer .header .home-world {
+.rogue-trader .explorer .header .home-world,
+.rogue-trader .colony .header .star-system,
+.rogue-trader .colony .header .planet {
   flex-basis: 40%;
 }
 .rogue-trader .explorer .header .rank,
@@ -994,7 +987,9 @@ li.folder.collapsed > .folder-header {
 .rogue-trader .explorer .header .home-world input,
 .rogue-trader .explorer .header .rank input,
 .rogue-trader .explorer .header .career input,
-.rogue-trader .explorer .header .motivation input {
+.rogue-trader .explorer .header .motivation input,
+.rogue-trader .colony .header .star-system,
+.rogue-trader .colony .header .planet {
   width: 11em;
 }
 .rogue-trader .explorer .header .fate input,
@@ -1251,7 +1246,7 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .abilities {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   flex-basis: calc(46% - 2px);
   margin-left: 2px;
@@ -1393,8 +1388,12 @@ li.folder.collapsed > .folder-header {
   margin-top: 2px;
   flex-basis: 100%;
 }
+.rogue-trader .combat {
+  height: 100%;
+}
 .rogue-trader .combat .weapons .item-list .header {
   margin-top: 5px;
+  justify-content: space-around;
 }
 .rogue-trader .combat .weapons .item-list .name {
   flex-basis: 20%;
@@ -1408,12 +1407,25 @@ li.folder.collapsed > .folder-header {
 .rogue-trader .combat .weapons .item-list .range {
   flex-basis: 5%;
   text-align: center;
+  min-width: 120px;
 }
 .rogue-trader .combat .weapons .item-list .rate-of-fire {
   flex-basis: 10%;
   text-align: center;
 }
 .rogue-trader .combat .weapons .item-list .damage {
+  flex-basis: 10%;
+  text-align: center;
+}
+.rogue-trader .combat .weapons .item-list .critical {
+  flex-basis: 10%;
+  text-align: center;
+}
+.rogue-trader .combat .weapons .item-list .strength {
+  flex-basis: 10%;
+  text-align: center;
+}
+.rogue-trader .combat .weapons .item-list .side {
   flex-basis: 10%;
   text-align: center;
 }
@@ -1439,10 +1451,14 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .combat .weapons .item-list .items .weapon {
   width: 100%;
+  justify-content: space-around;
+}
+.rogue-trader .combat .weapons .item-list .weapon {
+  width: 100%;
+  justify-content: space-around;
 }
 .rogue-trader .combat .weapons .item-list .items {
-  max-height: 100px;
-  height: 100px;
+  min-height: 100px;
 }
 .rogue-trader .combat .psychic-powers {
   display: flex;
@@ -2050,13 +2066,14 @@ li.folder.collapsed > .folder-header {
 }
 .rogue-trader .notes-tab .notes-editor {
   margin-top: 2px;
-  height: 476px;
+  height: 65%;
+  flex-grow: 1;
 }
 .rogue-trader .notes-tab .information {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  flex-basis: 100%;
+  height: 30%;
 }
 .rogue-trader .notes-tab .information .information-row {
   align-items: baseline;
@@ -2107,57 +2124,245 @@ li.folder.collapsed > .folder-header {
   margin: 2px;
   width: 3em;
 }
-/* .rogue-trader.ammunition .notes-editor {
-    height: 165px;
-    max-height: 165px;
+
+.rogue-trader.planetary-resource .stats.border {
+  height: 100%;
 }
 
-.rogue-trader.ammunition .stats .stats-row .stat.weapon input {
-    width: 26em;
+.rogue-trader .min-content {
+  flex-basis: min-content;
 }
 
-.rogue-trader.ammunition .stats .stats-row .stat.quantity input {
-    width: 4em;
-    text-align: center;
+.rogue-trader .space-left-10 {
+  margin-left: 10px;
 }
 
-.rogue-trader.ammunition .stats .stats-row .stat.damage input {
-    width: 5em;
-    text-align: center;
+.rogue-trader .space-right-10 {
+  margin-right: 10px;
 }
 
-.rogue-trader.ammunition .stats .stats-row .stat.damage select {
-    width: 6em;
-    margin-left: 2px;
+.rogue-trader .space-right-20 {
+  margin-right: 20px;
 }
 
-.rogue-trader.ammunition .stats .stats-row .stat.penetration input {
-    width: 4em;
-    text-align: center;
+.rogue-trader .colony {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 }
 
-.rogue-trader.ammunition .stats .stats-row .stat.attack input {
-    width: 4em;
-    text-align: center;
+.rogue-trader .colony-resources {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 45%;
 }
 
-.rogue-trader.ammunition .stats .stats-row .stat.craftsmanship select {
-    width: 8em;
+.rogue-trader .colony-governor {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 50%;
 }
 
-.rogue-trader.ammunition .stats .stats-row .stat.availability select {
-    width: 8em;
+.rogue-trader .colony-core .top-section {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.rogue-trader.ammunition .stats .stats-row .stat.weight input {
-    width: 2em;
-    text-align: center;
+.rogue-trader .colony-stat label {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  margin-right: 10px;
+}
+.rogue-trader .colony-stat input {
+  flex-basis: 10%;
+}
+.rogue-trader .colony-stat-column {
+  margin-right: 1px;
+  margin-left: 1px;
 }
 
-.rogue-trader.ammunition .stats .stats-row .stat.special input {
-    width: 427px;
-} */
+.rogue-trader .colony-resources .item-list {
+  height: 100%;
+}
+.rogue-trader .colony-resources .item-list .resources {
+  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+}
+.rogue-trader .colony-resources .item-list .resources .resource {
+  overflow-y: visible;
+  justify-content: space-between;
+  width: 100%;
+}
+.rogue-trader .colony-resources .item-list .header {
+  justify-content: space-between;
+}
+.rogue-trader .colony-resources .item-list .header .name {
+  padding-left: 24px;
+}
+.rogue-trader .colony-resources .item-list .name {
+  flex-basis: 45%;
+  text-align: left;
+  align-items: center;
+  font-weight: bold;
+}
+.rogue-trader .colony-upgrades .planetary-slots {
+  margin-bottom: 10px;
+}
+.rogue-trader .colony-upgrades .planetary-slots h1 {
+  margin-bottom: 5px;
+}
+.rogue-trader .colony-upgrades .upgrade-list h1 {
+  margin-bottom: 5px;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .header .name {
+  padding-left: 24px;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .name {
+  text-align: left;
+  align-items: center;
+  font-weight: bold;
+  flex-basis: 20%;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .loyalty {
+  flex-basis: 8%;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .prosperity {
+  flex-basis: 8%;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .security {
+  flex-basis: 8%;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .bonus-slots {
+  flex-basis: 10%;
+}
+.rogue-trader .colony-upgrades .upgrade-list .item-list .special {
+  flex-basis: 30%;
+}
+.rogue-trader .colony-resources .item-list .source {
+  flex-basis: 35%;
+  text-align: center;
+  align-items: center;
+}
+.rogue-trader .colony-resources .item-list .amount {
+  flex-basis: 10%;
+  text-align: center;
+}
+.rogue-trader .colony-resources .item-list .button {
+  flex-basis: 5%;
+  text-align: center;
+}
+.rogue-trader .colony .operations .growth {
+  flex-basis: 55%;
+  margin: 3px
+}
+.rogue-trader .colony .operations .development {
+  flex-basis: 45%;
+  margin: 3px
+}
+.rogue-trader .colony .operations .development .property {
+  justify-content: space-between;
+  padding: 4px;
+}
 
+.rogue-trader .colony .operations .development .property .name {
+  flex-basis: 50%;
+  text-align: left;
+  font-weight: bold;
+}
+.rogue-trader .colony .operations .development .property .data input {
+  margin: 0 5px;
+}
+.rogue-trader .colony .planetary-slots .property {
+  flex-basis: 25%;
+  justify-content: space-between;
+}
+.rogue-trader .colony .planetary-slots .property .data input {
+  margin: 0 5px;
+  width: 2em;
+}
+.rogue-trader .colony .operations .development h3 {
+  text-align: left;
+  font-size: 15px;
+}
+.rogue-trader .colony .operations .development .property .data {
+  flex-basis: 50%;
+  align-items: center;
+  justify-content: center;
+}
+.rogue-trader .colony .operations .colony-type {
+  margin: 3px;
+}
+.rogue-trader .colony .operations .colony-type .type-info {
+  justify-content: space-around;
+  align-items: center;
+  margin: 2px;
+}
+.rogue-trader .colony-stat {
+  margin: 1px;
+}
+.rogue-trader .colony .operations .colony-rolls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.rogue-trader .colony .operations .colony-rolls .roll-button {
+  display: flex;
+  background: #5d2f149e;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+.rogue-trader .colony .operations .colony-rolls .roll-button span {
+  color: white;
+}
+
+.rogue-trader.chat.colony-growth .size-update {
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+}
+.rogue-trader.chat.colony-growth .size-update h2{
+  border-bottom: 0px;
+}
+
+.rogue-trader .governor-avatar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 125px;
+  min-width: 125px;
+  justify-content: space-evenly;
+  margin-right: 10px;
+}
+.rogue-trader .governor label {
+  text-align: start;
+}
+.rogue-trader .governor input {
+  text-align: center;
+}
+.rogue-trader.colony-upgrade .stats .stats-row .stat.short-description {
+  flex-basis: 100%;
+}
+.rogue-trader .colony .notes-tab .notes-editor {
+  height: 99%;
+}
+.rogue-trader .colony-upgrade-item .stats-row .number {
+  width: 2em;
+}
+.rogue-trader .colony-upgrade-item .stats-row .prerequisites {
+  flex-basis: 80%;
+}
+
+.rogue-trader .flex-full {
+  flex: 1;
+}
+ 
 /* Compatibility fix for Monk's Enhanced Journal*/
 .placename .header-name .flexrow {
   height: auto;
@@ -2210,4 +2415,21 @@ li.folder.collapsed > .folder-header {
   max-width: 90px;
   margin-right: 20px;
   margin-left: 20px;
+}
+
+.modifier-item {
+  padding: 4px;
+  justify-content: space-between;
+}
+
+.modifier-column {
+  flex-basis: 20%;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.modifier-button {
+  flex-basis: 5%;
+  min-width: 10px;
+  justify-content: center;
 }

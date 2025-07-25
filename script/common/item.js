@@ -1,3 +1,5 @@
+import RogueTraderUtil from "./util.js";
+
 export class RogueTraderItem extends Item {
   async sendToChat() {
     const item = new CONFIG.Item.documentClass(this.data._source);
@@ -261,6 +263,19 @@ export class RogueTraderItem extends Item {
     : game.i18n.localize("No");
   }
 
+  get explorerRangeBrackets() {
+    if (RogueTraderUtil.extractWeaponTraits(this.special)?.skipAttackRoll) {
+      return `${this.range}`;
+    }
+    if (this.range <= 0)
+      return 0;
+    let short = Math.floor(this.range / 2);
+    let pointBlank = Math.min(short - 1, 2);
+    let long = this.range * 2;
+    let extreme = this.range * 3;
+    let maximal = this.range * 5;
+    return `${pointBlank}/${short}/${long}/${extreme}/${maximal}`;
+  }
 
   get isMentalDisorder() { return this.type === "mentalDisorder"; }
 
@@ -311,6 +326,8 @@ export class RogueTraderItem extends Item {
   get craftsmanship() { return this.system.craftsmanship;}
 
   get description() { return this.system.description;}
+
+  get effect() { return this.system.effect; }
 
   get availability() { return this.system.availability;}
 
@@ -379,7 +396,9 @@ export class RogueTraderItem extends Item {
 
   get reload() { return this.system.reload;}
 
-  get special() { return this.system.special;}
+  get special() { 
+    return this.system.special?.trim() ? this.system.special : 'None';
+  }
 
   get attack() { return this.system.attack;}
 
@@ -400,4 +419,38 @@ export class RogueTraderItem extends Item {
   get ignoreArmor() { return this.system.class === "lance"; }
 
   get ignoreShields() { return false; }
+
+  get dosPerHit() { return this.system.rof; }
+
+  get statModifiers() { 
+    if (this.system.hasOwnProperty("modifiers") === false)
+      this.system.modifiers = {
+        characteristic: {},
+        skill: {},
+        other: {}
+    }
+    return this.system.modifiers; 
+  }
+
+  get characteristicModifiers() { return this.statModifiers.characteristic; }
+
+  get skillModifiers() { return this.statModifiers.skill; }
+
+  get otherModifiers() { return this.statModifiers.other; }
+
+  get yearlyLoyalty() {
+    return this.system.yearlyLoyalty || 0;
+  }
+
+  get yearlyProsperity() {
+    return this.system.yearlyProsperity || 0;
+  }
+
+  get yearlySecurity() { 
+    return this.system.yearlySecurity || 0;
+  }
+
+  get bonusSlots() {
+    return this.system.bonusSlots || 0;
+  }
 }

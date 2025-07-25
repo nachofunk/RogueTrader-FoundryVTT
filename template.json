@@ -3,7 +3,8 @@
     "types": [
       "explorer",
       "npc",
-      "ship"
+      "ship",
+      "colony"
     ],
     "templates": {
       "characteristics": {
@@ -407,6 +408,11 @@
               },
               "war": {
                 "label": "SKILL.WAR",
+                "advance": -20,
+                "cost": 0
+              },
+              "underworld": {
+                "label":  "SKILL.UNDERWORLD",
                 "advance": -20,
                 "cost": 0
               }
@@ -1001,7 +1007,9 @@
           "rating": 0,
           "sustained": 0,
           "class": "bound",
-          "cost": 0
+          "cost": 0,
+          "psyStrength": "unfettered",
+          "push": 0
         }
       }
     },
@@ -1061,6 +1069,7 @@
       "size": 4
     },
     "ship": {
+      "templates": ["initiative"],
       "hullClass": "",
       "hullName": "",
       "speed": 0,
@@ -1129,6 +1138,42 @@
       "complications": "",
       "pastHistory": "",
       "notes": ""
+    },
+    "colony": {
+      "governor": {
+        "actor": "",
+        "governorType": "administrative",
+        "skillBonus": 0,
+        "advancedTraining": false
+      },
+      "colonyType": "",
+      "resources": [],
+      "upgrades": [],
+      "stats": {
+        "size": 1,
+        "loyalty": 0,
+        "prosperity": 0,
+        "security": 0,
+        "profitFactor": 0,
+        "loyaltyGain": 0,
+        "prosperityGain": 0,
+        "securityGain": 0,
+        "requiredGrowth": 0,
+        "conservativeLastTick": false
+      },
+      "bio": {
+        "starSystem": "",
+        "planet": "",
+        "foundingDate": "",
+        "foundingCost": 0,
+        "notes": ""
+      }, 
+      "development": {
+        "baseSlots": 0,
+        "slotsTotal": 0,
+        "occupiedSlots": 0,
+        "acquisitionModifier": 0
+      }
     }
   },
   "Item": {
@@ -1152,7 +1197,10 @@
       "weapon",
       "weaponModification",
       "shipWeapon",
-      "shipComponent"
+      "shipComponent",
+      "colonyUpgrade",
+      "colonyEvent",
+      "planetaryResource"
     ],
     "templates": {
       "equipment": {
@@ -1165,6 +1213,11 @@
         "description": "",
         "source": ""
       },
+      "modifiers": {
+        "characteristic": {},
+        "skill": {},
+        "other": {}
+      },
       "shipEquipment": {
         "hullTypes": "all",
         "power": 0,
@@ -1173,7 +1226,7 @@
       }
     },
     "ammunition": {
-      "templates": [ "equipment" ],
+      "templates": [ "equipment", "modifiers" ],
       "quantity": 0,
       "effect": {
         "damage": {
@@ -1189,7 +1242,7 @@
       "weapon": ""
     },
     "armour": {
-      "templates": [ "equipment" ],
+      "templates": [ "equipment", "modifiers" ],
       "type": "basic",
       "isAdditive": false,
       "part": {
@@ -1203,35 +1256,35 @@
       "maxAgility": 0
     },
     "criticalInjury": {
-      "templates": ["itemDescription"],
+      "templates": [ "itemDescription", "modifiers" ],
       "type": "impact",
       "part": "body"
     },
     "cybernetic": {
-      "templates": [ "equipment" ],
+      "templates": [ "equipment", "modifiers" ],
       "installed": false
     },
     "drug": {
-      "templates": [ "equipment" ],
+      "templates": [ "equipment", "modifiers" ],
       "shortDescription": ""
     },
     "forceField": {
-      "templates": [ "equipment" ],
+      "templates": [ "equipment", "modifiers" ],
       "protectionRating": 0,
       "overloadChance": 0
     },
     "gear": {
-      "templates": [ "equipment" ],
+      "templates": [ "equipment", "modifiers" ],
       "shortDescription": ""
     },
     "malignancy": {
-      "templates": ["itemDescription"]
+      "templates": [ "itemDescription", "modifiers" ]
     },
     "mentalDisorder": {
-      "templates": ["itemDescription"]
+      "templates": [ "itemDescription", "modifiers" ]
     },
     "mutation": {
-      "templates": ["itemDescription"]
+      "templates": [ "itemDescription", "modifiers" ]
     },
     "psychicPower": {
       "templates": ["itemDescription"],
@@ -1256,11 +1309,11 @@
       }
     },
     "specialAbility": {
-      "templates": ["itemDescription"],
+      "templates": [ "itemDescription", "modifiers" ],
       "benefit": ""
     },
     "talent": {
-      "templates": ["itemDescription"],
+      "templates": [ "itemDescription", "modifiers" ],
       "prerequisites": "",
       "aptitudes": "",
       "benefit": "",
@@ -1268,15 +1321,15 @@
       "cost": 0
     },
     "tool": {
-      "templates": [ "equipment" ],
+      "templates": [ "equipment", "modifiers" ],
       "shortDescription": ""
     },
     "trait": {
-      "templates": ["itemDescription"],
+      "templates": [ "itemDescription", "modifiers" ],
       "benefit": ""
     },
     "weapon": {
-      "templates": [ "equipment" ],
+      "templates": [ "equipment", "modifiers" ],
       "class": "",
       "type": "",
       "range": 0,
@@ -1311,11 +1364,33 @@
       "damage": "",
       "critRating": 0,
       "range": 0,
-      "side": "port"
+      "side": "port",
+      "rof": 1
     },
     "shipComponent" : {
       "templates": ["itemDescription", "equipment", "shipEquipment"],
       "class": ""
+    },
+    "colonyUpgrade" : {
+      "yearlyLoyalty": 0,
+      "yearlyProsperity": 0,
+      "yearlySecurity": 0,
+      "usesUpgradeSlot": false,
+      "bonusSlots": 0,
+      "special": "",
+      "prerequisites": "",
+      "availability": "common",
+      "description": ""
+    },
+    "colonyEvent" : {
+      "description": "",
+      "themes": "",
+      "effect": ""
+    },
+    "planetaryResource" : {
+      "source": "Local",
+      "isOrganic": false,
+      "amount": 0
     }
   }
 }

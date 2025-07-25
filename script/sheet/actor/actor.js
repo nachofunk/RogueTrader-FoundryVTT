@@ -1,4 +1,4 @@
-import {prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll} from "../../common/dialog.js";
+import {prepareCommonRoll, prepareCombatRoll, preparePsychicPowerRoll, prepareForceFieldRoll} from "../../common/dialog.js";
 import RogueTraderUtil from "../../common/util.js";
 
 export class RogueTraderSheet extends ActorSheet {
@@ -7,13 +7,15 @@ export class RogueTraderSheet extends ActorSheet {
     html.find(".item-create").click(ev => this._onItemCreate(ev));
     html.find(".item-edit").click(ev => this._onItemEdit(ev));
     html.find(".item-delete").click(ev => this._onItemDelete(ev));
-    html.find("input").focusin(ev => this._onFocusIn(ev));
+    let inputs = html.find("input");
+    inputs.focusin(ev => this._onFocusIn(ev));
     html.find(".roll-characteristic").click(async ev => await this._prepareRollCharacteristic(ev));
     html.find(".roll-skill").click(async ev => await this._prepareRollSkill(ev));
     html.find(".roll-speciality").click(async ev => await this._prepareRollSpeciality(ev));
     html.find(".roll-insanity").click(async ev => await this._prepareRollInsanity(ev));
     html.find(".roll-corruption").click(async ev => await this._prepareRollCorruption(ev));
     html.find(".roll-weapon").click(async ev => await this._prepareRollWeapon(ev));
+    html.find(".roll-forceField").click(async ev => await this._prepareRollForceField(ev));
     // html.find(".roll-shipWeapon").click(async ev => await this._prepareRollShipWeapon(ev));
     html.find(".roll-psychic-power").click(async ev => await this._prepareRollPsychicPower(ev));
   }
@@ -23,49 +25,6 @@ export class RogueTraderSheet extends ActorSheet {
     const data = super.getData(options);
     data.system = data.data.system;
     data.items = this.constructItemLists(data)
-    // Biography HTML enrichment
-    if (data.actor.type === 'ship')
-    {
-      data.system.pastHistoryHTML = await TextEditor.enrichHTML(
-        data.system.pastHistory,
-        {
-          secrets: data.actor.isOwner,
-          rollData: data.rollData,
-          async: true,
-          relativeTo: this.actor,
-        }
-      );
-      data.system.complicationsHTML = await TextEditor.enrichHTML(
-        data.system.complications,
-        {
-          secrets: data.actor.isOwner,
-          rollData: data.rollData,
-          async: true,
-          relativeTo: this.actor,
-        }
-      );
-      data.system.notesHTML = await TextEditor.enrichHTML(
-        data.system.notes,
-        {
-          secrets: data.actor.isOwner,
-          rollData: data.rollData,
-          async: true,
-          relativeTo: this.actor,
-        }
-      );
-    }
-    else
-    {
-      data.system.bio.biographyHTML = await TextEditor.enrichHTML(
-        data.system.bio.notes,
-        {
-          secrets: data.actor.isOwner,
-          rollData: data.rollData,
-          async: true,
-          relativeTo: this.actor,
-        }
-      );
-    }
     return data;
   }
 
@@ -98,10 +57,17 @@ export class RogueTraderSheet extends ActorSheet {
     let header = event.currentTarget.dataset;
 
     let data = {
-      name: `New ${game.i18n.localize(`ITEM.Type${header.type.toLowerCase().capitalize()}`)}`,
+      name: `New ${game.i18n.localize(`TYPES.Item.${this.camelCase(header.type)}`)}`,
       type: header.type
     };
     this.actor.createEmbeddedDocuments("Item", [data], { renderSheet: true });
+  }
+
+  camelCase(str) {
+    // Using replace method with regEx
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+        return index == 0 ? word.toLowerCase() : word.toUpperCase();
+    }).replace(/\s+/g, '');
   }
 
   _onItemEdit(event) {
@@ -140,7 +106,8 @@ export class RogueTraderSheet extends ActorSheet {
       name: characteristic.label,
       baseTarget: characteristic.total,
       modifier: 0,
-      ownerId: this.actor.id
+      ownerId: this.actor.id,
+      unnatural: characteristic.unnatural
     };
     await prepareCommonRoll(rollData);
   }
@@ -151,7 +118,8 @@ export class RogueTraderSheet extends ActorSheet {
       characteristics.push({
         label: char.label,
         target: char.total,
-        selected: char.short === selected
+        selected: char.short === selected,
+        unnatural: char.unnatural
       });
     }
     return characteristics;
@@ -174,7 +142,8 @@ export class RogueTraderSheet extends ActorSheet {
       baseTarget: skill.total,
       modifier: 0,
       characteristics: characteristics,
-      ownerId: this.actor.id
+      ownerId: this.actor.id,
+      unnatural: 0
     };
     await prepareCommonRoll(rollData);
   }
@@ -228,6 +197,16 @@ export class RogueTraderSheet extends ActorSheet {
     );
   }
 
+  async _prepareRollForceField(event) {
+    event.preventDefault();
+    const div = $(event.currentTarget).parents(".item");
+    const forceField = this.actor.items.get(div.data("itemId"));
+    await prepareForceFieldRoll(
+      RogueTraderUtil.createForceFieldRollData(this.actor, forceField),
+      this.actor
+    );
+  }
+
 /*   async _prepareRollShipWeapon(event) {
     event.preventDefault();
     await this.selectTargetToken();
@@ -260,7 +239,9 @@ export class RogueTraderSheet extends ActorSheet {
       primitive: this._extractNumberedTrait(/Primitive.*\(\d\)/gi, traits),
       razorSharp: this._hasNamedTrait(/Razor *Sharp/gi, traits),
       skipAttackRoll: this._hasNamedTrait(/Spray/gi, traits),
-      tearing: this._hasNamedTrait(/Tearing/gi, traits)
+      tearing: this._hasNamedTrait(/Tearing/gi, traits),
+      force: this._hasNamedTrait(/Force/gi, traits),
+      scatter: this._hasNamedTrait(/Scatter/gi, traits)
     };
   }
 
@@ -273,6 +254,54 @@ export class RogueTraderSheet extends ActorSheet {
         return base + 4;
       case "daemonic":
         return base + 3;
+    }
+  }
+
+  _getModifiers(modType) {
+    let result = {}
+    for (let list in this.actor.items) {
+      switch (modType) {
+        case 'characteristic':
+          for (let itemType in this.actor.items[list]) {
+            let items = this.actor.items[list][itemType];
+            for (let item in items) {
+              let itemModifiers = items[item].modifiers;
+              for (let charMod in itemModifiers.characteristic) {
+                if (result[charMod]) {
+                  result[charMod].valueMod += itemModifiers.characteristic[charMod].valueMod;
+                  result[charMod].unnaturalMod += itemModifiers.characteristic[charMod].unnaturalMod;
+                }
+                else {
+                  result[charMod] = {
+                    valueMod: itemModifiers.characteristic[charMod].valueMod,
+                    unnaturalMod: itemModifiers.characteristic[charMod].unnaturalMod
+                  };
+                }
+              }
+            }
+          }
+          break;
+        case 'skill':
+          for (let itemType in this.actor.items[list]) {
+            let items = this.actor.items[list][itemType];
+            for (let item in items) {
+              let itemModifiers = items[item].modifiers;
+              for (let skillMod in itemModifiers.skill) {
+                if (result[skillMod]) {
+                  result[skillMod].valueMod += itemModifiers.skill[skillMod].valueMod;
+                }
+                else {
+                  result[skillMod] = {
+                    valueMod: itemModifiers.skill[skillMod].valueMod,
+                  };
+                }
+              }
+            }
+          }
+          break;
+        case 'other':
+          break;
+      }
     }
   }
 
