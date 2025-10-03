@@ -55,3 +55,8 @@
 - Updated crew tab for ships to allow any crew spot to have an actor added
 - Updated roll dialog for ship attacks to not include location
 - Updated attack rolls for macrobatteries and lances to calculate hits on degrees of success correctly
+
+## 1.1.2
+
+- Hotfix from dependabot
+- Changed max version to 11 after testing 12 and finding that no dice rolls work
