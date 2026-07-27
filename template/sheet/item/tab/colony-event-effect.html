@@ -1,0 +1,16 @@
+<div class="notes-editor border">
+    <h1>{{localize "TITLE.EFFECT"}}</h1>
+    <div style="height: 94%; width: 100%">
+        {{#if editable}}
+            <prose-mirror
+                name="system.effect"
+                value="{{system.effect}}"
+                data-document-uuid="{{item.uuid}}"
+                toggled>
+                {{{ effectHTML }}}
+            </prose-mirror>
+        {{else}}
+            {{{ effectHTML }}}
+        {{/if}}
+    </div>
+</div>

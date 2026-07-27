@@ -1,4 +1,4 @@
-<form class="{{cssClass}}" autocomplete="off">
+<section class="{{cssClass}}" autocomplete="off">
   <div class="limited-sheet">
     <div class="header border">
       <div class="flex row">
@@ -18,9 +18,8 @@
       <div class="flex wrap notes-editor border">
         <h1>{{localize "TITLE.NOTES"}}</h1>
         <div class="notes-editor-content">
-          {{editor enrichment.system.bio.notes target="system.bio.notes" engine="prosemirror" button=true owner=owner
-          editable=editable}}
+          {{{ notesHTML }}}
         </div>
       </div>
   </div>
-</form>
+</section>

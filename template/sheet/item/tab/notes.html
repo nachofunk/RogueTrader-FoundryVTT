@@ -1,0 +1,16 @@
+<div class="notes-editor border">
+    <h1>{{localize "TITLE.NOTES"}}</h1>
+    <div style="height: 100%; width: 100%">
+        {{#if editable}}
+            <prose-mirror
+                name="system.description"
+                value="{{system.description}}"
+                data-document-uuid="{{item.uuid}}"
+                toggled>
+                {{{ descriptionHTML }}}
+            </prose-mirror>
+        {{else}}
+            {{{ descriptionHTML }}}
+        {{/if}}
+    </div>
+</div>

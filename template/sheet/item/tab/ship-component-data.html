@@ -1,0 +1,39 @@
+<div class="stats border">
+    <h1>{{localize "TITLE.STATS"}}</h1>
+    <div class="stats-row">
+        <div class="stat class">
+            <label>{{localize "SHIP_WEAPON.CLASS"}}</label>
+            <select name="system.class">
+                {{{selectOptions options.shipComponentClassOptions selected=system.class}}}
+            </select>
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat power">
+            <label>{{localize "SHIP_ITEM.POWER"}}</label>
+            <input name="system.power" type="number" value="{{system.power}}" />
+        </div>
+        <div class="stat space">
+            <label>{{localize "SHIP_ITEM.SPACE"}}</label>
+            <input name="system.space" type="number" value="{{system.space}}" />
+        </div>
+        <div class="stat points">
+            <label>{{localize "SHIP_ITEM.POINTS"}}</label>
+            <input name="system.shipPoints" type="number" value="{{system.shipPoints}}" />
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat craftsmanship">
+            <label>{{localize "WEAPON.CRAFTSMANSHIP"}}</label>
+            <select name="system.craftsmanship">
+                {{{selectOptions options.craftsmanshipOptions selected=system.craftsmanship}}}
+            </select>
+        </div>
+        <div class="stat availability">
+            <label>{{localize "WEAPON.AVAILABILITY"}}</label>
+            <select name="system.availability">
+                {{{selectOptions options.availabilityOptions selected=system.availability}}}
+            </select>
+        </div>
+    </div>
+</div>

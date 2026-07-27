@@ -1,9 +1,10 @@
-<form class="{{cssClass}}" autocomplete="off">
+<section class="{{cssClass}}" autocomplete="off">
     <div class="explorer">
+        {{log this}}
         <div class="header border">
             <div class="flex row">
                 <div class="avatar">
-                    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+                    <img class="profile-img" src="{{actor.img}}" data-action="editImage" data-edit="img" title="{{actor.name}}" />
                 </div>
                 <div class="flex column grow">
                     <div class="name header-row">
@@ -27,10 +28,6 @@
                         </div>
                     </div>
                     <div class="header-row">
-                        <!-- <div class="birthright">
-                            <label>{{localize "BIO.BIRTHRIGHT"}}</label>
-                            <input style="margin-left: 18px" name="system.bio.birthright" type="text" value="{{system.bio.birthright}}" />
-                        </div> -->
                         <div class="home-world">
                             <label>{{localize "BIO.HOME_WORLD"}}</label>
                             <input name="system.bio.homeWorld" type="text" value="{{system.bio.homeWorld}}" />
@@ -43,45 +40,41 @@
                             <label>{{localize "FATIGUE"}}</label>
                             <input name="system.fatigue.value" type="number" value="{{system.fatigue.value}}" data-dtype="Number" />
                             /
-                            <input name="system.fatigue.max" type="number" value="{{system.fatigue.max}}" data-dtype="Number" />
+                            <input name="system.fatigue.max" type="number" value="{{system.fatigue.max}}" data-dtype="Number" disabled />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="sheet-tabs tabs flex row" data-group="primary">
-            <b class="item" data-tab="stats">{{localize "TAB.STATS"}}</b>
-            <b class="item" data-tab="combat">{{localize "TAB.COMBAT"}}</b>
-            <b class="item" data-tab="abilities">{{localize "TAB.ABILITIES"}}</b>
-            <b class="item" data-tab="psychic-powers">{{localize "TAB.PSYCHIC_POWERS"}}</b>
-            <b class="item" data-tab="gear">{{localize "TAB.GEAR"}}</b>
-            <b class="item" data-tab="progression">{{localize "TAB.ADVANCES"}}</b>
-            <b class="item" data-tab="notes">{{localize "TAB.NOTES"}}</b>
-        </div>
+        <!-- v13 MIGRATION: V2 Tab System - Tab Navigation -->
+        <nav class="sheet-tabs tabs flex row" data-group="primary">
+            {{#each tabs as |tab tabId|}}
+                <button 
+                    class="item tab-button {{#if tab.active}}active{{/if}}"
+                    data-action="tab"
+                    data-tab="{{tab.id}}"
+                    data-group="{{tab.group}}"
+                    type="button"
+                    form=""
+                >
+                    {{localize tab.label}}
+                </button>
+            {{/each}}
+        </nav>
 
-        <div class="sheet-body">
-            <div class="tab" data-group="primary" data-tab="stats">
-                {{> systems/rogue-trader/template/sheet/actor/tab/stats.html}}
-            </div>
-            <div class="tab" data-group="primary" data-tab="combat">
-                {{> systems/rogue-trader/template/sheet/actor/tab/combat.html}}
-            </div>
-            <div class="tab" data-group="primary" data-tab="abilities">
-                {{> systems/rogue-trader/template/sheet/actor/tab/abilities.html}}
-            </div>
-            <div class="tab" data-group="primary" data-tab="psychic-powers">
-                {{> systems/rogue-trader/template/sheet/actor/tab/psychic-powers.html}}
-            </div>
-            <div class="tab" data-group="primary" data-tab="gear">
-                {{> systems/rogue-trader/template/sheet/actor/tab/gear.html}}
-            </div>
-            <div class="tab" data-group="primary" data-tab="progression">
-                {{> systems/rogue-trader/template/sheet/actor/tab/progression.html}}
-            </div>
-            <div class="tab" data-group="primary" data-tab="notes">
-                {{> systems/rogue-trader/template/sheet/actor/tab/notes.html}}
-            </div>
+        <!-- v13 MIGRATION: V2 Tab System - Tab Content Container -->
+        <div class="tab-body">
+            {{#each tabs as |tab tabId|}}
+                <section 
+                    class="tab {{tab.cssClass}} {{#if tab.active}}active{{/if}}"
+                    data-tab="{{tab.id}}"
+                    data-group="{{tab.group}}"
+                    {{#if tab.active}}aria-selected="true"{{/if}}
+                >
+                    {{> (lookup tab "partial") ..}}
+                </section>
+            {{/each}}
         </div>
     </div>
-</form>
+</section>

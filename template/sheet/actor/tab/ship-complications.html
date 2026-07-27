@@ -2,13 +2,33 @@
     <div class="complications-editor border">
          <h1>Complications</h1>
         <div style="height: 200px; width: 100%">
-            {{editor system.complicationsHTML target="system.complications" engine="prosemirror" button=true}}
+            {{#if editable}}
+                <prose-mirror
+                    name="system.bio.complications"
+                    value="{{system.bio.complications}}"
+                    data-document-uuid="{{actor.uuid}}"
+                    toggled>
+                    {{{ complicationsHTML }}}
+                </prose-mirror>
+            {{else}}
+                {{{ complicationsHTML }}}
+            {{/if}}
         </div>
     </div>
     <div class="complications-editor border">
         <h1>Past History</h1>
        <div style="height: 200px; width: 100%">
-           {{editor system.pastHistoryHTML target="system.pastHistory" engine="prosemirror" button=true}}
+            {{#if editable}}
+                <prose-mirror
+                    name="system.bio.pastHistory"
+                    value="{{system.bio.pastHistory}}"
+                    data-document-uuid="{{actor.uuid}}"
+                    toggled>
+                    {{{ pastHistoryHTML }}}
+                </prose-mirror>
+            {{else}}
+                {{{ pastHistoryHTML }}}
+            {{/if}}
        </div>
    </div>
 </div>

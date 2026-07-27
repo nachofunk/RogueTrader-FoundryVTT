@@ -10,7 +10,7 @@ export async function commonRoll(rollData) {
 
 export async function rollColonyEvents(rollData) {
   let roll = new Roll("1d10", {});
-  roll.evaluate({ async: false });
+  await roll.evaluate();
   if (roll.total >= rollData.positiveEventTarget) {
     await _rollTableWithID(game.settings.get("rogue-trader", "colonyFortune"));
   } else if (roll.total <= rollData.negativeEventTarget) {
@@ -37,12 +37,12 @@ export async function consumeResourceRoll(rollData) {
   const resource = rollData.selectedResource;
   rollData.preRollResourceAmount = rollData.selectedResource.system.amount;
   let consumeRoll = new Roll(rollData.rollFormula, {});
-  consumeRoll.evaluate({ async: false });
+  await consumeRoll.evaluate();
   rollData.consumeRollObject = consumeRoll;
   rollData.conservationModifier = 0;
   if (rollData.conserveResources) {
     let conserveRoll = new Roll("1d10 + 2", {});
-    conserveRoll.evaluate({ async: false });
+    await conserveRoll.evaluate();
     rollData.conservationModifier = conserveRoll.total;
     rollData.conserveRollObject = conserveRoll;
   }
@@ -75,6 +75,7 @@ export async function consumeResourceRoll(rollData) {
 export async function combatRoll(rollData) {
   if (rollData.weaponTraits.skipAttackRoll) {
     rollData.result = 5; // Attacks that skip the hit roll always hit body; 05 reversed 50 = body
+    rollData.dos = 2; // To account for Twin-linked Spray weapons
     await _rollDamage(rollData);
     // Without a To Hit Roll we need a substitute otherwise foundry can't render the message
     rollData.rollObject = rollData.damages[0].damageRoll;
@@ -115,7 +116,7 @@ async function _rollShipDamage(rollData) {
     formula = _replaceSymbols(formula, rollData);
   }
   let penetration = 0;
-  if (rollData.attackType.name === "Lance") {
+  if (rollData.ignoreArmor) {
     penetration = game.i18n.localize("CHAT.PENETRATION_IGNORE_ARMOR");
   }
   rollData.salvoTotal = 0;
@@ -169,7 +170,8 @@ export async function reportEmptyClip(rollData) {
  * @param {object} rollData
  */
 async function _computeTarget(rollData) {
-  const range = (rollData.range) ? rollData.range : "0";
+  const range = rollData.range ?? "0";
+  const weaponAttackBonus = rollData.attackBonus ?? "0";
   let attackType = 0;
   if (typeof rollData.attackType !== "undefined" && rollData.attackType != null) {
     _computeRateOfFire(rollData);
@@ -182,13 +184,17 @@ async function _computeTarget(rollData) {
     }
     psyModifier = rollData.psy.value * 5;
   }
+  rollData.modifier = Number(rollData.modifier ?? 0);
   if (rollData.weaponTraits?.scatter && range > 0) {
     rollData.modifier += 10;
   }
-  let aim = rollData.aim?.val ? rollData.aim.val : 0;
-  const formula = `0 + ${rollData.modifier} + ${aim} + ${range} + ${attackType} + ${psyModifier}`;
+  if (rollData.weaponTraits?.twinLinked) {
+    rollData.modifier += 20;
+  }
+  const aim = rollData.aim?.val ? rollData.aim.val : 0;
+  const formula = `0 + ${rollData.modifier} + ${aim} + ${range} + ${attackType} + ${psyModifier} + ${weaponAttackBonus}`;
   let r = new Roll(formula, {});
-  r.evaluate({ async: false });
+  await r.evaluate();
   if (r.total > 60) {
     rollData.target = rollData.baseTarget + 60;
   } else if (r.total < -60) {
@@ -201,7 +207,7 @@ async function _computeTarget(rollData) {
 
 async function _rollForceField(rollData) {
   let r = new Roll("1d100", {});
-  r.evaluate({async: false});
+  await r.evaluate();
   rollData.result = r.total;
   rollData.rollObject = r;
   rollData.showDoS = false;
@@ -215,7 +221,7 @@ async function _rollForceField(rollData) {
  */
 async function _rollTarget(rollData) {
   let r = new Roll("1d100", {});
-  r.evaluate({ async: false });
+  await r.evaluate();
   rollData.showDoS = true;
   rollData.result = r.total;
   rollData.rollObject = r;
@@ -263,7 +269,7 @@ async function _rollDamage(rollData) {
     formula = `${formula}+${rollData.damageBonus}`;
     formula = _replaceSymbols(formula, rollData);
   }
-  let penetration = _rollPenetration(rollData);
+  let penetration = await _rollPenetration(rollData);
   let firstHit = await _computeDamage(formula, penetration, rollData);
   if (firstHit.total !== 0) {
     const firstLocation = _getLocation(rollData.result);
@@ -279,13 +285,23 @@ async function _rollDamage(rollData) {
       if (typeof rollData.maxAdditionalHit !== "undefined" && maxAdditionalHit > rollData.maxAdditionalHit) {
         maxAdditionalHit = rollData.maxAdditionalHit;
       }
+      if (rollData.weaponTraits.twinLinked && rollData.dos >= 2) {
+        maxAdditionalHit += 1;
+      }
       rollData.numberOfHit = maxAdditionalHit + 1;
       for (let i = 0; i < maxAdditionalHit; i++) {
+        penetration = await _rollPenetration(rollData);
         let additionalHit = await _generateNextHit(formula, penetration, rollData, firstLocation, i);
         rollData.damages.push(additionalHit);
       }
     } else {
       rollData.numberOfHit = 1;
+      if (rollData.weaponTraits.twinLinked && rollData.dos >= 2) {
+        rollData.numberOfHit += 1;
+        penetration = await _rollPenetration(rollData);
+        let additionalHit = await _generateNextHit(formula, penetration, rollData, firstLocation, 0);
+        rollData.damages.push(additionalHit);
+      }
     }
     let minDamage = rollData.damages.reduce(
       (min, damage) => min.minDice < damage.minDice ? min : damage, rollData.damages[0]
@@ -314,7 +330,7 @@ async function _computeDamage(damageFormula, penetration, rollData) {
   let r = new Roll(damageFormula);
   let dos = rollData.dos;
   let isAiming = rollData.aim?.isAiming;
-  r.evaluate({ async: false });
+  await r.evaluate();
   let damage = {
     total: r.total,
     righteousFury: 0,
@@ -331,7 +347,7 @@ async function _computeDamage(damageFormula, penetration, rollData) {
     if (numDice >= 1) {
       if (numDice > 2) numDice = 2;
       let ar = new Roll(`${numDice}d10`);
-      ar.evaluate({ async: false });
+      await r.evaluate();
       damage.total += ar.total;
       ar.terms.flatMap(term => term.results).forEach(async die => {
         if (die.active && die.result < dos) damage.dices.push(die.result);
@@ -351,7 +367,7 @@ async function _computeDamage(damageFormula, penetration, rollData) {
       let rfFace = weaponTraits?.rfFace ? weaponTraits?.rfFace : term.faces; // Without the Vengeful weapon trait rfFace is undefined
       term.results?.forEach(async result => {
         let dieResult = result.count ? result.count : result.result; // Result.count = actual value if modified by term
-        if (result.active && dieResult >= rfFace) damage.righteousFury = _rollRighteousFury(rfFace, rollData);
+        if (result.active && dieResult >= rfFace) damage.righteousFury = await _rollRighteousFury(rfFace, rollData);
         if (result.active && dieResult < dos) damage.dices.push(dieResult);
         if (result.active && (typeof damage.minDice === "undefined" || dieResult < damage.minDice)) damage.minDice = dieResult;
       });
@@ -368,7 +384,7 @@ async function _computeDamage(damageFormula, penetration, rollData) {
  */
 async function _computeShipDamage(damageFormula, penetration, rollData, weaponTraits) {
   let r = new Roll(damageFormula);
-  r.evaluate({ async: false });
+  await r.evaluate();
   let damage = {
     total: r.total,
     righteousFury: 0,
@@ -407,7 +423,7 @@ async function _computeShipDamage(damageFormula, penetration, rollData, weaponTr
  * @param {object} rollData
  * @returns {number}
  */
-function _rollPenetration(rollData) {
+async function _rollPenetration(rollData) {
   let penetration = (rollData.penetrationFormula) ? _replaceSymbols(rollData.penetrationFormula, rollData) : "0";
   let multiplier = 1;
 
@@ -427,7 +443,7 @@ function _rollPenetration(rollData) {
     multiplier = 2;
   }
   let r = new Roll(penetration.toString());
-  r.evaluate({ async: false });
+  await r.evaluate();
   return r.total * multiplier;
 }
 
@@ -435,12 +451,12 @@ function _rollPenetration(rollData) {
  * Roll a Righteous Fury dice, and return the value.
  * @returns {number}
  */
-function _rollRighteousFury(face, rollData) {
+async function _rollRighteousFury(face, rollData) {
   let confirmRoll = new Roll("1d100", {});
-  confirmRoll.evaluate({ async: false });
+  await confirmRoll.evaluate();
   if (confirmRoll.total >= rollData.target) {
     let r = new Roll(`1d10x>${face}`);
-    r.evaluate({ async: false });
+    await r.evaluate();
     return r.total;
   }
   else {
@@ -681,7 +697,7 @@ async function _sendToChat(rollData) {
   let speaker = ChatMessage.getSpeaker();
   let chatData = {
     user: game.user.id,
-    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+    roll: true,
     rollMode: game.settings.get("core", "rollMode"),
     speaker: speaker,
     flags: {
@@ -695,7 +711,7 @@ async function _sendToChat(rollData) {
 
   if (rollData.rollObject) {
     rollData.render = await rollData.rollObject.render();
-    chatData.roll = rollData.rollObject;
+    chatData.rolls = [rollData.rollObject];
   }
 
   const html = await renderTemplate("systems/rogue-trader/template/chat/roll.html", rollData);
@@ -714,7 +730,6 @@ async function _sendResourceBurnToChat(rollData) {
   let speaker = ChatMessage.getSpeaker();
   let chatData = {
     user: game.user.id,
-    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
     rollMode: game.settings.get("core", "rollMode"),
     speaker: speaker,
     flags: {
@@ -752,7 +767,6 @@ async function _sendNoEventToChat() {
   let speaker = ChatMessage.getSpeaker();
   let chatData = {
     user: game.user.id,
-    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
     rollMode: game.settings.get("core", "rollMode"),
     speaker: speaker
   };
@@ -769,9 +783,9 @@ async function _sendNoEventToChat() {
 
 async function _sendGrowthToChat(rollData) {
   let speaker = ChatMessage.getSpeaker();
+  console.log(CONST);
   let chatData = {
     user: game.user.id,
-    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
     rollMode: game.settings.get("core", "rollMode"),
     speaker: speaker,
     flags: {

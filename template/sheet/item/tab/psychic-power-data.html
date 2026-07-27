@@ -1,0 +1,63 @@
+<div class="stats border">
+    <h1>{{localize "TITLE.STATS"}}</h1>
+    <div class="stats-row">
+        <div class="stat prerequisite">
+            <label>{{localize "PSYCHIC_POWER.PREREQUISITE"}}</label>
+            <input name="system.prerequisite" type="text" value="{{system.prerequisite}}" />
+        </div>
+        <div class="stat action">
+            <label>{{localize "PSYCHIC_POWER.ACTION"}}</label>
+            <input name="system.action" type="text" value="{{system.action}}" />
+        </div>
+        <div class="stat subtype">
+            <label>{{localize "PSYCHIC_POWER.SUBTYPE"}}</label>
+            <input name="system.subtype" type="text" value="{{system.subtype}}" />
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat focus-power">
+            <label>{{localize "PSYCHIC_POWER.FOCUS_POWER"}}</label>
+            <input name="system.focusPower.difficulty" type="number" value="{{system.focusPower.difficulty}}" data-dtype="Number" />
+            <input name="system.focusPower.test" type="text" value="{{system.focusPower.test}}" />
+        </div>
+        <div class="stat range">
+            <label>{{localize "PSYCHIC_POWER.RANGE"}}</label>
+            <input name="system.range" type="text" value="{{system.range}}" />
+        </div>
+        <div class="stat sustained">
+            <label>{{localize "PSYCHIC_POWER.SUSTAINED"}}</label>
+            <input name="system.sustained" type="text" value="{{system.sustained}}" />
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat damage">
+            <label>{{localize "PSYCHIC_POWER.DAMAGE_FULL"}}</label>
+            <input name="system.damage.formula" type="text" value="{{system.damage.formula}}" />
+            <select name="system.damage.type">
+                {{{selectOptions options.damageTypeOptions selected=system.damage.type}}}
+            </select>
+        </div>
+        <div class="stat penetration">
+            <label>{{localize "PSYCHIC_POWER.PENETRATION"}}</label>
+            <input name="system.damage.penetration" type="text" value="{{system.damage.penetration}}" />
+        </div>
+        <div class="stat zone">
+            <label>{{localize "PSYCHIC_POWER.ZONE"}}</label>
+            <select name="system.damage.zone">
+                {{{selectOptions options.psyZoneOptions selected=system.damage.zone}}}
+            </select>
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat special">
+            <label>{{localize "PSYCHIC_POWER.SPECIAL"}}</label>
+            <input name="system.damage.special" type="text" value="{{system.damage.special}}" />
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat short-description">
+            <label style="width: 90px">{{localize "PSYCHIC_POWER.SHORT_DESCRIPTION"}}</label>
+            <input name="system.shortDescription" type="text" value="{{system.shortDescription}}" />
+        </div>
+    </div>
+</div>

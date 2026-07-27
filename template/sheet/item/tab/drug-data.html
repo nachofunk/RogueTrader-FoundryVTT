@@ -1,0 +1,27 @@
+<div class="stats border">
+    <h1>{{localize "TITLE.STATS"}}</h1>
+    <div class="stats-row">
+        <div class="stat craftsmanship">
+            <label>{{localize "DRUG.CRAFTSMANSHIP"}}</label>
+            <select name="system.craftsmanship">
+                {{{selectOptions options.craftsmanshipOptions selected=system.craftsmanship}}}
+            </select>
+        </div>
+        <div class="stat availability">
+            <label>{{localize "DRUG.AVAILABILITY"}}</label>
+            <select name="system.availability">
+                {{{selectOptions options.availabilityOptions selected=system.availability}}}
+            </select>
+        </div>
+        <div class="stat weight">
+            <label>{{localize "DRUG.WEIGHT"}}</label>
+            <input name="system.weight" type="number" value="{{system.weight}}" data-dtype="Number" />
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat short-description">
+            <label>{{localize "DRUG.SHORT_DESCRIPTION"}}</label>
+            <input name="system.shortDescription" type="text" value="{{system.shortDescription}}" />
+        </div>
+    </div>
+</div>

@@ -1,6 +1,14 @@
-<div class="flex wrap notes-tab">
-    <div class="notes-editor border">
-        <h1>{{localize "TITLE.NOTES"}}</h1>
-        {{editor system.bio.biographyHTML target="system.bio.notes" engine="prosemirror" button=true editable=true}}
-    </div>
+<div class="notes-editor border">
+    <h1>{{localize "TITLE.NOTES"}}</h1>
+    {{#if editable}}
+        <prose-mirror
+            name="system.bio.notes"
+            value="{{system.bio.notes}}"
+            data-document-uuid="{{actor.uuid}}"
+            toggled>
+            {{{ notesHTML }}}
+        </prose-mirror>
+    {{else}}
+        {{{ notesHTML }}}
+    {{/if}}
 </div>

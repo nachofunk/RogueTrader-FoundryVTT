@@ -1,5 +1,5 @@
-<div class="flex wrap combat">
-    <div class="weapons border">
+<div class="flex wrap combat border">
+    <div class="weapons">
         <h1>{{localize "TITLE.WEAPONS"}}</h1>
         <div class="item-list">
             <div class="flex header">
@@ -13,12 +13,12 @@
             </div>
             <div class="items">
                 {{#each items.shipWeapons as |item|}}                    
-                    <div class="weapon item flex row" data-item-id="{{item.id}}">
+                    <div class="weapon item flex row" data-item-uuid="{{item.uuid}}">
                         <div class="flex name">
                             <div class="image-container">
                                 <div class="image" style="background-image: url('{{item.img}}')"></div>
                             </div>
-                            <button class="roll-shipweapon" type="button">{{item.name}}</button>
+                            <button data-action="rollShipWeapon" data-item-uuid="{{item.uuid}}" type="button">{{item.name}}</button>
                         </div>
                         <div class="class">{{item.ShipWeaponClass}}</div>
                         <div class="range">{{getShipRangeBrackets item.range}}</div>

@@ -2,7 +2,7 @@
 
   "TYPES.Actor.explorer" : "Explorer",
   "TYPES.Actor.npc" : "NPC",
-  "TYPES.Actor.ship": "Ship",
+  "TYPES.Actor.ship": "Voidship",
   "TYPES.Actor.colony": "Colony",
 
   "ADVANCE.NONE": "None",
@@ -360,6 +360,7 @@
   "SKILL.COMMAND": "Command",
   "SKILL.COMMERCE": "Commerce",
   "SKILL.COMMON_LORE": "Common Lore",
+  "SKILL.CONCEALMENT": "Concealment",
   "SKILL.COOK": "Cook",
   "SKILL.CRYPTOGRAPHER": "Cryptographer",
   "SKILL.CRYPTOLOGY": "Cryptology",
@@ -509,6 +510,7 @@
   "TRAIT.NAME": "Name",
   "TRAIT.BENEFIT": "Benefit",
 
+  "TITLE.NAME": "Name",
   "TITLE.INSANITY": "INSANITY",
   "TITLE.CHARACTERISTICS": "CHARACTERISTICS",
   "TITLE.CORRUPTION": "CORRUPTION",
@@ -569,6 +571,7 @@
   "WEAPON.SPECIAL": "Special",
   "WEAPON.CRAFTSMANSHIP": "Craftsmanship",
   "WEAPON.AVAILABILITY": "Availability",
+  "WEAPON.SIDE": "Facing",
   "WEAPON.WEIGHT": "Weight",
   "WEAPON.ATTACK": "Attack",
   "WEAPON.MELEE": "Melee",
@@ -607,6 +610,15 @@
   "WOUND.TOTAL": "Total",
   "WOUND.CURRENT": "Current",
   "WOUND.CRITICAL_DAMAGE": "Critical Damage",
+
+  "HULL_CLASS.TRANSPORT": "Transport",
+  "HULL_CLASS.RAIDER": "Raider",
+  "HULL_CLASS.FRIGATE": "Frigate",
+  "HULL_CLASS.LIGHT_CRUISER": "Light Cruiser",
+  "HULL_CLASS.CRUISER": "Cruiser",
+  "HULL_CLASS.BATTLECRUISER": "Battlecruiser",
+  "HULL_CLASS.GRAND_CRUISER": "Grand Cruiser",
+  "HULL_CLASS.BATTLESHIP": "Battleship",
 
   "SHIP_WEAPON.HEADER": "Weapon",
   "SHIP_WEAPON.CLASS": "Type",
@@ -664,6 +676,7 @@
   "SHIP.NAMED_CREW.PURSER": "Purser",
   "SHIP.NAMED_CREW.CARTOGRAPHER": "Carto-Artifex",
   "SHIP.NAMED_CREW.STEWARD": "Ship's Steward",
+  "SHIP.ROLL_CREW_SKILL": "Roll Crew Skill",
 
   "SHIP.SIDE.STARBOARD": "Starboard",
   "SHIP.SIDE.PORT": "Port",

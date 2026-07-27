@@ -13,11 +13,7 @@
         <div class="wrapper">
             <label>{{localize "DIALOG.PSY_STRENGTH"}}</label>
             <select id="psyStrength">
-                {{#select psy.psyStrength}}
-                <option value="fettered">{{localize "PSY_STRENGTH.FETTERED"}}</option>
-                <option value="unfettered">{{localize "PSY_STRENGTH.UNFETTERED"}}</option>
-                <option value="push">{{localize "PSY_STRENGTH.PUSH"}}</option>
-                {{/select}}
+                {{{selectOptions options.psyStrengthOptions selected=psy.psyStrength}}}
             </select>
         </div>
         <div class="wrapper" id="pushWrapper" style="display: none;">
@@ -58,24 +54,13 @@
         <div class="wrapper damage">
             <label>{{localize "DIALOG.TYPE"}}</label>
             <select id="damageType">
-                {{#select damageType}}
-                <option value="energy">{{localize "DAMAGE_TYPE.ENERGY"}}</option>
-                <option value="impact">{{localize "DAMAGE_TYPE.IMPACT"}}</option>
-                <option value="rending">{{localize "DAMAGE_TYPE.RENDING"}}</option>
-                <option value="explosive">{{localize "DAMAGE_TYPE.EXPLOSIVE"}}</option>
-                {{/select}}
+                {{{selectOptions options.damageTypeOptions selected=damageType}}}
             </select>
         </div>
         <div class="wrapper">
             <label>{{localize "DIALOG.ATTACK_TYPE"}}</label>
             <select id="attackType">
-                {{#select attackType.name}}
-                <option value="none">{{localize "ATTACK_TYPE.NONE"}}</option>
-                <option value="bolt">{{localize "PSYCHIC_POWER.BOLT"}}</option>
-                <option value="barrage">{{localize "PSYCHIC_POWER.BARRAGE"}}</option>
-                <option value="storm">{{localize "PSYCHIC_POWER.STORM"}}</option>
-                <option value="blast">{{localize "PSYCHIC_POWER.BLAST"}}</option>
-                {{/select}}
+                {{{selectOptions options.psyZoneOptions selected=attackType.name}}}
             </select>
         </div>
         <div class="wrapper">

@@ -1,0 +1,83 @@
+<div class="flex wrap modifiers" style="height: 100%;">
+  <div class="border" style="flex-basis: 100%;">
+    <h1>
+      {{localize "TITLE.ITEM_MODIFIERS"}}
+    </h1>
+    <div class="item-list">
+        <!-- Handlebars template to dynamically list characteristic modifiers -->
+        <div class="modifier-item flex header row">
+          <b class="modifier-column">{{localize "DIALOG.CHARACTERISTIC_NAME"}}</b>
+          <b class="modifier-column">{{localize "DIALOG.VALUE_MODIFIER"}}</b>
+          <b class="modifier-column">{{localize "DIALOG.UNNATURAL_VALUE"}}</b>
+          <a  class="modifier-button button add-char-modifier" 
+              data-action="addModifier" 
+              title="Add Characteristic Modifier"
+              data-type="characteristic" 
+              data-class="CharacteristicModifier"
+              data-item-id="{{item.uuid}}">
+          <i class="fas fa-plus"></i></a>
+        </div>
+        {{#each modifiers.characteristic as |charMod index|}}
+          <div class="modifier-item flex row" data-modifier-id="characteristic" data-index="{{index}}">
+              <select class="flex row modifier-column" name="system.modifiers.characteristic.{{index}}.propertyKey">
+                {{{selectOptions ../options.characteristicOptions selected=charMod.propertyKey}}}
+              </select>
+              <div class="flex row modifier-column">
+                <input name="system.modifiers.characteristic.{{index}}.valueBonus" type="number" value="{{charMod.valueBonus}}" data-dtype="Number"/>
+              </div>
+              <div class="flex row modifier-column">
+                <input name="system.modifiers.characteristic.{{index}}.unnaturalBonus" type="number" value="{{charMod.unnaturalBonus}}" data-dtype="Number"/>
+              </div>
+              <div class="flex row modifier-button button">
+                <button type="submit"
+                        class="item-control item-delete"
+                        data-action="deleteModifier"
+                        data-item-id="{{../item.uuid}}"
+                        data-type="characteristic"
+                        data-index="{{index}}"
+                        title="Delete Modifier">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+          </div>
+        {{/each}}
+        <div class="modifier-item flex header row">
+          <b class="modifier-column">Skill</b>
+          <b class="modifier-column">Value Modifier</b>
+          <a  class="modifier-button button add-char-modifier" 
+              data-action="addModifier" 
+              title="Add Skill Modifier"
+              data-type="skill" 
+              data-class="SkillModifier"
+              data-item-id="{{item.uuid}}">
+          <i class="fas fa-plus"></i></a>
+        </div>
+        {{#each modifiers.skill as |skillMod index|}}
+          <div class="modifier-item flex row" data-modifier-id="skill" data-modifier-key="{{index}}">
+              <select class="flex row modifier-column" name="system.modifiers.skill.{{index}}.propertyKey">
+                {{{selectOptions ../options.skillsOptions selected=skillMod.propertyKey}}}
+              </select>
+            <div class="flex row modifier-column">
+              <input name="system.modifiers.skill.{{index}}.rollBonus" type="number" value="{{skillMod.rollBonus}}" data-dtype="Number"/>
+            </div>
+            <div class="flex row modifier-button button">
+              <button type="submit"
+                      class="item-control item-delete"
+                      data-action="deleteModifier"
+                      data-item-id="{{../item.uuid}}"
+                      data-type="skill"
+                      data-index="{{index}}"
+                      title="Delete Modifier">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        {{/each}}
+        <div class="modifier-item flex header row">
+          <b class="modifier-column">Other</b>
+          <b class="modifier-column">Value</b>
+          <a class="modifier-button button add-other-modifier" title="Add Other Modifier" data-type="other"><i class="fas fa-plus"></i></a>
+        </div>
+    </div>
+  </div>
+</div>

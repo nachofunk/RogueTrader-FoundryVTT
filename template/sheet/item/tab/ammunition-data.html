@@ -1,0 +1,54 @@
+<div class="stats border">
+    <h1>{{localize "TITLE.STATS"}}</h1>
+    <div class="stats-row">
+        <div class="stat weapon">
+            <label>{{localize "AMMUNITION.WEAPON"}}</label>
+            <input name="system.weapon" type="text" value="{{system.weapon}}" />
+        </div>
+        <div class="stat quantity">
+            <label>{{localize "AMMUNITION.QUANTITY"}}</label>
+            <input name="system.quantity" type="number" value="{{system.quantity}}" data-dtype="Number" />
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat damage">
+            <label>{{localize "AMMUNITION.DAMAGE"}}</label>
+            <input name="system.damage.modifier" type="text" value="{{system.damage.modifier}}" />
+            <select name="system.damage.type">
+                {{{selectOptions options.damageTypeOptions selected=system.damage.type}}}
+            </select>
+        </div>
+        <div class="stat penetration">
+            <label>{{localize "AMMUNITION.PENETRATION"}}</label>
+            <input name="system.penetration" type="text" value="{{system.penetration}}" />
+        </div>
+        <div class="stat attack">
+            <label>{{localize "AMMUNITION.ATTACK"}}</label>
+            <input name="system.attack" type="number" value="{{system.attack}}" data-dtype="Number" />
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat craftsmanship">
+            <label>{{localize "AMMUNITION.CRAFTSMANSHIP"}}</label>
+            <select name="system.craftsmanship">
+                {{{selectOptions options.craftsmanshipOptions selected=system.craftsmanship}}}
+            </select>
+        </div>
+        <div class="stat availability">
+            <label>{{localize "AMMUNITION.AVAILABILITY"}}</label>
+            <select name="system.availability">
+                {{{selectOptions options.availabilityOptions selected=system.availability}}}
+            </select>
+        </div>
+        <div class="stat weight">
+            <label>{{localize "AMMUNITION.WEIGHT"}}</label>
+            <input name="system.weight" type="number" value="{{system.weight}}" data-dtype="Number" />
+        </div>
+    </div>
+    <div class="stats-row">
+        <div class="stat special">
+            <label>{{localize "AMMUNITION.SPECIAL"}}</label>
+            <input name="system.special" type="text" value="{{system.special}}" />
+        </div>
+    </div>
+</div>

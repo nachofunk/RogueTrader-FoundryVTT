@@ -1,0 +1,27 @@
+<div class="stats border" style="height: 100%;">
+    <h1>{{localize "TITLE.STATS"}}</h1>
+    <div class="stats-row">
+        <div class="stat prerequisites">
+            <label>{{localize "EVENT.THEMES"}}</label>
+            <input name="system.themes" type="text" value="{{system.themes}}" />
+        </div>
+    </div>
+    <div class="stats-row" style="width: 100%; height: 70%;">
+        <div class="stat flex column item-align-center border" style="flex: 1;">
+            <h1>{{localize "EVENT.DESCRIPTION"}}</h1>
+            <div style="height: 94%; width: 100%;">
+                {{#if editable}}
+                    <prose-mirror
+                        name="system.description"
+                        value="{{system.description}}"
+                        data-document-uuid="{{item.uuid}}"
+                        toggled>
+                        {{{ descriptionHTML }}}
+                    </prose-mirror>
+                {{else}}
+                    {{{ descriptionHTML }}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>

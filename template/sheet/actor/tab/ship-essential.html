@@ -1,5 +1,6 @@
 <div class="flex wrap gear">
     <div class="all-gear border">
+        {{log items}}
         <h1>{{localize "TITLE.EQUIPMENT"}}</h1>
         <div class="item-list">
             <div class="border">
@@ -18,8 +19,8 @@
                     <h2>{{localize "SHIP_ITEM.VOID_ENGINE"}}</h2>
                     <div class="border">
                         {{#if items.voidEngine}}
-                            <div class="weapon item flex row" data-item-id="{{items.voidEngine.id}}">
-                                <div class="flex name item-edit">
+                            <div class="weapon item flex row draggable" data-item-id="{{items.voidEngine.id}}">
+                                <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{items.voidEngine.id}}">
                                     <div class="image-container">
                                         <div class="image" style="background-image: url('{{items.voidEngine.img}}')"></div>
                                     </div>
@@ -32,7 +33,7 @@
                                     {{items.voidEngine.shipPoints}}
                                 </div>
                                 <div class="button button-column">
-                                    <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                                    <a class="item-control item-delete" data-action="itemDelete" data-item-id="{{items.voidEngine.id}}" title="Delete Weapon"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                         {{/if}}
@@ -40,8 +41,8 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.WARP_ENGINE"}}</h2>
                     <div class="border">
                         {{#if items.warpEngine}}
-                            <div class="weapon item flex row" data-item-id="{{items.warpEngine.id}}">
-                                <div class="flex name item-edit">
+                            <div class="weapon item flex row draggable" data-item-id="{{items.warpEngine.id}}">
+                                <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{items.warpEngine.id}}">
                                     <div class="image-container">
                                         <div class="image" style="background-image: url('{{items.warpEngine.img}}')"></div>
                                     </div>
@@ -54,7 +55,7 @@
                                     {{items.warpEngine.shipPoints}}
                                 </div>
                                 <div class="button button-column">
-                                    <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                                    <a class="item-control item-delete" data-action="itemDelete" data-item-id="{{items.warpEngine.id}}" title="Delete Weapon"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                         {{/if}}
@@ -62,8 +63,8 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.GELLAR_FIELD"}}</h2>
                     <div class="border">
                         {{#if items.gellarField}}
-                            <div class="weapon item flex row" data-item-id="{{items.gellarField.id}}">
-                                <div class="flex name item-edit">
+                            <div class="weapon item flex row draggable" data-item-id="{{items.gellarField.id}}">
+                                <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{items.gellarField.id}}">
                                     <div class="image-container">
                                         <div class="image" style="background-image: url('{{items.gellarField.img}}')"></div>
                                     </div>
@@ -76,7 +77,7 @@
                                     {{items.gellarField.shipPoints}}
                                 </div>
                                 <div class="button button-column">
-                                    <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                                    <a class="item-control item-delete" data-action="itemDelete" data-item-id="{{items.gellarField.id}}" title="Delete Weapon"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                         {{/if}}
@@ -84,8 +85,8 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.VOID_SHIELD"}}</h2>
                     <div class="border">
                         {{#if items.voidShield}}
-                            <div class="weapon item flex row" data-item-id="{{items.voidShield.id}}">
-                                <div class="flex name item-edit">
+                            <div class="weapon item flex row draggable" data-item-id="{{items.voidShield.id}}">
+                                <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{items.voidShield.id}}">
                                     <div class="image-container">
                                         <div class="image" style="background-image: url('{{items.voidShield.img}}')"></div>
                                     </div>
@@ -98,7 +99,7 @@
                                     {{items.voidShield.shipPoints}}
                                 </div>
                                 <div class="button button-column">
-                                    <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                                    <a class="item-control item-delete" data-action="itemDelete" data-item-id="{{items.voidShield.id}}" title="Delete Weapon"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                         {{/if}}
@@ -106,8 +107,8 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.BRIDGE"}}</h2>
                     <div class="border">
                         {{#if items.bridge}}
-                            <div class="weapon item flex row" data-item-id="{{items.bridge.id}}">
-                                <div class="flex name item-edit">
+                            <div class="weapon item flex row draggable" data-item-id="{{items.bridge.id}}">
+                                <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{items.bridge.id}}">
                                     <div class="image-container">
                                         <div class="image" style="background-image: url('{{items.bridge.img}}')"></div>
                                     </div>
@@ -120,7 +121,7 @@
                                     {{items.bridge.shipPoints}}
                                 </div>
                                 <div class="button button-column">
-                                    <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                                    <a class="item-control item-delete" data-action="itemDelete" data-item-id="{{items.bridge.id}}" title="Delete Weapon"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                         {{/if}}
@@ -128,8 +129,8 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.LIFE_SUPPORT"}}</h2>
                     <div class="border">
                         {{#if items.lifeSupport}}
-                            <div class="weapon item flex row" data-item-id="{{items.lifeSupport.id}}">
-                                <div class="flex name item-edit">
+                            <div class="weapon item flex row draggable" data-item-id="{{items.lifeSupport.id}}">
+                                <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{items.lifeSupport.id}}">
                                     <div class="image-container">
                                         <div class="image" style="background-image: url('{{items.lifeSupport.img}}')"></div>
                                     </div>
@@ -142,7 +143,7 @@
                                     {{items.lifeSupport.shipPoints}}
                                 </div>
                                 <div class="button button-column">
-                                    <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                                    <a class="item-control item-delete" data-action="itemDelete" data-item-id="{{items.lifeSupport.id}}" title="Delete Weapon"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                         {{/if}}
@@ -150,8 +151,8 @@
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.CREW_QUARTERS"}}</h2>
                     <div class="border">
                         {{#if items.crewQuarters}}
-                            <div class="weapon item flex row" data-item-id="{{items.crewQuarters.id}}">
-                                <div class="flex name item-edit">
+                            <div class="weapon item flex row draggable" data-item-id="{{items.crewQuarters.id}}">
+                                <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{items.crewQuarters.id}}">
                                     <div class="image-container">
                                         <div class="image" style="background-image: url('{{items.crewQuarters.img}}')"></div>
                                     </div>
@@ -164,29 +165,29 @@
                                     {{items.crewQuarters.shipPoints}}
                                 </div>
                                 <div class="button button-column">
-                                    <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                                    <a class="item-control item-delete" data-action="itemDelete" data-item-id="{{items.crewQuarters.id}}" title="Delete Weapon"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                         {{/if}}
                     </div>
                     <h2 style="padding-top: 10px;">{{localize "SHIP_ITEM.AUGUR_ARRAY"}}</h2>
                     <div class="border">
-                        {{#if items.augurArrays}}
-                            <div class="weapon item flex row" data-item-id="{{items.augurArrays.id}}">
-                                <div class="flex name item-edit">
+                        {{#if items.augurArray}}
+                            <div class="weapon item flex row draggable" data-item-id="{{items.augurArray.id}}">
+                                <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{items.augurArray.id}}">
                                     <div class="image-container">
-                                        <div class="image" style="background-image: url('{{items.augurArrays.img}}')"></div>
+                                        <div class="image" style="background-image: url('{{items.augurArray.img}}')"></div>
                                     </div>
-                                    <div>{{items.augurArrays.name}}</div>
+                                    <div>{{items.augurArray.name}}</div>
                                 </div>
-                                <div class="class">{{items.augurArrays.ShipComponentClass}}</div>
-                                <div class="power">{{items.augurArrays.power}}</div>
-                                <div class="space">{{items.augurArrays.space}}</div>
+                                <div class="class">{{items.augurArray.ShipComponentClass}}</div>
+                                <div class="power">{{items.augurArray.power}}</div>
+                                <div class="space">{{items.augurArray.space}}</div>
                                 <div class="points">
-                                    {{items.augurArrays.shipPoints}}
+                                    {{items.augurArray.shipPoints}}
                                 </div>
                                 <div class="button button-column">
-                                    <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                                    <a class="item-control item-delete" data-action="itemDelete" data-item-id="{{items.augurArray.id}}" title="Delete Weapon"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                         {{/if}}

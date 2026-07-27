@@ -2,14 +2,12 @@
   "id": "rogue-trader",
   "title": "Rogue Trader",
   "description": "Roleplaying in the grim darkness of the 41st Millennium",
-  "version": "1.1.2",
-  "minimumCoreVersion" : 10,
+  "version": "1.2.8",
   "compatibility" : {
-    "minimum" : 10,
-    "verified" : 11.315,
-    "maximum" : 11
+    "minimum" : 13,
+    "verified" : 14,
+    "maximum" : 14
   },
-  "templateVersion": 2,
   "authors": [
     {
       "name": "Nachofunk",
@@ -68,7 +66,7 @@
   ],
   "scripts": [],
   "esmodules": [
-    "script/common/hooks.js"
+    "script/common/hooks.mjs"
   ],
   "styles": [
     "css/rogue-trader.css"
@@ -89,13 +87,104 @@
       "path": "lang/en.json"
     }
   ],
-  "gridDistance": 1,
-  "gridUnits": "m",
+  "grid": {
+    "type": 1,
+    "distance": 1,
+    "units": "m",
+    "diagonals": 0
+  },
   "primaryTokenAttribute": null,
   "secondaryTokenAttribute": null,
-  "url": "https://github.com/nachofunk/RogueTrader-FoundryVTT",
+  "url": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT",
   "socket": true,
-  "manifest": "https://github.com/nachofunk/RogueTrader-FoundryVTT/releases/download/Current/system.json",
-  "download": "https://github.com/nachofunk/RogueTrader-FoundryVTT/releases/download/Current/rogue-trader.zip",
-  "license": "LICENSE.txt"
+  "manifest": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT/releases/latest/download/system.json",
+  "download": "https://github.com/LRemplakowski/RogueTrader-FoundryVTT/releases/latest/download/rogue-trader.zip",
+  "license": "LICENSE.txt",
+  "documentTypes": {
+    "Actor": {
+      "explorer": {
+        "htmlFields": [ "bio.notes" ]
+      },
+      "npc": {
+        "htmlFields": [ "bio.notes" ]
+      },
+      "ship": {
+        "htmlFields": [ "bio.notes", "bio.complications", "bio.pastHistory" ]
+      },
+      "colony": {
+        "htmlFields": [ "bio.notes" ]
+      }
+    },
+    "Item": {
+      "weapon":{
+        "htmlFields": [ "description" ]
+      },
+      "ammunition":{
+        "htmlFields": [ "description" ]
+      },
+      "weaponModification":{
+        "htmlFields": [ "description" ]
+      },
+      "armour":{
+        "htmlFields": [ "description" ]
+      },
+      "forceField":{
+        "htmlFields": [ "description" ]
+      },
+      "cybernetic":{
+        "htmlFields": [ "description" ]
+      },
+      "drug":{
+        "htmlFields": [ "description" ]
+      },
+      "gear":{
+        "htmlFields": [ "description" ]
+      },
+      "tool":{
+        "htmlFields": [ "description" ]
+      },
+      "criticalInjury":{
+        "htmlFields": [ "description" ]
+      },
+      "malignancy":{
+        "htmlFields": [ "description" ]
+      },
+      "mentalDisorder":{
+        "htmlFields": [ "description" ]
+      },
+      "mutation":{
+        "htmlFields": [ "description" ]
+      },
+      "psychicPower":{
+        "htmlFields": [ "description", "effect" ]
+      },
+      "talent":{
+        "htmlFields": [ "description" ]
+      },
+      "specialAbility":{
+        "htmlFields": [ "description" ]
+      },
+      "trait":{
+        "htmlFields": [ "description" ]
+      },
+      "aptitude":{
+        "htmlFields": [ "description" ]
+      },
+      "shipWeapon":{
+        "htmlFields": [ "description" ]
+      },
+      "shipComponent":{
+        "htmlFields": [ "description" ]
+      },
+      "planetaryResource":{
+        "htmlFields": [ "description" ]
+      },
+      "colonyUpgrade":{
+        "htmlFields": [ "description" ]
+      },
+      "colonyEvent":{
+        "htmlFields": [ "description", "effect" ]
+      }
+    }
+  }
 }

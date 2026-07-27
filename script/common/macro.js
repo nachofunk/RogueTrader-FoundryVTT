@@ -1,4 +1,4 @@
-import RogueTraderUtil from "./util.js";
+import { CharacterRollData } from "../common/roll-data/_module.mjs";
 import { prepareCombatRoll, preparePsychicPowerRoll } from "./dialog.js";
 
 export default class RtMacroUtil {
@@ -25,13 +25,13 @@ export default class RtMacroUtil {
             name: document.name,
             type: "script",
             img: document.img,
-            command: `game.actors.get("${document.id}").sheet.render(true)`
+            command: `game.actors.get("${document.id}").sheet.render({ force: true })`
         }, { displaySheet: false })
     }
     if (macro)
         game.user.assignHotbarMacro(macro, slot);
   }
-  
+
   static rollAttack(itemName, itemType) {
     const speaker = ChatMessage.getSpeaker();
     let actor;
@@ -52,12 +52,12 @@ export default class RtMacroUtil {
   }
   
   static rollPsychicPower(actor, item) {
-    let rollData = RogueTraderUtil.createPsychicRollData(actor, item);
+    let rollData = CharacterRollData.createPsychicRollData(actor, item);
     preparePsychicPowerRoll(rollData);
   }
   
   static rollWeapon(actor, item) {
-    let rollData = RogueTraderUtil.createWeaponRollData(actor, item);
+    let rollData = CharacterRollData.createWeaponRollData(actor, item);
     prepareCombatRoll(rollData);
   }
 }

@@ -1,9 +1,9 @@
-<form class="{{cssClass}}" autocomplete="off">
+<section class="{{cssClass}}" autocomplete="off">
     <div class="colony">
         <div class="header border">
             <div class="flex row">
                 <div class="avatar">
-                    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+                    <img class="profile" src="{{actor.img}}" data-action="editImage" data-edit="img" title="{{actor.name}}" />
                 </div>
                 <div class="flex column" style="flex: 1; margin: 5px;">
                     <div class="flex row justify-space-around">
@@ -34,22 +34,34 @@
             </div>
         </div>
 
-        <div class="sheet-tabs tabs flex row" data-group="primary">
-            <b class="item" data-tab="core">{{localize "TAB.CORE"}}</b>
-            <b class="item" data-tab="upgrades">{{localize "TAB.UPGRADES"}}</b>
-            <b class="item" data-tab="notes">{{localize "TAB.NOTES"}}</b>
-        </div>
+        <!-- v13 MIGRATION: V2 Tab System - Tab Navigation -->
+        <nav class="sheet-tabs tabs" data-group="primary">
+            {{#each tabs as |tab tabId|}}
+                <button 
+                    class="item tab-button {{#if tab.active}}active{{/if}}"
+                    data-action="tab"
+                    data-tab="{{tab.id}}"
+                    data-group="{{tab.group}}"
+                    type="button"
+                    form=""
+                >
+                    {{localize tab.label}}
+                </button>
+            {{/each}}
+        </nav>
 
-        <div class="sheet-body">
-            <div class="tab" data-group="primary" data-tab="core">
-                {{> systems/rogue-trader/template/sheet/actor/tab/colony-core.html}}
-            </div>
-            <div class="tab" data-group="primary" data-tab="upgrades">
-                {{> systems/rogue-trader/template/sheet/actor/tab/colony-upgrades.html}}
-            </div>
-            <div class="tab" data-group="primary" data-tab="notes">
-                {{> systems/rogue-trader/template/sheet/actor/tab/colony-notes.html}}
-            </div>
+        <!-- v13 MIGRATION: V2 Tab System - Tab Content Container -->
+        <div class="tab-body">
+            {{#each tabs as |tab|}}
+                <section 
+                    class="tab {{tab.cssClass}} {{#if tab.active}}active{{/if}}"
+                    data-tab="{{tab.id}}"
+                    data-group="{{tab.group}}"
+                    {{#if tab.active}}aria-selected="true"{{/if}}
+                >
+                    {{> (lookup tab "partial") ..}}
+                </section>
+            {{/each}}
         </div>
     </div>
-</form>
+</section>

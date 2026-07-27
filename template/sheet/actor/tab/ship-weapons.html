@@ -2,25 +2,26 @@
     <div class="stats border">
         <h1>Weapon Capacity</h1>
         <div class="stats flex row">
+            {{log system}}
             <div class="stat dorsal">
                 <label>Dorsal</label>
-                <input name="system.weaponCapacity.dorsal" type="number" value="{{system.weaponCapacity.dorsal}}" data-dtype="Number"/>
+                <input name="system.engineering.weaponCapacity.dorsal" type="number" value="{{system.engineering.weaponCapacity.dorsal}}" data-dtype="Number"/>
             </div>
             <div class="stat prow">
                 <label>Prow</label>
-                <input name="system.weaponCapacity.prow" type="number" value="{{system.weaponCapacity.prow}}" data-dtype="Number" />
+                <input name="system.engineering.weaponCapacity.prow" type="number" value="{{system.engineering.weaponCapacity.prow}}" data-dtype="Number" />
             </div>
             <div class="stat keel">
                 <label>Keel</label>
-                <input name="system.weaponCapacity.keel" type="number" value="{{system.weaponCapacity.keel}}" data-dtype="Number" />
+                <input name="system.engineering.weaponCapacity.keel" type="number" value="{{system.engineering.weaponCapacity.keel}}" data-dtype="Number" />
             </div>
             <div class="stat port">
                 <label>Port</label>
-                <input name="system.weaponCapacity.port" type="number" value="{{system.weaponCapacity.port}}" data-dtype="Number" />
+                <input name="system.engineering.weaponCapacity.port" type="number" value="{{system.engineering.weaponCapacity.port}}" data-dtype="Number" />
             </div>
             <div class="stat starboard">
                 <label>Starboard</label>
-                <input name="system.weaponCapacity.starboard" type="number" value="{{system.weaponCapacity.starboard}}" data-dtype="Number" />
+                <input name="system.engineering.weaponCapacity.starboard" type="number" value="{{system.engineering.weaponCapacity.starboard}}" data-dtype="Number" />
             </div>
         </div>
     </div>
@@ -46,8 +47,8 @@
                 <h2 data-shipSide="port">{{localize "TITLE.PORT_WEAPONS"}}</h1>
                 <div class="flex items item-list weapons" data-shipSide="port">
                     {{#each items.portWeapons as |item|}}
-                        <div class="weapon item flex row" data-item-id="{{item.id}}" data-shipSide="port">
-                            <div class="flex name item-edit">
+                        <div class="weapon item flex row draggable" data-item-id="{{item.id}}" data-shipSide="port">
+                            <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{item.id}}">
                                 <div class="image-container">
                                     <div class="image" style="background-image: url('{{item.img}}')"></div>
                                 </div>
@@ -73,8 +74,8 @@
                 <h2 data-shipSide="star">{{localize "TITLE.STAR_WEAPONS"}}</h1>
                 <div class="flex items item-list weapons" data-shipSide="star">
                     {{#each items.starWeapons as |item|}}
-                        <div class="weapon item flex row" data-item-id="{{item.id}}" data-shipSide="star">
-                            <div class="flex name item-edit">
+                        <div class="weapon item flex row draggable" data-item-id="{{item.id}}" data-shipSide="star">
+                            <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{item.id}}">
                                 <div class="image-container">
                                     <div class="image" style="background-image: url('{{item.img}}')"></div>
                                 </div>
@@ -102,8 +103,8 @@
                 <h2 data-shipSide="dorsal">{{localize "TITLE.DORSAL_WEAPONS"}}</h1>
                 <div class="flex items item-list weapons" data-shipSide="dorsal">
                     {{#each items.dorsalWeapons as |item|}}
-                        <div class="weapon item flex row" data-item-id="{{item.id}}" data-shipSide="dorsal">
-                            <div class="flex name item-edit">
+                        <div class="weapon item flex row draggable" data-item-id="{{item.id}}" data-shipSide="dorsal">
+                            <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{item.id}}">
                                 <div class="image-container">
                                     <div class="image" style="background-image: url('{{item.img}}')"></div>
                                 </div>
@@ -131,8 +132,8 @@
                 <h2 data-shipSide="keel">{{localize "TITLE.KEEL_WEAPONS"}}</h1>
                 <div class="flex items item-list weapons" data-shipSide="keel">
                     {{#each items.keelWeapons as |item|}}
-                        <div class="weapon item flex row" data-item-id="{{item.id}}" data-shipSide="keel">
-                            <div class="flex name item-edit">
+                        <div class="weapon item flex row draggable" data-item-id="{{item.id}}" data-shipSide="keel">
+                            <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{item.id}}">
                                 <div class="image-container">
                                     <div class="image" style="background-image: url('{{item.img}}')"></div>
                                 </div>
@@ -160,8 +161,8 @@
                 <h2 data-shipSide="prow">{{localize "TITLE.PROW_WEAPONS"}}</h1>
                 <div class="flex items item-list weapons" data-shipSide="prow">
                     {{#each items.prowWeapons as |item|}}
-                        <div class="weapon item flex row" data-item-id="{{item.id}}" data-shipSide="prow">
-                            <div class="flex name item-edit">
+                        <div class="weapon item flex row draggable" data-item-id="{{item.id}}" data-shipSide="prow">
+                            <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{item.id}}">
                                 <div class="image-container">
                                     <div class="image" style="background-image: url('{{item.img}}')"></div>
                                 </div>

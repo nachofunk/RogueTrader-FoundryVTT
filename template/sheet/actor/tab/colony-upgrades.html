@@ -1,4 +1,4 @@
-<div class="flex wrap border column colony-upgrades">
+<div class="flex wrap grow border column colony-upgrades">
     <div class="flex column justify-space-around flex-full">
         <div class="flex column planetary-slots">
             <h1>Planetary Slots</h1>
@@ -29,12 +29,12 @@
                     <b class="security">{{localize "COLONY.UPGRADE.YEARLY_SECURITY"}}</b>
                     <b class="bonus-slots">{{localize "COLONY.UPGRADE.BONUS_SLOTS"}}</b>
                     <b class="special">{{localize "COLONY.UPGRADE.SPECIAL"}}</b>
-                    <a class="button item-create" title="Add Upgrade" data-type="colonyUpgrade"><i class="fas fa-plus"></i></a>
+                    <a class="button item-create" title="Add Upgrade" data-action="itemCreate" data-type="colonyUpgrade"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="items flex-full">
                     {{#each actor.colonyUpgrades as |item|}}
-                    <div class="item flex row justify-space-between" data-item-id="{{item.id}}">
-                        <div class="flex name item-edit">
+                    <div class="item flex row justify-space-between draggable" data-item-id="{{item.id}}">
+                        <div class="flex name item-edit" data-action="itemEdit" data-item-id="{{item.id}}">
                             <div class="image-container">
                                 <div class="image" style="background-image: url('{{item.img}}')"></div>
                             </div>
@@ -46,7 +46,7 @@
                         <div class="bonus-slots">{{item.bonusSlots}}</div>
                         <div class="special">{{item.special}}</div>
                         <div class="button">
-                            <a class="item-control item-delete" title="Delete Weapon"><i class="fas fa-trash"></i></a>
+                            <a class="item-control item-delete" data-action="itemDelete" data-item-id="{{item.id}}" title="Delete Weapon"><i class="fas fa-trash"></i></a>
                         </div>
                     </div>
                     {{/each}}

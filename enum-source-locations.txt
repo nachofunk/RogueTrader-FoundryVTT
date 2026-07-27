@@ -1,0 +1,23 @@
+Availability: script/sheet/actor/actor.js#L432-L616; script/documents/item.js#L150-L210
+Craftsmanship: script/sheet/actor/actor.js#L432-L616; script/documents/item.js#L150-L210
+DamageType: script/common/dialog.js#L400-L520; script/sheet/actor/actor.js#L432-L616
+ShipWeaponClass: script/documents/item.js#L88-L132; script/sheet/actor/actor.js#L432-L616
+ShipComponentClass: script/documents/item.js#L88-L132; script/sheet/item.js#L354-L365 [CONSOLIDATED: unified actor sheet (SHIP_ITEM.* keys) with item sheet variant; added lifeSupport key; canonicalized augurArray (item sheet used augurArrays); all keys now use SHIP_ITEM.* namespace]
+ArmourType: script/sheet/actor/actor.js#L432-L616
+CrewSkill: script/sheet/actor/actor.js#L432-L616; script/data/enums/crew-skill.mjs
+PsyStrength: script/common/dialog.js#L400-L520
+GovernorType: script/sheet/actor/actor.js#L432-L616; script/documents/actor.js#L836-L968
+ColonyType: script/sheet/actor/actor.js#L432-L616; script/documents/actor.js#L836-L968
+HullClass: script/sheet/actor/actor.js#L432-L616
+NPCType: script/sheet/actor/actor.js#L432-L616
+CharacteristicAdvance: script/sheet/actor/actor.js#L432-L616
+SkillAdvance: script/sheet/actor/actor.js#L432-L616
+WeaponClass: script/sheet/item.js#L290-L297
+WeaponType: script/sheet/item.js#L298-L313
+CriticalInjuryPart: script/sheet/item.js#L356-L363
+
+Notes:
+- The line ranges reference the primary locations where option arrays or switch/case literals appear. Use these as the authoritative source mapping for review.
+- The `Unique` capitalization anomaly was observed in script/documents/item.js; enums normalize keys to lowercase ("unique") but the original location is preserved above.
+- ShipComponentClass consolidation (Phase 2): Merged actor sheet (SHIP_ITEM.*) and item sheet (SHIP_COMPONENT.*) into a single enum using SHIP_ITEM.* namespace. Item sheet updates completed: changed reference from SHIP_COMPONENT.* keys to SHIP_ITEM.* keys (see script/sheet/item.js#L366-L375). Also corrected augurArrays → augurArray to match unified enum.
+- Localization verification: All SHIP_ITEM.* keys verified to exist in lang/en.json (lines 629-637). No SHIP_COMPONENT.* keys found in codebase; old namespace is deprecated.

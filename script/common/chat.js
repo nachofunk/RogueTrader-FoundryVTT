@@ -10,7 +10,7 @@ import { commonRoll, combatRoll } from "./roll.js";
  */
 export const addChatMessageContextOptions = function(html, options) {
   let canApply = li => {
-    const message = game.messages.get(li.data("messageId"));
+    const message = game.messages.get(li.dataset.messageId);
     return message.getRollData()?.isCombatTest && message.isContentVisible && canvas.tokens.controlled.length;
   };
   options.push(
@@ -23,9 +23,9 @@ export const addChatMessageContextOptions = function(html, options) {
   );
   
   let canReroll = li => {
-      const message = game.messages.get(li.data("messageId"));
+      const message = game.messages.get(li.dataset.messageId);
       let actor = game.actors.get(message.getRollData()?.ownerId);
-      return message.isRoll && message.isContentVisible && actor?.fate?.value > 0;
+      return message.isRoll && message.isContentVisible && actor?.system?.fate?.value > 0;
   };
   
   options.push(
@@ -34,7 +34,7 @@ export const addChatMessageContextOptions = function(html, options) {
           icon: '<i class="fa-solid fa-repeat"></i>',
           condition: canReroll,
           callback: li => {
-              const message = game.messages.get(li.data("messageId"));              
+              const message = game.messages.get(li.dataset.messageId);              
               rerollTest(message.getRollData());
           } 
       }
@@ -93,9 +93,9 @@ function rerollTest(rollData) {
     }
 }
 
-export const showRolls =html => {
+export const showRolls = html => {
   // Show dice rolls on click
-  html.on("click", ".rogue-trader.chat.roll>.background.border", onChatRollClick);
+  // html.on("click", ".rogue-trader.chat.roll>.background.border", onChatRollClick);
 };
 
 /**

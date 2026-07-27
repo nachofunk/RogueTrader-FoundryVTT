@@ -1,15 +1,16 @@
 <div class="flex wrap stats">
     <div class="characteristics border">
+        {{log "Characteristics"}}
         <h1>{{localize "TITLE.CHARACTERISTICS"}}</h1>
         <div class="left">
-            {{#each system.characteristics as |characteristic key|}}
+            {{#each characteristics as |characteristic key|}}
                 {{#if characteristic.isLeft}}
                     {{> systems/rogue-trader/template/sheet/characteristics/left.html characteristic=characteristic key=key}}
                 {{/if}}
             {{/each}}
         </div>
         <div class="right">
-            {{#each system.characteristics as |characteristic key|}}
+            {{#each characteristics as |characteristic key|}}
                 {{#if characteristic.isRight}}
                     {{> systems/rogue-trader/template/sheet/characteristics/right.html characteristic=characteristic key=key}}
                 {{/if}}
@@ -17,6 +18,7 @@
         </div>
     </div>
     <div class="abilities border">
+        {{log "Abilities"}}
         <h1>{{localize "TITLE.TALENTS"}}</h1>
         <div class="item-list">
             <div class="flex header">
@@ -24,7 +26,7 @@
                 <b class="benefit">{{localize "TALENT.BENEFIT"}}</b>
             </div>
             <div class="items">
-                {{#each items.abilities as |item|}}
+                {{#each items.specialAbilities as |item|}}
                     <div class="ability item flex row" data-item-id="{{item.id}}">
                         <div class="flex name item-edit">
                             <div class="image-container">
@@ -39,51 +41,51 @@
         </div>
     </div>
     <div class="skills border">
+        {{log "skills"}}
         <h1>{{localize "TITLE.SKILLS"}}</h1>
+        {{log "base skills"}}
         <div class="flex row" style="flex-basis: 60%">
             <div class="flex column wrap" style="max-height: 330px;flex-basis: 50%">
-                {{#each system.skills as |skill key|}}
-                    {{#unless skill.isSpecialist}}
-                        <div class="skill">
-                            <div class="name">
-                                <button class="roll-skill" data-skill="{{key}}" type="button">{{localize skill.label}}</button>
-                            </div>
-                            <input class="total" type="number" value="{{skill.total}}" data-dtype="Number" disabled />
-                            <div class="information">
-                                <input type="text" value="{{skill.advanceSkill}}" disabled />
-                            </div>
+                {{#each skills.base.entries as |skill key|}}
+                    <div class="skill">
+                        <div class="name">
+                            <button class="roll-skill" data-action="rollSkill" data-skill="{{key}}" type="button">{{localize skill.label}}</button>
                         </div>
-                    {{/unless}}
+                        <input class="total" type="number" value="{{skill.total}}" data-dtype="Number" disabled />
+                        <div class="information">
+                            <input type="text" value="{{skill.advance.short}}" disabled />
+                        </div>
+                    </div>
                 {{/each}}
             </div>
         </div>
+        {{log "advanced skills"}}
         <div class="flex row" style="flex-basis: 40%">
             <div class="flex column" style="max-height: 330px;flex-basis: 100%;overflow-y: scroll">
-                {{#each system.skills as |skill key|}}
-                    {{#if skill.isSpecialist}}
-                        <div class="item-list">
-                            <div class="flex header">
-                                <b class="name">{{localize skill.label}}</b>
-                            </div>
-                            <div class="items" style="overflow-y: visible">
-                                {{#each skill.specialities as |speciality keySpe|}}
-                                    {{#if speciality.isKnown}}
-                                        <div class="speciality item flex row" data-skill="{{key}}">
-                                            <div class="name">
-                                                <button class="roll-speciality" data-speciality="{{keySpe}}" type="button">{{localize speciality.label}}</button>
-                                            </div>
-                                            <input class="total" type="number" value="{{speciality.total}}" data-dtype="Number" disabled />
-                                            <div class="information">
-                                                <input type="text" value="{{specialty.advanceSpec}}" disabled />
-                                            </div>
-                                        </div>
-                                    {{/if}}
-                                {{/each}}
-                            </div>
+                {{#each skills.advanced as |group|}}
+                    <div class="item-list">
+                        <div class="flex header">
+                            <b class="name">{{group.label}}</b>
                         </div>
-                    {{/if}}
+                        <div class="items" style="overflow-y: visible">
+                            {{#each group.entries as |skill key|}}
+                                {{#if skill.isKnown}}
+                                    <div class="speciality item flex row" data-skill="{{key}}">
+                                        <div class="name">
+                                            <button class="roll-speciality" data-action="rollSpeciality" data-speciality="{{key}}" type="button">{{skill.label}}</button>
+                                        </div>
+                                        <input class="total" type="number" value="{{skill.total}}" data-dtype="Number" disabled />
+                                        <div class="information">
+                                            <input type="text" value="{{skill.advance.short}}" disabled />
+                                        </div>
+                                    </div>
+                                {{/if}}
+                            {{/each}}
+                        </div>
+                    </div>
                 {{/each}}
             </div>
         </div>
     </div>
+    {{log "stats finished"}}
 </div>

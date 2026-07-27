@@ -1,0 +1,43 @@
+<section class="item-form" autocomplete="off">
+    <div class="header border">
+        <div class="flex row">
+            <div class="avatar">
+                <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+            </div>
+            <div class="flex column grow justify-center">
+                <div class="name header-row">
+                    <label>{{title}}: </label>
+                    <input name="name" type="text" value="{{item.name}}" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sheet-tabs tabs flex row" data-group="primary">
+        {{#each tabs as |tab tabId|}}
+            <button 
+                class="item tab-button {{#if tab.active}}active{{/if}}"
+                data-action="tab"
+                data-tab="{{tab.id}}"
+                data-group="{{tab.group}}"
+                type="button"
+                form=""
+            >
+                {{localize tab.label}}
+            </button>
+        {{/each}}
+    </div>
+
+    <div class="sheet-body">
+        {{#each tabs as |tab tabId|}}
+            <section 
+                class="tab {{tab.cssClass}} {{#if tab.active}}active{{/if}}"
+                data-tab="{{tab.id}}"
+                data-group="{{tab.group}}"
+                {{#if tab.active}}aria-selected="true"{{/if}}
+            >
+                {{> (lookup tab "partial") ..}}
+            </section>
+        {{/each}}
+    </div>
+</section>

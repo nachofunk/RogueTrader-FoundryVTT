@@ -4,13 +4,13 @@
         {{#if item.img}}
         <img src="{{item.img}}" title="{{item.name}}"/>
         {{/if}}
-
+        {{log item}}
         {{#if item.isAmmunition}}
         <p><strong>{{localize "AMMUNITION.WEAPON"}}:</strong> {{item.weapon}}</p>
-        <p><strong>{{localize "AMMUNITION.DAMAGE"}}:</strong> {{item.effect.damage.modifier}} {{item.DamageType}}</p>
-        <p><strong>{{localize "AMMUNITION.ATTACK"}}:</strong> {{item.effect.attack.modifier}}</p>
-        <p><strong>{{localize "AMMUNITION.PENETRATION"}}:</strong> {{item.effect.penetration}}</p>
-        <p><strong>{{localize "AMMUNITION.SPECIAL"}}:</strong> {{item.effect.special}}</p>
+        <p><strong>{{localize "AMMUNITION.DAMAGE"}}:</strong> {{item.damage.formula}} {{item.DamageType}}</p>
+        <p><strong>{{localize "AMMUNITION.ATTACK"}}:</strong> {{item.attack}}</p>
+        <p><strong>{{localize "AMMUNITION.PENETRATION"}}:</strong> {{item.penetration}}</p>
+        <p><strong>{{localize "AMMUNITION.SPECIAL"}}:</strong> {{item.special}}</p>
         <p><strong>{{localize "HEADER.DESCRIPTION"}}:</strong> {{{item.description}}}</p>
         <p><strong>{{localize "AMMUNITION.WEIGHT"}}:</strong> {{item.weight}}</p>
         <p><strong>{{localize "AMMUNITION.CRAFTSMANSHIP"}}:</strong> {{item.Craftsmanship}}</p>
@@ -83,7 +83,7 @@
         <p><strong>{{localize "PSYCHIC_POWER.SUSTAINED"}}:</strong> {{item.sustained}}</p>
         <p><strong>{{localize "PSYCHIC_POWER.SUBTYPE"}}:</strong> {{item.psychicType}}</p>
         <p><strong>{{localize "PSYCHIC_POWER.ZONE"}}:</strong> {{item.PsychicPowerZone}}</p>
-        <p><strong>{{localize "PSYCHIC_POWER.DAMAGE_FULL"}}:</strong> {{item.damage.formula}} {{item.DamageType}}</p>
+        <p><strong>{{localize "PSYCHIC_POWER.DAMAGE_FULL"}}:</strong> {{item.damage.formula}} {{item.damage.type}}</p>
         <p><strong>{{localize "PSYCHIC_POWER.PENETRATION"}}:</strong> {{item.damage.penetration}}</p>
         <p><strong>{{localize "PSYCHIC_POWER.SPECIAL"}}:</strong> {{item.damage.special}}</p>
         <p><strong>{{localize "PSYCHIC_POWER.EFFECT"}}:</strong> {{{item.effect}}}</p>

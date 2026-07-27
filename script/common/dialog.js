@@ -1,11 +1,60 @@
+import ShipWeaponClass from "../data/enums/ship-weapon-class.mjs";
 import { commonRoll, combatRoll, shipCombatRoll, forceFieldRoll, reportEmptyClip, consumeResourceRoll } from "./roll.js";
+import RogueTraderUtil from "./util.mjs";
+import * as enums from "../data/enums/_module.mjs"
 
 /**
  * Show a generic roll dialog.
  * @param {object} rollData
  */
 export async function prepareCommonRoll(rollData) {
-  const html = await renderTemplate("systems/rogue-trader/template/dialog/common-roll.html", rollData);
+  const html = await foundry.applications.handlebars.renderTemplate("systems/rogue-trader/template/dialog/common-roll.html", rollData);
+  let dialog = new Dialog({
+    title: game.i18n.localize(rollData.name),
+    content: html,
+    buttons: {
+      roll: {
+        icon: '<i class="fas fa-check"></i>',
+        label: game.i18n.localize("BUTTON.ROLL"),
+        callback: async html => {
+          const system = rollData.actor.system;
+          const characteristic = system.characteristics[rollData.characteristic];
+          const unnatural = characteristic?.unnatural?.rollBonus ?? rollData.unnatural ?? 0;
+          const rolledWith = rollData.hideCharacteristic ? null : game.i18n.localize(enums.Characteristics.DATA[rollData.characteristic]?.label);
+          rollData.name = game.i18n.localize(rollData.name);
+          rollData.baseTarget = parseInt(html.find("#target")[0].value, 10);
+          rollData.rolledWith = rolledWith;
+          rollData.modifier = html.find("#modifier")[0].value;
+          rollData.isCombatTest = false;
+          rollData.unnatural = unnatural;
+          await commonRoll(rollData);
+        }
+      },
+      cancel: {
+        icon: '<i class="fas fa-times"></i>',
+        label: game.i18n.localize("BUTTON.CANCEL"),
+        callback: () => {}
+      },
+    },
+    default: "roll",
+    close: () => {},
+    render: html => {
+      const sel = html.find("select[name=characteristic");
+      const target = html.find("#target");
+      sel?.change(ev => {
+        const system = rollData.actor.system;
+        const characteristic = system.characteristics[sel[0].value];
+        target.val(characteristic.value);
+      });
+    }
+  }, {
+    width: 200
+  });
+  dialog.render({ force: true });
+}
+
+export async function prepareGovernorRoll(rollData) {
+  const html = await foundry.applications.handlebars.renderTemplate("systems/rogue-trader/template/dialog/common-roll.html", rollData);
   let dialog = new Dialog({
     title: game.i18n.localize(rollData.name),
     content: html,
@@ -16,10 +65,8 @@ export async function prepareCommonRoll(rollData) {
         callback: async html => {
           rollData.name = game.i18n.localize(rollData.name);
           rollData.baseTarget = parseInt(html.find("#target")[0].value, 10);
-          rollData.rolledWith = html.find("[name=characteristic] :selected").text();
           rollData.modifier = html.find("#modifier")[0].value;
           rollData.isCombatTest = false;
-          rollData.unnatural = rollData.characteristics?.find((char) => char.selected).unnatural ?? 0;
           await commonRoll(rollData);
         }
       },
@@ -32,21 +79,14 @@ export async function prepareCommonRoll(rollData) {
     },
     default: "roll",
     close: () => {},
-    render: html => {
-      const sel = html.find("select[name=characteristic");
-      const target = html.find("#target");
-      sel.change(ev => {
-        target.val(sel.val());
-      });
-    }
   }, {
     width: 200
   });
-  dialog.render(true);
+  dialog.render({ force: true });
 }
 
 export async function prepareConsumeResourcesRoll(rollData, actorRef) {
-  const html = await renderTemplate("systems/rogue-trader/template/dialog/colony-resource-burn.html", rollData);
+  const html = await foundry.applications.handlebars.renderTemplate("systems/rogue-trader/template/dialog/colony-resource-burn.html", rollData);
   let dialog = new Dialog({
     title: game.i18n.localize(rollData.name),
     content: html,
@@ -58,7 +98,7 @@ export async function prepareConsumeResourcesRoll(rollData, actorRef) {
           const availableResource = html.find("#available-resource")[0].value;
           if (availableResource < rollData.requiredResources) {
             ui.notifications.error(`Not enough resources! You need resource with at least ${rollData.requiredResources} amount!`);
-            dialog.render(true);
+            dialog.render({ force: true });
           } else {
             rollData.name = game.i18n.localize(rollData.name);
             const selectedResourceID = html.find("#selected-resource")[0].value;
@@ -155,7 +195,7 @@ export async function prepareConsumeResourcesRoll(rollData, actorRef) {
   }, {
     width: 210,
   });
-  dialog.render(true);
+  dialog.render({ force: true });
 }
 
 /**
@@ -164,7 +204,44 @@ export async function prepareConsumeResourcesRoll(rollData, actorRef) {
  * @param {RogueTraderActor} actorRef
  */
 export async function prepareCombatRoll(rollData, actorRef) {
-    const html = await renderTemplate("systems/rogue-trader/template/dialog/combat-roll.html", rollData);
+    // Provide select option lists for the generic combat dialog
+    const options = {}
+    options.aimOptions = [
+      { value: '0', label: game.i18n.localize('AIMING.NONE') },
+      { value: '10', label: game.i18n.localize('AIMING.HALF') },
+      { value: '20', label: game.i18n.localize('AIMING.FULL') }
+    ];
+    options.meleeAttackOptions = [
+      { value: 'none', label: game.i18n.localize('ATTACK_TYPE.NONE') },
+      { value: 'standard', label: game.i18n.localize('ATTACK_TYPE.STANDARD') },
+      { value: 'charge', label: game.i18n.localize('ATTACK_TYPE.CHARGE') },
+      { value: 'swift', label: game.i18n.localize('ATTACK_TYPE.SWIFT') },
+      { value: 'lightning', label: game.i18n.localize('ATTACK_TYPE.LIGHTNING') },
+      { value: 'called_shot', label: game.i18n.localize('ATTACK_TYPE.CALLED_SHOT') },
+      { value: 'allOut', label: game.i18n.localize('ATTACK_TYPE.ALLOUT') }
+    ];
+    options.rangeOptions = [
+      { value: '0', label: game.i18n.localize('RANGE.NONE') },
+      { value: '30', label: game.i18n.localize('RANGE.POINT_BLANK') },
+      { value: '10', label: game.i18n.localize('RANGE.SHORT') },
+      { value: '-10', label: game.i18n.localize('RANGE.LONG') },
+      { value: '-30', label: game.i18n.localize('RANGE.EXTREME') }
+    ];
+    options.rangeAttackOptions = [
+      { value: 'none', label: game.i18n.localize('ATTACK_TYPE.NONE') },
+      { value: 'standard', label: game.i18n.localize('ATTACK_TYPE.STANDARD') },
+      { value: 'semi_auto', label: game.i18n.localize('ATTACK_TYPE.SEMI_AUTO') },
+      { value: 'full_auto', label: game.i18n.localize('ATTACK_TYPE.FULL_AUTO') },
+      { value: 'called_shot', label: game.i18n.localize('ATTACK_TYPE.CALLED_SHOT') }
+    ];
+    options.damageTypeOptions = [
+      {value: 'energy', label: game.i18n.localize('DAMAGE_TYPE.ENERGY')},
+      {value: 'impact', label: game.i18n.localize('DAMAGE_TYPE.IMPACT')},
+      {value: 'rending', label: game.i18n.localize('DAMAGE_TYPE.RENDING')},
+      {value: 'explosive', label: game.i18n.localize('DAMAGE_TYPE.EXPLOSIVE')}
+    ];
+    rollData.options = options;
+    const html = await foundry.applications.handlebars.renderTemplate("systems/rogue-trader/template/dialog/combat-roll.html", rollData);
     let dialog = new Dialog({
         title: rollData.name,
         content: html,
@@ -199,7 +276,8 @@ export async function prepareCombatRoll(rollData, actorRef) {
                     rollData.penetrationFormula = html.find("#penetration")[0].value;
                     rollData.isCombatTest = true;
                     if (rollData.isRange && rollData.clip.max > 0) {
-                        const ammoUseMultiplier = rollData.weaponTraits.storm ? 2 : 1;
+                        let ammoUseMultiplier = rollData.weaponTraits.storm ? 2 : 1;
+                        ammoUseMultiplier *= rollData.weaponTraits.twinLinked ? 2 : 1;
                         const weapon = game.actors.get(rollData.ownerId)?.items?.get(rollData.itemId);
                         if(weapon) {
                           switch(rollData.attackType.name) {
@@ -255,7 +333,7 @@ export async function prepareCombatRoll(rollData, actorRef) {
         default: "roll",
         close: () => {},
     }, {width: 200});
-    dialog.render(true);
+    dialog.render({ force: true });
 }
 
 /**
@@ -264,7 +342,7 @@ export async function prepareCombatRoll(rollData, actorRef) {
  * @param {RogueTraderActor} actorRef
  */
 export async function prepareForceFieldRoll(rollData, actorRef) {
-  const html = await renderTemplate("systems/rogue-trader/template/dialog/forceField-roll.html", rollData);
+  const html = await foundry.applications.handlebars.renderTemplate("systems/rogue-trader/template/dialog/forceField-roll.html", rollData);
   let dialog = new Dialog({
     title: rollData.name,
     content: html,
@@ -286,7 +364,7 @@ export async function prepareForceFieldRoll(rollData, actorRef) {
       },
     },
   }, {width: 200});
-  dialog.render(true);
+  dialog.render({ force: true });
 }
 
 /**
@@ -296,7 +374,31 @@ export async function prepareForceFieldRoll(rollData, actorRef) {
  */
 export async function prepareShipCombatRoll(rollData, actorRef) {
   rollData.ignoreArmor |= rollData.weaponType === "Lance";
-  const html = await renderTemplate("systems/rogue-trader/template/dialog/ship-combat-roll.html", rollData);
+  // Build performer options (crew + any named crew members)
+  const performerOptions = [{ value: 'crew', label: game.i18n.localize('DIALOG.CREW') }];
+  try {
+    const characteristicSource = rollData.characteristicSource || actorRef;
+    const named = characteristicSource?.system?.crew?.namedCrew || {};
+    for (const [role, value] of Object.entries(named)) {
+      if (value.actor) {
+        performerOptions.push({ value: value.actor.id, label: value.name });
+      }
+    }
+  } catch (err) {
+    console.warn("Could not build performer options", err);
+  }
+
+  const rangeOptions = [
+    { value: '0', label: game.i18n.localize('RANGE.NONE') },
+    { value: '10', label: game.i18n.localize('RANGE.SHORT') },
+    { value: '-10', label: game.i18n.localize('RANGE.LONG') }
+  ];
+
+  // Attach option lists to rollData for template rendering
+  rollData.performerOptions = performerOptions;
+  rollData.options = RogueTraderUtil.preapareDropdownOptions();
+  rollData.rangeOptions = rangeOptions;
+  const html = await foundry.applications.handlebars.renderTemplate("systems/rogue-trader/template/dialog/ship-combat-roll.html", rollData);
   let dialog = new Dialog({
       title: rollData.name,
       content: html,
@@ -314,10 +416,9 @@ export async function prepareShipCombatRoll(rollData, actorRef) {
                       rollData.range = range.value;
                       rollData.rangeText = range.options[range.selectedIndex].text;
                   }
-                  const attackType = [];
                   rollData.attackType = { 
                     name : rollData.weaponType,
-                    text : rollData.weaponType,
+                    text : game.i18n.localize(ShipWeaponClass.DATA[rollData.weaponType]?.label),
                     modifier : 0
                   };
                   rollData.damageFormula = html.find("#damageFormula")[0].value.replace(' ', '');
@@ -340,14 +441,48 @@ export async function prepareShipCombatRoll(rollData, actorRef) {
         const target = html.find("#target");
         sel.change(ev => {
           if (sel.val() === "crew") {
-            target.val(actorRef.crewSkillValue);
+            target.val(enums.CrewSkill.DATA[rollData.actor.system.crew.skill].rating);
           } else {
-            target.val(game.actors.get(sel.val()).characteristics.ballisticSkill.total);
+            target.val(game.actors.get(sel.val()).characteristics.ballisticSkill.value);
           }
         });
       }
   }, {width: 200});
-  dialog.render(true);
+  dialog.render({ force: true });
+}
+
+export async function prepareCrewSkillRoll(rollData, actor) {
+  const html = await foundry.applications.handlebars.renderTemplate("systems/rogue-trader/template/dialog/common-roll.html", rollData);
+  let dialog = new Dialog({
+    title: game.i18n.localize(rollData.name),
+    content: html,
+    buttons: {
+      roll: {
+        icon: '<i class="fas fa-check"></i>',
+        label: game.i18n.localize("BUTTON.ROLL"),
+        callback: async html => {
+          const system = rollData.actor.system;
+          rollData.name = game.i18n.localize(rollData.name);
+          rollData.baseTarget = parseInt(html.find("#target")[0].value, 10);
+          rollData.rolledWith = game.i18n.localize("DIALOG.CREW");
+          rollData.modifier = html.find("#modifier")[0].value;
+          rollData.isCombatTest = false;
+          await commonRoll(rollData);
+        }
+      },
+      cancel: {
+        icon: '<i class="fas fa-times"></i>',
+        label: game.i18n.localize("BUTTON.CANCEL"),
+        callback: () => {}
+      }
+
+    },
+    default: "roll",
+    close: () => {},
+  }, {
+    width: 200
+  });
+  dialog.render({ force: true });
 }
 
 /**
@@ -355,8 +490,27 @@ export async function prepareShipCombatRoll(rollData, actorRef) {
  * @param {object} rollData
  */
 export async function preparePsychicPowerRoll(rollData) {
-  const html = await renderTemplate("systems/rogue-trader/template/dialog/psychic-power-roll.html", rollData);
-  console.log(rollData);
+  // Provide select option lists for the template
+  rollData.psyStrengthOptions = [
+    { value: 'fettered', label: game.i18n.localize('PSY_STRENGTH.FETTERED') },
+    { value: 'unfettered', label: game.i18n.localize('PSY_STRENGTH.UNFETTERED') },
+    { value: 'push', label: game.i18n.localize('PSY_STRENGTH.PUSH') }
+  ];
+  rollData.damageTypeOptions = [
+    {value: 'energy', label: game.i18n.localize('DAMAGE_TYPE.ENERGY')},
+    {value: 'impact', label: game.i18n.localize('DAMAGE_TYPE.IMPACT')},
+    {value: 'rending', label: game.i18n.localize('DAMAGE_TYPE.RENDING')},
+    {value: 'explosive', label: game.i18n.localize('DAMAGE_TYPE.EXPLOSIVE')}
+  ];
+  rollData.attackTypeOptions = [
+    {value: 'none', label: game.i18n.localize('ATTACK_TYPE.NONE')},
+    {value: 'bolt', label: game.i18n.localize('PSYCHIC_POWER.BOLT')},
+    {value: 'barrage', label: game.i18n.localize('PSYCHIC_POWER.BARRAGE')},
+    {value: 'storm', label: game.i18n.localize('PSYCHIC_POWER.STORM')},
+    {value: 'blast', label: game.i18n.localize('PSYCHIC_POWER.BLAST')}
+  ];
+
+  const html = await foundry.applications.handlebars.renderTemplate("systems/rogue-trader/template/dialog/psychic-power-roll.html", rollData);
   let dialog = new Dialog({
     title: rollData.name,
     content: html,
@@ -395,8 +549,7 @@ export async function preparePsychicPowerRoll(rollData) {
     default: "roll",
     close: () => {}
   }, {width: 200});
-  console.log(dialog);
-  dialog.render(true);
+  dialog.render({ force: true });
 }
 
 export function getRollPsyRating(rollData) {  
@@ -430,7 +583,7 @@ export function getRollPsyRating(rollData) {
 }
 
 export async function showAddCharacteristicModifierDialog(itemSheet, modifierType) {
-  const html = await renderTemplate("systems/rogue-trader/template/dialog/add-characteristic-modifier.html", {
+  const html = await foundry.applications.handlebars.renderTemplate("systems/rogue-trader/template/dialog/add-characteristic-modifier.html", {
     modifierType: modifierType
   });
 
@@ -443,13 +596,10 @@ export async function showAddCharacteristicModifierDialog(itemSheet, modifierTyp
         label: game.i18n.localize("BUTTON.ADD"),
         callback: html => {
           const attributeName = html.find("#attribute-name")[0].value.trim();
-          console.log(attributeName)
           const modifierValue = parseInt(html.find("#modifier-char-value")[0].value, 10);
           const unnaturalValue = parseInt(html.find("#modifier-unnatural-value")[0].value, 10);
           const optionElement = html.find(`option[id='modifier-option-${attributeName}']`);
-          console.log(optionElement);
           const optionLabel = optionElement.data('option-label');
-          console.log(optionLabel);
           const modifierData = {
             id: attributeName,
             label: optionLabel,
@@ -473,11 +623,11 @@ export async function showAddCharacteristicModifierDialog(itemSheet, modifierTyp
     width: 400
   });
 
-  dialog.render(true);
+  dialog.render({ force: true });
 }
 
 export async function showAddSkillModifierDialog(itemSheet, modifierType){
-  const html = await renderTemplate("systems/rogue-trader/template/dialog/add-skill-modifier.html", {
+  const html = await foundry.applications.handlebars.renderTemplate("systems/rogue-trader/template/dialog/add-skill-modifier.html", {
     modifierType: modifierType
   });
 
@@ -492,8 +642,6 @@ export async function showAddSkillModifierDialog(itemSheet, modifierType){
           const attributeName = html.find("#attribute-name")[0].value.trim();
           const modifierValue = parseInt(html.find("#modifier-skill-value")[0].value, 10);
           const optionElement = html.find(`option[id='modifier-option-${attributeName}']`);
-          console.log('foo');
-          console.log(optionElement);
           const optionLabel = optionElement.data('option-label');
           const modifierData = {
             id: attributeName,
@@ -517,5 +665,5 @@ export async function showAddSkillModifierDialog(itemSheet, modifierType){
     width: 400
   });
 
-  dialog.render(true);
+  dialog.render({ force: true });
 }

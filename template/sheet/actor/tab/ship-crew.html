@@ -3,15 +3,14 @@
         <div class="stats flex border">
             <div class="stats flex row">
                 <div class="stat crewSkill">
-                    <label>{{localize "SHIP.CREW_SKILL"}}</label>
-                    <select name="system.crewSkill">
-                        {{#select system.crewSkill}}
-                            <option value="incompetent">{{localize "SHIP.CREW_INCOMPETENT"}}</option>
-                            <option value="competent">{{localize "SHIP.CREW_COMPETENT"}}</option>
-                            <option value="crack">{{localize "SHIP.CREW_CRACK"}}</option>
-                            <option value="veteran">{{localize "SHIP.CREW_VETERAN"}}</option>
-                            <option value="elite">{{localize "SHIP.CREW_ELITE"}}</option>
-                        {{/select}}
+                    <div class="flex row crew-skill-label">
+                        <label>{{localize "SHIP.CREW_SKILL"}}</label>
+                        <button class="button roll-icon" data-action="rollCrewSkill" title="{{localize 'SHIP.ROLL_CREW_SKILL'}}">
+                            <img src="icons/svg/d10-grey.svg"/>
+                        </button>
+                    </div>
+                    <select name="system.crew.skill">
+                        {{{selectOptions options.crewSkillOptions selected=system.crew.skill}}}
                     </select>
                 </div>
             </div>
@@ -19,13 +18,12 @@
         <h1>{{localize "TITLE.CREW_RANK_ONE"}}</h1>
         <div class="crew flex border">
             <div class="crew flex column">
-                <div class="stat border rank1" data-crewRole="captain">
+                <div class="stat border crew-rank1" data-crewRole="captain">
                     <div class="avatar" data-crewRole="captain">
-                        {{#if system.namedCrew.lordCaptain}}
-                            <img class="crew-img-captain" src="{{actor.lordCaptain.img}}" title="{{actor.lordCaptain.name}}" data-crewRole="captain">
-                        {{else}}
-                            <img class="crew-img-captain" src="icons/svg/mystery-man.svg" title="Lord Captain" data-crewRole="captain">
-                        {{/if}}
+                        <img class="crew-img-captain" src="{{system.crew.namedCrew.lordCaptain.img}}" title="{{system.crew.namedCrew.lordCaptain.name}}" data-crewRole="captain">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="captain">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="captain"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.LORD_CAPTAIN"}}</label>
                 </div>
@@ -34,33 +32,30 @@
         <h1>{{localize "TITLE.CREW_RANK_TWO"}}</h1>
         <div class="crew flex border">
             <div class="crew flex row">
-                <div class="stat border rank2" data-crewRole="firstOfficer">
+                <div class="stat border crew-rank2" data-crewRole="firstOfficer">
                     <div class="avatar" data-crewRole="firstOfficer">
-                        {{#if system.namedCrew.firstOfficer}}
-                            <img class="crew-img-big" src="{{actor.firstOfficer.img}}" title="{{actor.firstOfficer.name}}" data-crewRole="firstOfficer">
-                        {{else}}
-                            <img class="crew-img-big" src="icons/svg/mystery-man.svg" title="First Officer" data-crewRole="firstOfficer">
-                        {{/if}}
+                        <img class="crew-img-big" src="{{system.crew.namedCrew.firstOfficer.img}}" title="{{system.crew.namedCrew.firstOfficer.name}}" data-crewRole="firstOfficer">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="firstOfficer">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="firstOfficer"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.FIRST_OFFICER"}}</label>
                 </div>
-                <div class="stat border rank2" data-crewRole="enginseerPrime">
+                <div class="stat border crew-rank2" data-crewRole="enginseerPrime">
                     <div class="avatar" data-crewRole="enginseerPrime">
-                        {{#if system.namedCrew.enginseerPrime}}
-                            <img class="crew-img-big" src="{{actor.enginseerPrime.img}}" title="{{actor.enginseerPrime.name}}" data-crewRole="enginseerPrime">
-                        {{else}}
-                            <img class="crew-img-big" src="icons/svg/mystery-man.svg" title="Prime Enginseer" data-crewRole="enginseerPrime">
-                        {{/if}}
+                        <img class="crew-img-big" src="{{system.crew.namedCrew.enginseerPrime.img}}" title="{{system.crew.namedCrew.enginseerPrime.name}}" data-crewRole="enginseerPrime">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="enginseerPrime">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="enginseerPrime"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.PRIME_ENGINSEER"}}</label>
                 </div>
-                <div class="stat border rank2" data-crewRole="highFactotum">
+                <div class="stat border crew-rank2" data-crewRole="highFactotum">
                     <div class="avatar" data-crewRole="highFactotum">
-                        {{#if system.namedCrew.highFactotum}}
-                            <img class="crew-img-big" src="{{actor.highFactotum.img}}" title="{{actor.highFactotum.name}}" data-crewRole="highFactotum">
-                        {{else}}
-                            <img class="crew-img-big" src="icons/svg/mystery-man.svg" title="High Factotum" data-crewRole="highFactotum">
-                        {{/if}}
+                        <img class="crew-img-big" src="{{system.crew.namedCrew.highFactotum.img}}" title="{{system.crew.namedCrew.highFactotum.name}}" data-crewRole="highFactotum">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="highFactotum">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="highFactotum"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.HIGH_FACTOTUM"}}</label>
                 </div>
@@ -71,81 +66,73 @@
             <div class="crew flex row">
                 <div class="crew-rank3 border" data-crewRole="masterArms">
                     <div class="avatar" data-crewRole="masterArms">
-                        {{#if system.namedCrew.masterArms}}
-                            <img class="crew-img-medium" src="{{actor.masterArms.img}}" title="{{actor.masterArms.name}}" data-crewRole="masterArms">
-                        {{else}}
-                            <img class="crew-img-medium" src="icons/svg/mystery-man.svg" title="Master At Arms" data-crewRole="masterArms">
-                        {{/if}}
+                        <img class="crew-img-medium" src="{{system.crew.namedCrew.masterArms.img}}" title="{{system.crew.namedCrew.masterArms.name}}" data-crewRole="masterArms">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="masterArms">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="masterArms"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.MASTER_ARMS"}}</label>
                 </div>
                 <div class="crew-rank3 border" data-crewRole="masterHelmsman">
                     <div class="avatar" data-crewRole="masterHelmsman">
-                        {{#if system.namedCrew.masterHelmsman}}
-                            <img class="crew-img-medium" src="{{actor.masterHelmsman.img}}" title="{{actor.masterHelmsman.name}}" data-crewRole="masterHelmsman">
-                        {{else}}
-                            <img class="crew-img-medium" src="icons/svg/mystery-man.svg" title="Master Helmsman" data-crewRole="masterHelmsman">
-                        {{/if}}
+                        <img class="crew-img-medium" src="{{system.crew.namedCrew.masterHelmsman.img}}" title="{{system.crew.namedCrew.masterHelmsman.name}}" data-crewRole="masterHelmsman">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="masterHelmsman">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="masterHelmsman"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.MASTER_HELMSMAN"}}</label>
                 </div>
                 <div class="crew-rank3 border" data-crewRole="masterOrdnance">
                     <div class="avatar" data-crewRole="masterOrdnance">
-                        {{#if system.namedCrew.masterOrdnance}}
-                            <img class="crew-img-medium" src="{{actor.masterOrdnance.img}}" title="{{actor.masterOrdnance.name}}" data-crewRole="masterOrdnance">
-                        {{else}}
-                            <img class="crew-img-medium" src="icons/svg/mystery-man.svg" title="Master Of Ordnance" data-crewRole="masterOrdnance">
-                        {{/if}}
+                        <img class="crew-img-medium" src="{{system.crew.namedCrew.masterOrdnance.img}}" title="{{system.crew.namedCrew.masterOrdnance.name}}" data-crewRole="masterOrdnance">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="masterOrdnance">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="masterOrdnance"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.MASTER_ORDNANCE"}}</label>
                 </div>
                 <div class="crew-rank3 border" data-crewRole="masterEtherics">
                     <div class="avatar" data-crewRole="masterEtherics">
-                        {{#if system.namedCrew.masterEtherics}}
-                            <img class="crew-img-medium" src="{{actor.masterEtherics.img}}" title="{{actor.masterEtherics.name}}" data-crewRole="masterEtherics">
-                        {{else}}
-                            <img class="crew-img-medium" src="icons/svg/mystery-man.svg" title="Master Of Etherics" data-crewRole="masterEtherics">
-                        {{/if}}
+                        <img class="crew-img-medium" src="{{system.crew.namedCrew.masterEtherics.img}}" title="{{system.crew.namedCrew.masterEtherics.name}}" data-crewRole="masterEtherics">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="masterEtherics">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="masterEtherics"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.MASTER_ETHERICS"}}</label>
                 </div>
                 <div class="crew-rank3 border" data-crewRole="masterChirurgeon">
                     <div class="avatar" data-crewRole="masterChirurgeon">
-                        {{#if system.namedCrew.masterChirurgeon}}
-                            <img class="crew-img-medium" src="{{actor.masterChirurgeon.img}}" title="{{actor.masterChirurgeon.name}}" data-crewRole="masterChirurgeon">
-                        {{else}}
-                            <img class="crew-img-medium" src="icons/svg/mystery-man.svg" title="Chief Chirurgeon" data-crewRole="masterChirurgeon">
-                        {{/if}}
+                        <img class="crew-img-medium" src="{{system.crew.namedCrew.masterChirurgeon.img}}" title="{{system.crew.namedCrew.masterChirurgeon.name}}" data-crewRole="masterChirurgeon">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="masterChirurgeon">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="masterChirurgeon"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.MASTER_CHIRURGEON"}}</label>
                 </div>
                 <div class="crew-rank3 border" data-crewRole="masterWhispers">
                     <div class="avatar" data-crewRole="masterWhispers">
-                        {{#if system.namedCrew.masterWhispers}}
-                            <img class="crew-img-medium" src="{{actor.masterWhispers.img}}" title="{{actor.masterWhispers.name}}" data-crewRole="masterWhispers">
-                        {{else}}
-                            <img class="crew-img-medium" src="icons/svg/mystery-man.svg" title="Master Of Whispers" data-crewRole="masterWhispers">
-                        {{/if}}
+                        <img class="crew-img-medium" src="{{system.crew.namedCrew.masterWhispers.img}}" title="{{system.crew.namedCrew.masterWhispers.name}}" data-crewRole="masterWhispers">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="masterWhispers">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="masterWhispers"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.MASTER_WHISPERS"}}</label>
                 </div>
                 <div class="crew-rank3 border" data-crewRole="masterTelepathica">
                     <div class="avatar" data-crewRole="masterTelepathica">
-                        {{#if system.namedCrew.masterTelepathica}}
-                            <img class="crew-img-medium" src="{{actor.masterTelepathica.img}}" title="{{actor.masterTelepathica.name}}" data-crewRole="masterTelepathica">
-                        {{else}}
-                            <img class="crew-img-medium" src="icons/svg/mystery-man.svg" title="Choir-Master Telepathica" data-crewRole="masterTelepathica">
-                        {{/if}}
+                        <img class="crew-img-medium" src="{{system.crew.namedCrew.masterTelepathica.img}}" title="{{system.crew.namedCrew.masterTelepathica.name}}" data-crewRole="masterTelepathica">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="masterTelepathica">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="masterTelepathica"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.MASTER_TELEPATHICA"}}</label>
                 </div>
                 <div class="crew-rank3 border" data-crewRole="masterWarp">
                     <div class="avatar" data-crewRole="masterWarp">
-                        {{#if system.namedCrew.masterWarp}}
-                            <img class="crew-img-medium" src="{{actor.masterWarp.img}}" title="{{actor.masterWarp.name}}" data-crewRole="masterWarp">
-                        {{else}}
-                            <img class="crew-img-medium" src="icons/svg/mystery-man.svg" title="Navigator Primaris" data-crewRole="masterWarp">
-                        {{/if}}
+                        <img class="crew-img-medium" src="{{system.crew.namedCrew.masterWarp.img}}" title="{{system.crew.namedCrew.masterWarp.name}}" data-crewRole="masterWarp">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="masterWarp">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="masterWarp"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.MASTER_WARP"}}</label>
                 </div>
@@ -156,101 +143,91 @@
             <div class="crew flex row">
                 <div class="crew-rank4 border" data-crewRole="confessor">
                     <div class="avatar" data-crewRole="confessor">
-                        {{#if system.namedCrew.confessor}}
-                            <img class="crew-img-small" src="{{actor.confessor.img}}" title="{{actor.confessor.name}}" data-crewRole="confessor">
-                        {{else}}
-                            <img class="crew-img-small" src="icons/svg/mystery-man.svg" title="Ship's Confessor" data-crewRole="confessor">
-                        {{/if}}
+                        <img class="crew-img-small" src="{{system.crew.namedCrew.confessor.img}}" title="{{system.crew.namedCrew.confessor.name}}" data-crewRole="confessor">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="confessor">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="confessor"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.CONFESSOR"}}</label>
                 </div>
                 <div class="crew-rank4 border" data-crewRole="drivesmaster">
                     <div class="avatar" data-crewRole="drivesmaster">
-                        {{#if system.namedCrew.drivesmaster}}
-                            <img class="crew-img-small" src="{{actor.drivesmaster.img}}" title="{{actor.drivesmaster.name}}" data-crewRole="drivesmaster">
-                        {{else}}
-                            <img class="crew-img-small" src="icons/svg/mystery-man.svg" title="Drivesmaster" data-crewRole="drivesmaster">
-                        {{/if}}
+                        <img class="crew-img-small" src="{{system.crew.namedCrew.drivesmaster.img}}" title="{{system.crew.namedCrew.drivesmaster.name}}" data-crewRole="drivesmaster">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="drivesmaster">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="drivesmaster"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.DRIVESMASTER"}}</label>
                 </div>
                 <div class="crew-rank4 border" data-crewRole="congregator">
                     <div class="avatar" data-crewRole="congregator">
-                        {{#if system.namedCrew.congregator}}
-                            <img class="crew-img-small" src="{{actor.congregator.img}}" title="{{actor.congregator.name}}" data-crewRole="congregator">
-                        {{else}}
-                            <img class="crew-img-small" src="icons/svg/mystery-man.svg" title="Omnissianic Congregator" data-crewRole="congregator">
-                        {{/if}}
+                        <img class="crew-img-small" src="{{system.crew.namedCrew.congregator.img}}" title="{{system.crew.namedCrew.congregator.name}}" data-crewRole="congregator">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="congregator">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="congregator"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.CONGREGATOR"}}</label>
                 </div>
                 <div class="crew-rank4 border" data-crewRole="bosun">
                     <div class="avatar" data-crewRole="bosun">
-                        {{#if system.namedCrew.bosun}}
-                            <img class="crew-img-small" src="{{actor.bosun.img}}" title="{{actor.bosun.name}}" data-crewRole="bosun">
-                        {{else}}
-                            <img class="crew-img-small" src="icons/svg/mystery-man.svg" title="Chief Bosun" data-crewRole="bosun">
-                        {{/if}}
+                        <img class="crew-img-small" src="{{system.crew.namedCrew.bosun.img}}" title="{{system.crew.namedCrew.bosun.name}}" data-crewRole="bosun">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="bosun">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="bosun"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.CHIEF_BOSUN"}}</label>
                 </div>
                 <div class="crew-rank4 border" data-crewRole="infernus">
                     <div class="avatar" data-crewRole="infernus">
-                        {{#if system.namedCrew.infernus}}
-                            <img class="crew-img-small" src="{{actor.infernus.img}}" title="{{actor.infernus.name}}" data-crewRole="infernus">
-                        {{else}}
-                            <img class="crew-img-small" src="icons/svg/mystery-man.svg" title="Infernus Master" data-crewRole="infernus">
-                        {{/if}}
+                        <img class="crew-img-small" src="{{system.crew.namedCrew.infernus.img}}" title="{{system.crew.namedCrew.infernus.name}}" data-crewRole="infernus">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="infernus">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="infernus"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.INFERNUS_MASTER"}}</label>
                 </div>
                 <div class="crew-rank4 border" data-crewRole="twistcatcher">
                     <div class="avatar" data-crewRole="twistcatcher">
-                        {{#if system.namedCrew.twistcatcher}}
-                            <img class="crew-img-small" src="{{actor.twistcatcher.img}}" title="{{actor.twistcatcher.name}}" data-crewRole="twistcatcher">
-                        {{else}}
-                            <img class="crew-img-small" src="icons/svg/mystery-man.svg" title="Twistcatcher" data-crewRole="twistcatcher">
-                        {{/if}}
+                        <img class="crew-img-small" src="{{system.crew.namedCrew.twistcatcher.img}}" title="{{system.crew.namedCrew.twistcatcher.name}}" data-crewRole="twistcatcher">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="twistcatcher">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="twistcatcher"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.TWISTCATCHER"}}</label>
                 </div>
                 <div class="crew-rank4 border" data-crewRole="voxmaster">
                     <div class="avatar" data-crewRole="voxmaster">
-                        {{#if system.namedCrew.voxmaster}}
-                            <img class="crew-img-small" src="{{actor.voxmaster.img}}" title="{{actor.voxmaster.name}}" data-crewRole="voxmaster">
-                        {{else}}
-                            <img class="crew-img-small" src="icons/svg/mystery-man.svg" title="Master Of The Vox" data-crewRole="voxmaster">
-                        {{/if}}
+                        <img class="crew-img-small" src="{{system.crew.namedCrew.voxmaster.img}}" title="{{system.crew.namedCrew.voxmaster.name}}" data-crewRole="voxmaster">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="voxmaster">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="voxmaster"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.VOXMASTER"}}</label>
                 </div>
                 <div class="crew-rank4 border" data-crewRole="purser">
                     <div class="avatar" data-crewRole="purser">
-                        {{#if system.namedCrew.purser}}
-                            <img class="crew-img-small" src="{{actor.purser.img}}" title="{{actor.purser.name}}" data-crewRole="purser">
-                        {{else}}
-                            <img class="crew-img-small" src="icons/svg/mystery-man.svg" title="Purser" data-crewRole="purser">
-                        {{/if}}
+                        <img class="crew-img-small" src="{{system.crew.namedCrew.purser.img}}" title="{{system.crew.namedCrew.purser.name}}" data-crewRole="purser">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="purser">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="purser"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.PURSER"}}</label>
                 </div>
                 <div class="crew-rank4 border" data-crewRole="cartographer">
                     <div class="avatar" data-crewRole="cartographer">
-                        {{#if system.namedCrew.cartographer}}
-                            <img class="crew-img-small" src="{{actor.cartographer.img}}" title="{{actor.cartographer.name}}" data-crewRole="cartographer">
-                        {{else}}
-                            <img class="crew-img-small" src="icons/svg/mystery-man.svg" title="Carto-Artifex" data-crewRole="cartographer">
-                        {{/if}}
+                        <img class="crew-img-small" src="{{system.crew.namedCrew.cartographer.img}}" title="{{system.crew.namedCrew.cartographer.name}}" data-crewRole="cartographer">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="cartographer">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="cartographer"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.CARTOGRAPHER"}}</label>
                 </div>
                 <div class="crew-rank4 border" data-crewRole="steward">
                     <div class="avatar" data-crewRole="steward">
-                        {{#if system.namedCrew.steward}}
-                            <img class="crew-img-small" src="{{actor.steward.img}}" title="{{actor.steward.name}}" data-crewRole="steward">
-                        {{else}}
-                            <img class="crew-img-small" src="icons/svg/mystery-man.svg" title="Ship's Steward" data-crewRole="steward">
-                        {{/if}}
+                        <img class="crew-img-small" src="{{system.crew.namedCrew.steward.img}}" title="{{system.crew.namedCrew.steward.name}}" data-crewRole="steward">
+                    </div>
+                    <div class="button remove-crew-btn" data-action="removeCrewMember" data-crewRole="steward">
+                        <a class="crew-control" data-action="removeCrewMember" data-crewRole="steward"><i class="fas fa-trash"></i></a>
                     </div>
                     <label>{{localize "SHIP.NAMED_CREW.STEWARD"}}</label>
                 </div>

@@ -16,7 +16,7 @@
         <div class="item-list">
             <div class="flex header">
                 <b class="name">{{localize "Force Fields"}}</b>
-                <!-- <a class="button item-create" title="Add Critical Injury" data-type="criticalInjury"><i class="fas fa-plus"></i></a> -->
+                
             </div>
             <div class="items">
                 {{#each items.forceFields as |item|}}
@@ -24,7 +24,7 @@
                         <div class="image-container">
                             <div class="image" style="background-image: url('{{item.img}}')"></div>
                         </div>
-                        <a class="button roll-forceField">{{item.name}}</a>
+                        <a class="button roll-forceField" data-action="rollForceField">{{item.name}}</a>
                     </div>
                 {{/each}}
             </div>
@@ -109,11 +109,7 @@
             <input name="system.initiative.base" type="text" value="{{system.initiative.base}}" />
             +
             <select name="system.initiative.characteristic">
-                {{#select system.initiative.characteristic}}
-                    {{#each system.characteristics as |characteristic key|}}
-                        <option value="{{key}}">{{localize characteristic.label}}</option>
-                    {{/each}}
-                {{/select}}
+                {{selectOptions options.initiativeOptions selected=system.initiative.characteristic}}
             </select>
         </div>
         <div class="information">
@@ -138,19 +134,19 @@
             </div>
             <div class="items">
                 {{#each items.weapons as |item|}}                    
-                    <div class="weapon item flex row" data-item-id="{{item.id}}">
+                    <div class="weapon item flex row draggable" data-item-id="{{item.id}}">
                         <div class="flex name">
                             <div class="image-container">
                                 <div class="image" style="background-image: url('{{item.img}}')"></div>
                             </div>
-                            <button class="roll-weapon" type="button">{{item.name}}</button>
+                            <button class="roll-weapon" data-action="rollWeapon" data-item-id="{{item.id}}" type="button">{{item.name}}</button>
                         </div>
                         <div class="class">{{item.WeaponClass}}</div>
                         <div class="range">{{item.explorerRangeBrackets}}</div>
                         <div class="rate-of-fire">{{item.RateOfFire}}</div>
-                        <div class="damage">{{item.damage}}</div>
+                        <div class="damage">{{item.system.damage.formula}}</div>
                         <div class="type">{{item.DamageTypeShort}}</div>
-                        <div class="penetration">{{item.penetration}}</div>
+                        <div class="penetration">{{item.damage.penetration}}</div>
                         <div class="clip">{{item.Clip}}</div>
                         <div class="reload">{{item.reload}}</div>
                         <div class="special">{{item.special}}</div>
@@ -165,16 +161,12 @@
             <div class="class">
                 <label>{{localize "PSYCHIC_POWER.CLASS"}}</label>
                 <select disabled>
-                    {{#select system.psy.class}}
-                        <option value="bound">{{localize "PSYCHIC_POWER.BOUND"}}</option>
-                        <option value="unbound">{{localize "PSYCHIC_POWER.UNBOUND"}}</option>
-                        <option value="daemonic">{{localize "PSYCHIC_POWER.DAEMONIC"}}</option>
-                    {{/select}}
+                    {{{selectOptions options.psyClassOptions selected=system.psy.class}}}
                 </select>
             </div>
             <div class="rating">
                 <label>{{localize "PSYCHIC_POWER.RATING"}}</label>
-                <input type="number" value="{{system.psy.currentRating}}" data-dtype="Number" disabled />
+                <input type="number" value="{{system.psy.value}}" data-dtype="Number" disabled />
             </div>
             <div class="sustained">
                 <label>{{localize "PSYCHIC_POWER.SUSTAINED"}}</label>
@@ -195,12 +187,12 @@
             </div>
             <div class="items">
                 {{#each items.psychicPowers as |item|}}                    
-                    <div class="weapon item flex row" data-item-id="{{item.id}}">
+                    <div class="weapon item flex row draggable" data-item-id="{{item.id}}">
                         <div class="flex name">
                             <div class="image-container">
                                 <div class="image" style="background-image: url('{{item.img}}')"></div>
                             </div>
-                            <button class="roll-psychic-power" type="button">{{item.name}}</button>
+                            <button class="roll-psychic-power" data-action="rollPsychicPower" type="button">{{item.name}}</button>
                         </div>
                         <div class="action">{{item.action}}</div>
                         <div class="range">{{item.range}}</div>

@@ -1,0 +1,63 @@
+<section class="{{cssClass}}" autocomplete="off">
+    <div class="voidship">
+        <div class="header border">
+            <div class="flex row">
+                <div class="avatar">
+                    <img class="profile-img" src="{{actor.img}}" data-action="editImage" data-edit="img" title="{{actor.name}}" />
+                </div>
+                <div class="flex column grow justify-center">
+                    <div class="name header-row">
+                        <label>Ship Name</label>
+                        <input name="name" type="text" value="{{actor.name}}" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex row">
+                <div class="flex column grow justify-center">
+                    <div class="hullClass">
+                        <label>Hull Class</label>
+                        <select class="hullClass" name="system.hull.class" type="text">
+                            {{{selectOptions options.hullClassOptions selected=system.hull.class}}}
+                        </select>
+                    </div>
+                </div>
+                <div class="flex column grow justify-center">
+                    <div class="hullName">
+                        <label>Hull</label>
+                        <input name="system.hull.name" value="{{system.hull.name}}" type="text" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- v13 MIGRATION: V2 Tab System - Tab Navigation -->
+        <nav class="sheet-tabs tabs" data-group="primary">
+            {{#each tabs as |tab tabId|}}
+                <button 
+                    class="item tab-button {{#if tab.active}}active{{/if}}"
+                    data-action="tab"
+                    data-tab="{{tab.id}}"
+                    data-group="{{tab.group}}"
+                    type="button"
+                    form=""
+                >
+                    {{localize tab.label}}
+                </button>
+            {{/each}}
+        </nav>
+
+        <!-- v13 MIGRATION: V2 Tab System - Tab Content Container -->
+        <div class="tab-body">
+            {{#each tabs as |tab|}}
+                <section 
+                    class="tab {{tab.cssClass}} {{#if tab.active}}active{{/if}}"
+                    data-tab="{{tab.id}}"
+                    data-group="{{tab.group}}"
+                    {{#if tab.active}}aria-selected="true"{{/if}}
+                >
+                    {{> (lookup tab "partial") ..}}
+                </section>
+            {{/each}}
+        </div>
+    </div>
+</section>
